@@ -1,8 +1,8 @@
 package nl.robbertij.matchnmusic.service;
 
-import nl.robbertij.matchnmusic.dto.AuthenticationRequestDto;
-import nl.robbertij.matchnmusic.dto.AuthenticationResponseDto;
-import nl.robbertij.matchnmusic.security.JwtUtil;
+import nl.robbertij.matchnmusic.dto.request.AuthenticationRequestDto;
+import nl.robbertij.matchnmusic.dto.response.AuthenticationResponseDto;
+import nl.robbertij.matchnmusic.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;

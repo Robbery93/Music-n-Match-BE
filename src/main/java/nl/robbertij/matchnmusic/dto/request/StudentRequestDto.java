@@ -1,13 +1,10 @@
-package nl.robbertij.matchnmusic.dto;
+package nl.robbertij.matchnmusic.dto.request;
 
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
-public class TeacherRequestDto {
+public class StudentRequestDto {
 
-    //attributes
+    // attributes
     @NotBlank
     private String name;
 
@@ -20,25 +17,19 @@ public class TeacherRequestDto {
 
     @NotBlank
     @Digits(integer = 10, fraction = 0)
+    // accepts 06******** & +31* ********)
     private String phoneNumber;
 
     @NotBlank
-    private String instruments;
+    private String instrument;
 
     @NotBlank
-    @Size(min = 0, max = 200)
-    private String description;
-
-    @NotBlank
-    @Size(min = 0, max = 200)
-    private String experience;
+    private String request;
 
     @NotBlank
     private String preferenceForLessonType;
 
     // getters & setters
-
-
     public String getName() {
         return name;
     }
@@ -71,28 +62,20 @@ public class TeacherRequestDto {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getInstruments() {
-        return instruments;
+    public String getInstrument() {
+        return instrument;
     }
 
-    public void setInstruments(String instruments) {
-        this.instruments = instruments;
+    public void setInstrument(String instrument) {
+        this.instrument = instrument;
     }
 
-    public String getDescription() {
-        return description;
+    public String getRequest() {
+        return request;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getExperience() {
-        return experience;
-    }
-
-    public void setExperience(String experience) {
-        this.experience = experience;
+    public void setRequest(String request) {
+        this.request = request;
     }
 
     public String getPreferenceForLessonType() {

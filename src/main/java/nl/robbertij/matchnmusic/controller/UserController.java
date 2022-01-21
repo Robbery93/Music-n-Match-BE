@@ -1,6 +1,6 @@
 package nl.robbertij.matchnmusic.controller;
 
-import nl.robbertij.matchnmusic.dto.UserPostRequestDto;
+import nl.robbertij.matchnmusic.dto.request.UserPostRequestDto;
 import nl.robbertij.matchnmusic.exception.BadRequestException;
 import nl.robbertij.matchnmusic.model.User;
 import nl.robbertij.matchnmusic.service.UserService;

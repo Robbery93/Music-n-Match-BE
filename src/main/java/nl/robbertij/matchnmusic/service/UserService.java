@@ -1,6 +1,6 @@
 package nl.robbertij.matchnmusic.service;
 
-import nl.robbertij.matchnmusic.dto.UserPostRequestDto;
+import nl.robbertij.matchnmusic.dto.request.UserPostRequestDto;
 import nl.robbertij.matchnmusic.exception.BadRequestException;
 import nl.robbertij.matchnmusic.exception.InvalidPasswordException;
 import nl.robbertij.matchnmusic.exception.NotAuthorizedException;

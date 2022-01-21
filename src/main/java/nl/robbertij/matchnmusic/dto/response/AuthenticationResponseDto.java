@@ -1,4 +1,4 @@
-package nl.robbertij.matchnmusic.dto;
+package nl.robbertij.matchnmusic.dto.response;
 
 public class AuthenticationResponseDto {
 

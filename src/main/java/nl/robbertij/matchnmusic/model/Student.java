@@ -16,10 +16,15 @@ public class Student {
     private String name;
     private String email;
     private String residence;
+
     @Column(name = "phone_number")
     private String phoneNumber;
+
     private String instrument;
+
+    @Lob
     private String request;
+
     @Column(name = "preference_for_lesson_type")
     private String preferenceForLessonType;
 

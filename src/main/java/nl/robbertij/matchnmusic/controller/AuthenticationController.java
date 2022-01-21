@@ -1,7 +1,7 @@
 package nl.robbertij.matchnmusic.controller;
 
-import nl.robbertij.matchnmusic.dto.AuthenticationRequestDto;
-import nl.robbertij.matchnmusic.dto.AuthenticationResponseDto;
+import nl.robbertij.matchnmusic.dto.request.AuthenticationRequestDto;
+import nl.robbertij.matchnmusic.dto.response.AuthenticationResponseDto;
 import nl.robbertij.matchnmusic.service.UserAuthenticateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

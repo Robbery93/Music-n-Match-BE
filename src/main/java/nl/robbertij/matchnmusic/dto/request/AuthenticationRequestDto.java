@@ -1,4 +1,4 @@
-package nl.robbertij.matchnmusic.dto;
+package nl.robbertij.matchnmusic.dto.request;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;

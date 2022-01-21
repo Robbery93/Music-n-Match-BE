@@ -10,6 +10,6 @@ public class NotAuthorizedException extends RuntimeException {
         super(message);
     }
     public NotAuthorizedException() {
-        super("Not authorized.");
+        super("Not authorized");
     }
 }

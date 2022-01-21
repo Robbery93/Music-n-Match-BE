@@ -1,6 +1,6 @@
 package nl.robbertij.matchnmusic.controller;
 
-import nl.robbertij.matchnmusic.dto.TeacherRequestDto;
+import nl.robbertij.matchnmusic.dto.request.TeacherRequestDto;
 import nl.robbertij.matchnmusic.model.Teacher;
 import nl.robbertij.matchnmusic.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -22,7 +22,11 @@ public class Teacher {
     @Column(name = "phone_number")
     private String phoneNumber;
     private String instruments;
+
+    @Lob
     private String description;
+
+    @Lob
     private String experience;
 
     @Column(name = "preference_for_lesson_type")

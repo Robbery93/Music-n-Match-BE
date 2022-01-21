@@ -1,6 +1,6 @@
 package nl.robbertij.matchnmusic.service;
 
-import nl.robbertij.matchnmusic.dto.StudentRequestDto;
+import nl.robbertij.matchnmusic.dto.request.StudentRequestDto;
 import nl.robbertij.matchnmusic.exception.BadRequestException;
 import nl.robbertij.matchnmusic.exception.RecordNotFoundException;
 import nl.robbertij.matchnmusic.model.Student;

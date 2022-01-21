@@ -1,6 +1,6 @@
 package nl.robbertij.matchnmusic.service;
 
-import nl.robbertij.matchnmusic.dto.TeacherRequestDto;
+import nl.robbertij.matchnmusic.dto.request.TeacherRequestDto;
 import nl.robbertij.matchnmusic.exception.BadRequestException;
 import nl.robbertij.matchnmusic.exception.RecordNotFoundException;
 import nl.robbertij.matchnmusic.model.Teacher;
@@ -17,9 +17,9 @@ public class TeacherService {
     @Autowired
     private TeacherRepository teacherRepository;
 
-    public Iterable<Teacher> getTeachers(String intrument, String preference){
-        if(!intrument.isEmpty()){
-            return teacherRepository.findAllByInstrumentsContainingIgnoreCase(intrument);
+    public Iterable<Teacher> getTeachers(String instrument, String preference){
+        if(!instrument.isEmpty()){
+            return teacherRepository.findAllByInstrumentsContainingIgnoreCase(instrument);
         }
         if(!preference.isEmpty()){
             return teacherRepository.findAllByPreferenceForLessonType(preference);

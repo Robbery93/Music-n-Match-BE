@@ -1,4 +1,4 @@
-package nl.robbertij.matchnmusic.security;
+package nl.robbertij.matchnmusic.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -14,7 +14,7 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
 
-    private final static String SECRET_KEY = "SuperGeheimWachtwoordVoorMu";
+    private final static String SECRET_KEY = "SuperGeheimWachtwoordVoorMatchNMusic138!";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
