@@ -17,10 +17,13 @@ public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
 
-    public Iterable<Student> getStudents(String instrument, String residence, String preference){
+    public Iterable<Student> getStudents(String instrument, String name, String residence, String preference){
 
         if (!instrument.isEmpty()) {
             return studentRepository.findAllByInstrument(instrument);
+        }
+        if (!name.isEmpty()) {
+            return studentRepository.findAllByNameIgnoreCase(name);
         }
         if (!residence.isEmpty()) {
             return studentRepository.findAllByResidence(residence);

@@ -21,9 +21,10 @@ public class StudentController {
     // Voeg parameters toe
     @GetMapping
     public ResponseEntity<Object> getStudents(@RequestParam(name = "instrument", defaultValue = "") String instrument,
+                                              @RequestParam(name = "name", defaultValue = "") String name,
                                               @RequestParam(name = "residence", defaultValue = "") String residence,
                                               @RequestParam(name = "pref", defaultValue = "") String preference) {
-        return ResponseEntity.ok(studentService.getStudents(instrument, residence, preference));
+        return ResponseEntity.ok(studentService.getStudents(instrument, name, residence, preference));
     }
 
     @GetMapping(path = "/{id}")
