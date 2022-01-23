@@ -3,6 +3,8 @@ package nl.robbertij.matchnmusic.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "students")
@@ -29,10 +31,8 @@ public class Student {
     @Column(name = "preference_for_lesson_type")
     private String preferenceForLessonType;
 
-    @JsonIgnoreProperties("students")
-    @ManyToOne
-    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
-    private Teacher teacher;
+    @OneToMany(mappedBy = "student", fetch = FetchType.EAGER)
+    private List<Lesson> lessons = new ArrayList<>();
 
     public Student() {};
 
@@ -44,7 +44,7 @@ public class Student {
                    String instrument,
                    String request,
                    String preferenceForLessonType,
-                   Teacher teacher) {
+                   List<Lesson> lessons) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -53,7 +53,7 @@ public class Student {
         this.instrument = instrument;
         this.request = request;
         this.preferenceForLessonType = preferenceForLessonType;
-        this.teacher = teacher;
+        this.lessons = lessons;
     }
 
     public Student(String name,
@@ -63,7 +63,7 @@ public class Student {
                    String instrument,
                    String request,
                    String preferenceForLessonType,
-                   Teacher teacher) {
+                   List<Lesson> lessons) {
         this.name = name;
         this.email = email;
         this.residence = residence;
@@ -71,7 +71,7 @@ public class Student {
         this.instrument = instrument;
         this.request = request;
         this.preferenceForLessonType = preferenceForLessonType;
-        this.teacher = teacher;
+        this.lessons = lessons;
     }
 
     public Long getId() {
@@ -138,11 +138,34 @@ public class Student {
         this.preferenceForLessonType = preferenceForLessonType;
     }
 
-    public Teacher getTeacher() {
-        return teacher;
+    public List<Lesson> getLessons() {
+        return lessons;
     }
 
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
+    public void setLessons(List<Lesson> lessons) {
+        this.lessons = lessons;
+    }
+
+    public void addLessons(Lesson homework) {
+        this.lessons.add(homework);
+    }
+
+    public void removeLessons(Lesson homework) {
+        this.lessons.remove(homework);
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", residence='" + residence + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", instrument='" + instrument + '\'' +
+                ", request='" + request + '\'' +
+                ", preferenceForLessonType='" + preferenceForLessonType + '\'' +
+                ", lessons=" + lessons +
+                '}';
     }
 }

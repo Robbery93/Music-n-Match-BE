@@ -34,9 +34,8 @@ public class Teacher {
     @Column(name = "preference_for_lesson_type")
     private String preferenceForLessonType;
 
-    @JsonIgnoreProperties("teacher")
-    @OneToMany(mappedBy = "teacher", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Student> students = new ArrayList<>();
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.EAGER)
+    private List<Lesson> lessons = new ArrayList<>();
 
     public Teacher() {};
 
@@ -49,7 +48,7 @@ public class Teacher {
                    String description,
                    String experience,
                    String preferenceForLessonType,
-                   List<Student> students) {
+                   List<Lesson> lessons) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -59,7 +58,7 @@ public class Teacher {
         this.description = description;
         this.experience = experience;
         this.preferenceForLessonType = preferenceForLessonType;
-        this.students = students;
+        this.lessons = lessons;
     }
 
     public Teacher(String name,
@@ -70,7 +69,7 @@ public class Teacher {
                    String description,
                    String experience,
                    String preferenceForLessonType,
-                   List<Student> students) {
+                   List<Lesson> lessons) {
         this.name = name;
         this.email = email;
         this.residence = residence;
@@ -79,7 +78,7 @@ public class Teacher {
         this.description = description;
         this.experience = experience;
         this.preferenceForLessonType = preferenceForLessonType;
-        this.students = students;
+        this.lessons = lessons;
     }
 
     public Long getId() {
@@ -154,11 +153,35 @@ public class Teacher {
         this.preferenceForLessonType = preferenceForLessonType;
     }
 
-    public List<Student> getStudents() {
-        return students;
+    public List<Lesson> getLessons() {
+        return lessons;
     }
 
-    public void setStudents(List<Student> students) {
-        this.students = students;
+    public void setLessons(List<Lesson> lessons) {
+        this.lessons = lessons;
+    }
+
+    public void addLessons(Lesson homework) {
+        this.lessons.add(homework);
+    }
+
+    public void removeLessons(Lesson homework) {
+        this.lessons.remove(homework);
+    }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", residence='" + residence + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", instruments='" + instruments + '\'' +
+                ", description='" + description + '\'' +
+                ", experience='" + experience + '\'' +
+                ", preferenceForLessonType='" + preferenceForLessonType + '\'' +
+                ", lessons=" + lessons +
+                '}';
     }
 }
