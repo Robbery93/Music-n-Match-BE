@@ -22,7 +22,8 @@ public class Student {
 
     private String instrument;
 
-    @Lob
+    // to store a large String
+    @Column(length = 2000)
     private String request;
 
     @Column(name = "preference_for_lesson_type")

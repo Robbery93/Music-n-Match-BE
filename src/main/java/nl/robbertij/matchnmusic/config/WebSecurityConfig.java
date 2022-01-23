@@ -50,10 +50,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/authenticate").permitAll()
                 .antMatchers(PATCH,"/users/{^[\\w]$}/password").authenticated()
-                .antMatchers(HttpMethod.GET,"/students/**").hasAnyRole("STUDENT", "TEACHER")
-                .antMatchers("/students/**").hasRole("STUDENT")
-                .antMatchers("/teachers/**").hasRole("TEACHER")
+                .antMatchers(HttpMethod.GET,"/students/**").hasAnyRole("STUDENT", "TEACHER", "ADMIN")
+                .antMatchers("/students/**").hasAnyRole("STUDENT", "ADMIN")
+                .antMatchers("/teachers/**").hasAnyRole("TEACHER", "ADMIN")
+                .antMatchers("/authenticated").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .cors()

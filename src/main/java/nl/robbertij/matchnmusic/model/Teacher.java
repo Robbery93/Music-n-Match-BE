@@ -23,10 +23,12 @@ public class Teacher {
     private String phoneNumber;
     private String instruments;
 
-    @Lob
+    // to store a large String
+    @Column(length = 2000)
     private String description;
 
-    @Lob
+    // to store a large String
+    @Column(length = 2000)
     private String experience;
 
     @Column(name = "preference_for_lesson_type")

@@ -43,9 +43,9 @@ public class UserService {
         return userRepository.findById(username);
     }
 
-    public boolean userExists(String username) {
-        return userRepository.existsById(username);
-    }
+//    public boolean userExists(String username) {
+//        return userRepository.existsById(username);
+//    }
 
     public String createUser(UserPostRequestDto userPostRequest) {
         try {
@@ -56,7 +56,6 @@ public class UserService {
             user.setPassword(encryptedPassword);
             user.setEmail(userPostRequest.getEmail());
             user.setEnabled(true);
-            user.addAuthority("ROLE_STUDENT");
             for (String s : userPostRequest.getAuthorities()) {
                 if (!s.startsWith("ROLE_")) {
                     s = "ROLE_" + s;
