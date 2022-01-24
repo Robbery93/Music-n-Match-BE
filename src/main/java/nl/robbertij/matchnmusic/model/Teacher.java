@@ -1,5 +1,6 @@
 package nl.robbertij.matchnmusic.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -35,7 +36,7 @@ public class Teacher {
     private String preferenceForLessonType;
 
     @OneToMany(mappedBy = "teacher", fetch = FetchType.EAGER)
-    private List<Lesson> lessons = new ArrayList<>();
+    private List<Lesson> lessons;
 
     public Teacher() {};
 

@@ -1,5 +1,8 @@
 package nl.robbertij.matchnmusic.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,14 +15,16 @@ public class Lesson {
     private StudentTeacherKey id;
 
     @ManyToOne
-    @MapsId("studentId")
-    @JoinColumn(name = "student_id")
-    private Student student;
-
-    @ManyToOne
     @MapsId("teacherId")
     @JoinColumn(name = "teacher_id")
+    @JsonIgnore
     private Teacher teacher;
+
+    @ManyToOne
+    @MapsId("studentId")
+    @JoinColumn(name = "student_id")
+    @JsonIgnore
+    private Student student;
 
     @Column(length = 4000)
     private String homework;
@@ -29,10 +34,10 @@ public class Lesson {
 
     // constructors
 
-    public Lesson(StudentTeacherKey id, Student student, Teacher teacher, String homework) {
+    public Lesson(StudentTeacherKey id, Teacher teacher, Student student, String homework) {
         this.id = id;
-        this.student = student;
         this.teacher = teacher;
+        this.student = student;
         this.homework = homework;
     }
 
@@ -47,20 +52,20 @@ public class Lesson {
         this.id = id;
     }
 
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
     public Teacher getTeacher() {
         return teacher;
     }
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     public String getHomework() {

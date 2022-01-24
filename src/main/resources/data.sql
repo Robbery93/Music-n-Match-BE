@@ -15,14 +15,15 @@ INSERT INTO teachers (name, email, residence, phone_number, instruments, descrip
 VALUES ('Dirk', 'dirk@gmail.com', 'Rotterdam', '0645678912', 'gitaar, basgitaar, piano', 'Hallo! Ik ben Dirk', 'Ik kan vet goed gitaarspelen enzo', 'Videolessen'),
        ('Rosalie', 'rosalie@gmail.com', 'Breda', '0698732165', 'gitaar, keyboard, harp', 'Hallo! Ik ben Rosalie', 'Ik kan vet goed dingen doen enzo', 'Les aan huis');
 
-INSERT INTO students (name, email, residence, phone_number, instrument, request, preference_for_lesson_type, teacher_id)
-VALUES ('Robbert', 'robbery@gmail.com', 'Rotterdam', '0655751563', 'gitaar', 'Ik wil graag gitaar leren spelen', 'Videolessen', 1),
-       ('Bas', 'bas@gmail.com', 'Rotterdam', '0673649120', 'gitaar', 'Ik wil graag gitaar leren spelen', 'Videolessen', 1),
-       ('Thijs', 'thijs@gmail.com', 'Breda', '0612345678', 'gitaar', 'Ik wil graag gitaar leren spelen', 'Les aan huis', 2),
-       ('Anna', 'anna@gmail.com', 'Rotterdam', '0634848422', 'zang', 'Ik wil graag nog beter zingen', 'Videolessen', 2),
-       ('Jeroen', 'jerony@gmail.com', 'Capelle aan den IJssel', '0657592833', 'keyboard', 'Ik wil graag keyboard leren spelen', 'Les aan huis', 1),
-       ('Cor', 'cor@gmail.com', 'Nieuwerkerk aan den IJssel', '0654654773', 'piano', 'Ik wil graag klassieke muziek spelen', 'Videolessen', 1);
+INSERT INTO students (name, email, residence, phone_number, instrument, request, preference_for_lesson_type)
+VALUES ('Robbert', 'robbery@gmail.com', 'Rotterdam', '0655751563', 'gitaar', 'Ik wil graag gitaar leren spelen', 'Videolessen'),
+       ('Bas', 'bas@gmail.com', 'Rotterdam', '0673649120', 'gitaar', 'Ik wil graag gitaar leren spelen', 'Videolessen'),
+       ('Thijs', 'thijs@gmail.com', 'Breda', '0612345678', 'gitaar', 'Ik wil graag gitaar leren spelen', 'Les aan huis'),
+       ('Anna', 'anna@gmail.com', 'Rotterdam', '0634848422', 'zang', 'Ik wil graag nog beter zingen', 'Videolessen'),
+       ('Jeroen', 'jerony@gmail.com', 'Capelle aan den IJssel', '0657592833', 'keyboard', 'Ik wil graag keyboard leren spelen', 'Les aan huis'),
+       ('Cor', 'cor@gmail.com', 'Nieuwerkerk aan den IJssel', '0654654773', 'piano', 'Ik wil graag klassieke muziek spelen', 'Videolessen');
 
--- INSERT INTO lessons (student_id, teacher_id, homework)
--- VALUES (1, 1, 'Voor vandaag heb je nog geen huiswerk. Goed gedaan vanmiddag!');
+INSERT INTO lessons (student_id, teacher_id, homework)
+VALUES (1, 1, 'Voor vandaag heb je nog geen huiswerk. Goed gedaan vanmiddag!'),
+       (2, 1, 'We moeten nog veel doen de volgende keer, daar gaan we de volgende keer op verder!');
 

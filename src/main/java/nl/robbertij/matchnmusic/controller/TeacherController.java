@@ -59,4 +59,9 @@ public class TeacherController {
         teacherService.partialUpdateTeacher(id, teacher);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping(path = "/{id}/lessons")
+    public ResponseEntity<Object> getLessons(@PathVariable Long id) {
+        return ResponseEntity.ok(teacherService.getLessons(id));
+    }
 }

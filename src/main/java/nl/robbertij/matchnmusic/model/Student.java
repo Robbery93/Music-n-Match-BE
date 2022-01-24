@@ -1,9 +1,8 @@
 package nl.robbertij.matchnmusic.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -31,8 +30,9 @@ public class Student {
     @Column(name = "preference_for_lesson_type")
     private String preferenceForLessonType;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "student", fetch = FetchType.EAGER)
-    private List<Lesson> lessons = new ArrayList<>();
+    private List<Lesson> lessons;
 
     public Student() {};
 
