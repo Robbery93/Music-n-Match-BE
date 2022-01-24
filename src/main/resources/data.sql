@@ -23,7 +23,8 @@ VALUES ('Robbert', 'robbery@gmail.com', 'Rotterdam', '0655751563', 'gitaar', 'Ik
        ('Jeroen', 'jerony@gmail.com', 'Capelle aan den IJssel', '0657592833', 'keyboard', 'Ik wil graag keyboard leren spelen', 'Les aan huis'),
        ('Cor', 'cor@gmail.com', 'Nieuwerkerk aan den IJssel', '0654654773', 'piano', 'Ik wil graag klassieke muziek spelen', 'Videolessen');
 
-INSERT INTO lessons (student_id, teacher_id, homework)
+INSERT INTO lessons (teacher_id, student_id, homework)
 VALUES (1, 1, 'Voor vandaag heb je nog geen huiswerk. Goed gedaan vanmiddag!'),
-       (2, 1, 'We moeten nog veel doen de volgende keer, daar gaan we de volgende keer op verder!');
+       (1, 2, 'We moeten nog veel doen de volgende keer, daar gaan we de volgende keer op verder!'),
+       (2, 3, 'Voor vandaag heb je nog geen huiswerk. Goed gedaan vanmiddag!');
 

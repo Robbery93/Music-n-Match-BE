@@ -4,6 +4,7 @@ import nl.robbertij.matchnmusic.dto.request.TeacherRequestDto;
 import nl.robbertij.matchnmusic.exception.BadRequestException;
 import nl.robbertij.matchnmusic.exception.RecordNotFoundException;
 import nl.robbertij.matchnmusic.model.Lesson;
+import nl.robbertij.matchnmusic.model.StudentTeacherKey;
 import nl.robbertij.matchnmusic.model.Teacher;
 import nl.robbertij.matchnmusic.repository.LessonRepository;
 import nl.robbertij.matchnmusic.repository.TeacherRepository;
@@ -135,6 +136,4 @@ public class TeacherService {
             throw new RecordNotFoundException("ID does not exist!");
         }
     }
-
-//    public void updateLesson(Long id)
 }

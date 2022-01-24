@@ -30,9 +30,8 @@ public class Student {
     @Column(name = "preference_for_lesson_type")
     private String preferenceForLessonType;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "student", fetch = FetchType.EAGER)
-    private List<Lesson> lessons;
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+    private List<Lesson> lesson;
 
     public Student() {};
 
@@ -44,7 +43,7 @@ public class Student {
                    String instrument,
                    String request,
                    String preferenceForLessonType,
-                   List<Lesson> lessons) {
+                   List<Lesson> lesson) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -53,7 +52,7 @@ public class Student {
         this.instrument = instrument;
         this.request = request;
         this.preferenceForLessonType = preferenceForLessonType;
-        this.lessons = lessons;
+        this.lesson = lesson;
     }
 
     public Student(String name,
@@ -63,7 +62,7 @@ public class Student {
                    String instrument,
                    String request,
                    String preferenceForLessonType,
-                   List<Lesson> lessons) {
+                   List<Lesson> lesson) {
         this.name = name;
         this.email = email;
         this.residence = residence;
@@ -71,7 +70,7 @@ public class Student {
         this.instrument = instrument;
         this.request = request;
         this.preferenceForLessonType = preferenceForLessonType;
-        this.lessons = lessons;
+        this.lesson = lesson;
     }
 
     public Long getId() {
@@ -139,19 +138,19 @@ public class Student {
     }
 
     public List<Lesson> getLessons() {
-        return lessons;
+        return lesson;
     }
 
     public void setLessons(List<Lesson> lessons) {
-        this.lessons = lessons;
+        this.lesson = lesson;
     }
 
     public void addLessons(Lesson homework) {
-        this.lessons.add(homework);
+        this.lesson.add(homework);
     }
 
     public void removeLessons(Lesson homework) {
-        this.lessons.remove(homework);
+        this.lesson.remove(homework);
     }
 
     @Override
@@ -165,7 +164,7 @@ public class Student {
                 ", instrument='" + instrument + '\'' +
                 ", request='" + request + '\'' +
                 ", preferenceForLessonType='" + preferenceForLessonType + '\'' +
-                ", lessons=" + lessons +
+                ", lessons=" + lesson +
                 '}';
     }
 }

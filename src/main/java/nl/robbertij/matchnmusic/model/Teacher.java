@@ -35,7 +35,7 @@ public class Teacher {
     @Column(name = "preference_for_lesson_type")
     private String preferenceForLessonType;
 
-    @OneToMany(mappedBy = "teacher", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
     private List<Lesson> lessons;
 
     public Teacher() {};
@@ -156,6 +156,15 @@ public class Teacher {
 
     public List<Lesson> getLessons() {
         return lessons;
+    }
+
+    public Lesson getLesson(StudentTeacherKey id, List<Lesson> lessons) {
+        for (Lesson lesson : lessons) {
+            if (lesson.getId().equals(id)){
+                return lesson;
+            }
+        }
+        return null;
     }
 
     public void setLessons(List<Lesson> lessons) {

@@ -18,12 +18,14 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    // Voeg parameters toe
+    // Endpoints for students
+
     @GetMapping
     public ResponseEntity<Object> getStudents(@RequestParam(name = "instrument", defaultValue = "") String instrument,
+                                              @RequestParam(name = "name", defaultValue = "") String name,
                                               @RequestParam(name = "residence", defaultValue = "") String residence,
                                               @RequestParam(name = "pref", defaultValue = "") String preference) {
-        return ResponseEntity.ok(studentService.getStudents(instrument, residence, preference));
+        return ResponseEntity.ok(studentService.getStudents(instrument, name, residence, preference));
     }
 
     @GetMapping(path = "/{id}")
@@ -62,5 +64,12 @@ public class StudentController {
         studentService.partialUpdateStudent(id, student);
 
         return ResponseEntity.noContent().build();
+    }
+
+    // Endpoint for lesson
+
+    @GetMapping(path = "{id}/lesson")
+    public ResponseEntity<Object> getLessons(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(studentService.getLessons(id));
     }
 }

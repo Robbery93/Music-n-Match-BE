@@ -75,4 +75,14 @@ public class Lesson {
     public void setHomework(String homework) {
         this.homework = homework;
     }
+
+    @Override
+    public String toString() {
+        return "Lesson{" +
+                "id=" + id +
+                ", teacher=" + teacher +
+                ", student=" + student +
+                ", homework='" + homework + '\'' +
+                '}';
+    }
 }
