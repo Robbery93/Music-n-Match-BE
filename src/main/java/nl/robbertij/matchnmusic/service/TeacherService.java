@@ -20,9 +20,6 @@ public class TeacherService {
     @Autowired
     private TeacherRepository teacherRepository;
 
-    @Autowired
-    private LessonRepository lessonRepository;
-
     public Iterable<Teacher> getTeachers(String instrument, String preference){
         if(!instrument.isEmpty()){
             return teacherRepository.findAllByInstrumentsContainingIgnoreCase(instrument);
@@ -63,8 +60,9 @@ public class TeacherService {
         Teacher teacher = new Teacher();
         teacher.setName(teacherRequestDto.getName());
         teacher.setEmail(teacherRequestDto.getEmail());
-        teacher.setResidence(teacherRequestDto.getResidence());
+        teacher.setAge(teacherRequestDto.getAge());
         teacher.setPhoneNumber(teacherRequestDto.getPhoneNumber());
+        teacher.setResidence(teacherRequestDto.getResidence());
         teacher.setInstruments(teacherRequestDto.getInstruments());
         teacher.setDescription(teacherRequestDto.getDescription());
         teacher.setExperience(teacherRequestDto.getExperience());

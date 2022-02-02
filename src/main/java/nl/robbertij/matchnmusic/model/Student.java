@@ -16,10 +16,12 @@ public class Student {
 
     private String name;
     private String email;
-    private String residence;
+    private String age;
 
     @Column(name = "phone_number")
     private String phoneNumber;
+
+    private String residence;
 
     private String instrument;
 
@@ -38,8 +40,9 @@ public class Student {
     public Student(Long id,
                    String name,
                    String email,
-                   String residence,
+                   String age,
                    String phoneNumber,
+                   String residence,
                    String instrument,
                    String request,
                    String preferenceForLessonType,
@@ -47,8 +50,9 @@ public class Student {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.residence = residence;
+        this.age = age;
         this.phoneNumber = phoneNumber;
+        this.residence = residence;
         this.instrument = instrument;
         this.request = request;
         this.preferenceForLessonType = preferenceForLessonType;
@@ -57,16 +61,18 @@ public class Student {
 
     public Student(String name,
                    String email,
-                   String residence,
+                   String age,
                    String phoneNumber,
+                   String residence,
                    String instrument,
                    String request,
                    String preferenceForLessonType,
                    List<Lesson> lesson) {
         this.name = name;
         this.email = email;
-        this.residence = residence;
+        this.age = age;
         this.phoneNumber = phoneNumber;
+        this.residence = residence;
         this.instrument = instrument;
         this.request = request;
         this.preferenceForLessonType = preferenceForLessonType;
@@ -97,12 +103,12 @@ public class Student {
         this.email = email;
     }
 
-    public String getResidence() {
-        return residence;
+    public String getAge() {
+        return age;
     }
 
-    public void setResidence(String residence) {
-        this.residence = residence;
+    public void setAge(String age) {
+        this.age = age;
     }
 
     public String getPhoneNumber() {
@@ -111,6 +117,12 @@ public class Student {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getResidence() { return residence; }
+
+    public void setResidence(String residence) {
+        this.residence = residence;
     }
 
     public String getInstrument() {
@@ -159,8 +171,9 @@ public class Student {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", residence='" + residence + '\'' +
+                ", age=" + age + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", residence='" + residence + '\'' +
                 ", instrument='" + instrument + '\'' +
                 ", request='" + request + '\'' +
                 ", preferenceForLessonType='" + preferenceForLessonType + '\'' +

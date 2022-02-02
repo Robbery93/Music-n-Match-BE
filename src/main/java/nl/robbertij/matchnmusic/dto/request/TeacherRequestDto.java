@@ -16,11 +16,14 @@ public class TeacherRequestDto {
     private String email;
 
     @NotBlank
-    private String residence;
+    private String age;
 
     @NotBlank
     @Digits(integer = 10, fraction = 0)
     private String phoneNumber;
+
+    @NotBlank
+    private String residence;
 
     @NotBlank
     private String instruments;
@@ -55,12 +58,12 @@ public class TeacherRequestDto {
         this.email = email;
     }
 
-    public String getResidence() {
-        return residence;
+    public String getAge() {
+        return age;
     }
 
-    public void setResidence(String residence) {
-        this.residence = residence;
+    public void setAge(String age) {
+        this.age = age;
     }
 
     public String getPhoneNumber() {
@@ -69,6 +72,14 @@ public class TeacherRequestDto {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getResidence() {
+        return residence;
+    }
+
+    public void setResidence(String residence) {
+        this.residence = residence;
     }
 
     public String getInstruments() {

@@ -116,7 +116,7 @@ public class UserService {
         }
         else {
             User user = userOptional.get();
-            user.addAuthority(authorityString);
+            user.addAuthority("ROLE_" + authorityString.toUpperCase());
             userRepository.save(user);
         }
     }

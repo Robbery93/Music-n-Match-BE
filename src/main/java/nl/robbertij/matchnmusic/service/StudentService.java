@@ -68,8 +68,9 @@ public class StudentService {
         Student student = new Student();
         student.setName(studentRequestDto.getName());
         student.setEmail(studentRequestDto.getEmail());
-        student.setResidence(studentRequestDto.getResidence());
+        student.setAge(studentRequestDto.getAge());
         student.setPhoneNumber(studentRequestDto.getPhoneNumber());
+        student.setResidence(studentRequestDto.getResidence());
         student.setInstrument(studentRequestDto.getInstrument());
         student.setRequest(studentRequestDto.getRequest());
         student.setPreferenceForLessonType(studentRequestDto.getPreferenceForLessonType());
@@ -104,11 +105,14 @@ public class StudentService {
             if (student.getEmail() != null && !student.getEmail().isEmpty()){
                 storedStudent.setEmail(student.getEmail());
             }
-            if (student.getResidence() != null && !student.getResidence().isEmpty()){
-                storedStudent.setResidence(student.getResidence());
+            if (student.getAge() != null && !student.getAge().isEmpty()){
+                storedStudent.setAge(student.getAge());
             }
             if (student.getPhoneNumber() != null && !student.getPhoneNumber().isEmpty()) {
                 storedStudent.setPhoneNumber(student.getPhoneNumber());
+            }
+            if (student.getResidence() != null && !student.getResidence().isEmpty()){
+                storedStudent.setResidence(student.getResidence());
             }
             if (student.getInstrument() != null && !student.getInstrument().isEmpty()){
                 storedStudent.setInstrument(student.getInstrument());
