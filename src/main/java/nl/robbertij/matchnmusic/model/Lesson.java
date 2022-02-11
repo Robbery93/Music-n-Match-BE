@@ -32,7 +32,7 @@ public class Lesson {
     public Lesson() {
     }
 
-    // constructors
+    // constructor
 
     public Lesson(StudentTeacherKey id, Teacher teacher, Student student, String homework) {
         this.id = id;

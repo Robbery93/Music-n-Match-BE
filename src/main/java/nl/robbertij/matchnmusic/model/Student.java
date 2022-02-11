@@ -22,10 +22,8 @@ public class Student {
     private String phoneNumber;
 
     private String residence;
-
     private String instrument;
 
-    // to store a large String
     @Column(length = 2000)
     private String request;
 
@@ -151,14 +149,6 @@ public class Student {
 
     public List<Lesson> getLessons() {
         return lesson;
-    }
-
-    public void setLessons(List<Lesson> lessons) {
-        this.lesson = lesson;
-    }
-
-    public void addLessons(Lesson homework) {
-        this.lesson.add(homework);
     }
 
     public void removeLessons(Lesson homework) {

@@ -24,6 +24,8 @@ public class StudentTeacherKey implements Serializable {
         this.studentId = studentId;
     }
 
+    // getters & setters
+
 
     public Long getTeacherId() {
         return teacherId;

@@ -23,9 +23,8 @@ public class StudentController {
     @GetMapping
     public ResponseEntity<Object> getStudents(@RequestParam(name = "instrument", defaultValue = "") String instrument,
                                               @RequestParam(name = "name", defaultValue = "") String name,
-                                              @RequestParam(name = "residence", defaultValue = "") String residence,
                                               @RequestParam(name = "pref", defaultValue = "") String preference) {
-        return ResponseEntity.ok(studentService.getStudents(instrument, name, residence, preference));
+        return ResponseEntity.ok(studentService.getStudents(instrument, name, preference));
     }
 
     @GetMapping(path = "/{id}")
@@ -60,7 +59,7 @@ public class StudentController {
     }
 
     @PatchMapping(path = "/{id}")
-    public ResponseEntity<Object> partialUpdateBook(@PathVariable Long id, @RequestBody Student student) {
+    public ResponseEntity<Object> partialUpdateStudent(@PathVariable Long id, @RequestBody Student student) {
         studentService.partialUpdateStudent(id, student);
 
         return ResponseEntity.noContent().build();
@@ -69,7 +68,7 @@ public class StudentController {
     // Endpoint for lesson
 
     @GetMapping(path = "{id}/lesson")
-    public ResponseEntity<Object> getLessons(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(studentService.getLessons(id));
+    public ResponseEntity<Object> getLesson(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(studentService.getLesson(id));
     }
 }
