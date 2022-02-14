@@ -1,10 +1,6 @@
 package nl.robbertij.matchnmusic.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,11 +23,11 @@ public class Teacher {
     private String instruments;
 
     // to store a large String
-    @Column(length = 2000)
+    @Column(length = 3000)
     private String description;
 
     // to store a large String
-    @Column(length = 2000)
+    @Column(length = 3000)
     private String experience;
 
     @Column(name = "preference_for_lesson_type")
@@ -185,11 +181,11 @@ public class Teacher {
         this.lessons = lessons;
     }
 
-    public void addLessons(Lesson homework) {
+    public void addLesson(Lesson homework) {
         this.lessons.add(homework);
     }
 
-    public void removeLessons(Lesson homework) {
+    public void removeLesson(Lesson homework) {
         this.lessons.remove(homework);
     }
 
@@ -200,6 +196,7 @@ public class Teacher {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", residence='" + residence + '\'' +
+                ", age='" + age + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", instruments='" + instruments + '\'' +
                 ", description='" + description + '\'' +

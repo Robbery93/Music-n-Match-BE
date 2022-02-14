@@ -5,7 +5,9 @@ import nl.robbertij.matchnmusic.exception.BadRequestException;
 import nl.robbertij.matchnmusic.exception.RecordNotFoundException;
 import nl.robbertij.matchnmusic.model.Lesson;
 import nl.robbertij.matchnmusic.model.Student;
+import nl.robbertij.matchnmusic.model.Teacher;
 import nl.robbertij.matchnmusic.repository.StudentRepository;
+import nl.robbertij.matchnmusic.repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,9 @@ public class StudentService {
 
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    private TeacherRepository teacherRepository;
 
     public Iterable<Student> getStudents(String instrument, String name, String preference){
 
@@ -131,10 +136,10 @@ public class StudentService {
 
         if (optionalStudent.isPresent()) {
             Student student = optionalStudent.get();
-            return student.getLessons();
+            return student.getLesson();
         }
         else {
-            throw new RecordNotFoundException("ID does not exist!");
+            throw new RecordNotFoundException("ID does not exist");
         }
     }
 }

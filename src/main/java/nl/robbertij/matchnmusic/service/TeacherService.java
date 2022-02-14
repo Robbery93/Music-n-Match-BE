@@ -4,9 +4,8 @@ import nl.robbertij.matchnmusic.dto.request.TeacherRequestDto;
 import nl.robbertij.matchnmusic.exception.BadRequestException;
 import nl.robbertij.matchnmusic.exception.RecordNotFoundException;
 import nl.robbertij.matchnmusic.model.Lesson;
-import nl.robbertij.matchnmusic.model.StudentTeacherKey;
+import nl.robbertij.matchnmusic.model.Student;
 import nl.robbertij.matchnmusic.model.Teacher;
-import nl.robbertij.matchnmusic.repository.LessonRepository;
 import nl.robbertij.matchnmusic.repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -97,6 +96,9 @@ public class TeacherService {
             }
             if (teacher.getEmail() != null && !teacher.getEmail().isEmpty()){
                 storedTeacher.setEmail(teacher.getEmail());
+            }
+            if (teacher.getAge() != null && !teacher.getAge().isEmpty()){
+                storedTeacher.setAge(teacher.getAge());
             }
             if (teacher.getResidence() != null && !teacher.getResidence().isEmpty()){
                 storedTeacher.setResidence(teacher.getResidence());

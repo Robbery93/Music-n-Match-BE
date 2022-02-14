@@ -1,7 +1,5 @@
 package nl.robbertij.matchnmusic.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -24,7 +22,7 @@ public class Student {
     private String residence;
     private String instrument;
 
-    @Column(length = 2000)
+    @Column(length = 3000)
     private String request;
 
     @Column(name = "preference_for_lesson_type")
@@ -147,12 +145,8 @@ public class Student {
         this.preferenceForLessonType = preferenceForLessonType;
     }
 
-    public List<Lesson> getLessons() {
+    public List<Lesson> getLesson() {
         return lesson;
-    }
-
-    public void removeLessons(Lesson homework) {
-        this.lesson.remove(homework);
     }
 
     @Override
@@ -167,7 +161,7 @@ public class Student {
                 ", instrument='" + instrument + '\'' +
                 ", request='" + request + '\'' +
                 ", preferenceForLessonType='" + preferenceForLessonType + '\'' +
-                ", lessons=" + lesson +
+                ", lesson=" + lesson +
                 '}';
     }
 }
