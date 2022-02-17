@@ -26,6 +26,8 @@ public class Lesson {
     @JsonIgnore
     private Student student;
 
+    private boolean active = false;
+
     @Column(length = 4000)
     private String homework;
 
@@ -68,6 +70,14 @@ public class Lesson {
         this.student = student;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public String getHomework() {
         return homework;
     }
@@ -82,6 +92,7 @@ public class Lesson {
                 "id=" + id +
                 ", teacher=" + teacher +
                 ", student=" + student +
+                ", active=" + active +
                 ", homework='" + homework + '\'' +
                 '}';
     }

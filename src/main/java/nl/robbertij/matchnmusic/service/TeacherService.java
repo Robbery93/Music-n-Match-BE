@@ -4,7 +4,6 @@ import nl.robbertij.matchnmusic.dto.request.TeacherRequestDto;
 import nl.robbertij.matchnmusic.exception.BadRequestException;
 import nl.robbertij.matchnmusic.exception.RecordNotFoundException;
 import nl.robbertij.matchnmusic.model.Lesson;
-import nl.robbertij.matchnmusic.model.Student;
 import nl.robbertij.matchnmusic.model.Teacher;
 import nl.robbertij.matchnmusic.repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,31 +90,31 @@ public class TeacherService {
         if(optionalTeacher.isPresent()){
             Teacher storedTeacher = teacherRepository.findById(id).orElse(null);
 
-            if (teacher.getName() != null && !teacher.getName().isEmpty()){
+            if (teacher.getName() != null && !teacher.getName().isEmpty()) {
                 storedTeacher.setName(teacher.getName());
             }
-            if (teacher.getEmail() != null && !teacher.getEmail().isEmpty()){
+            if (teacher.getEmail() != null && !teacher.getEmail().isEmpty()) {
                 storedTeacher.setEmail(teacher.getEmail());
             }
-            if (teacher.getAge() != null && !teacher.getAge().isEmpty()){
+            if (teacher.getAge() != null && !teacher.getAge().isEmpty()) {
                 storedTeacher.setAge(teacher.getAge());
             }
-            if (teacher.getResidence() != null && !teacher.getResidence().isEmpty()){
+            if (teacher.getResidence() != null && !teacher.getResidence().isEmpty()) {
                 storedTeacher.setResidence(teacher.getResidence());
             }
-            if (teacher.getPhoneNumber() != null && !teacher.getPhoneNumber().isEmpty()){
+            if (teacher.getPhoneNumber() != null && !teacher.getPhoneNumber().isEmpty()) {
                 storedTeacher.setPhoneNumber(teacher.getPhoneNumber());
             }
-            if (teacher.getInstruments() != null && !teacher.getInstruments().isEmpty()){
+            if (teacher.getInstruments() != null && !teacher.getInstruments().isEmpty()) {
                 storedTeacher.setInstruments(teacher.getInstruments());
             }
-            if (teacher.getDescription() != null && teacher.getDescription().isEmpty()){
+            if (teacher.getDescription() != null && teacher.getDescription().isEmpty()) {
                 storedTeacher.setDescription(teacher.getDescription());
             }
-            if (teacher.getExperience() != null && !teacher.getExperience().isEmpty()){
+            if (teacher.getExperience() != null && !teacher.getExperience().isEmpty()) {
                 storedTeacher.setExperience(teacher.getExperience());
             }
-            if (teacher.getPreferenceForLessonType() != null && !teacher.getPreferenceForLessonType().isEmpty()){
+            if (teacher.getPreferenceForLessonType() != null && !teacher.getPreferenceForLessonType().isEmpty()) {
                 storedTeacher.setPreferenceForLessonType(teacher.getPreferenceForLessonType());
             }
             teacherRepository.save(storedTeacher);

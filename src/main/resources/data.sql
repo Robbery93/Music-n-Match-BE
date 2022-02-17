@@ -8,23 +8,24 @@ INSERT INTO authorities (username, authority)
 VALUES ('robbert', 'ROLE_STUDENT'),
        ('anna', 'ROLE_STUDENT'),
        ('cor', 'ROLE_STUDENT'),
-       ('cor', 'ROLE_TEACHER'),
+       ('dirk', 'ROLE_TEACHER'),
+       ('rosalie', 'ROLE_TEACHER'),
        ('admin', 'ROLE_ADMIN');
 
-INSERT INTO teachers (name, email, residence, phone_number, instruments, description, experience, preference_for_lesson_type)
-VALUES ('Dirk', 'dirk@gmail.com', 'Rotterdam', '0645678912', 'gitaar, basgitaar, piano', 'Hallo! Ik ben Dirk', 'Ik kan vet goed gitaarspelen enzo', 'Videolessen'),
-       ('Rosalie', 'rosalie@gmail.com', 'Breda', '0698732165', 'gitaar, keyboard, harp', 'Hallo! Ik ben Rosalie', 'Ik kan vet goed dingen doen enzo', 'Les aan huis');
+INSERT INTO teachers (name, email, age, residence, phone_number, instruments, description, experience, preference_for_lesson_type)
+VALUES ('Dirk', 'dirk@gmail.com', '29', 'Rotterdam', '0645678912', 'gitaar, basgitaar, piano', 'Hallo! Ik ben Dirk', 'Ik kan vet goed gitaarspelen enzo', 'Videolessen'),
+       ('Rosalie', 'rosalie@gmail.com', '35', 'Breda', '0698732165', 'gitaar, keyboard, harp', 'Hallo! Ik ben Rosalie', 'Ik kan vet goed dingen doen enzo', 'Les aan huis');
 
-INSERT INTO students (name, email, residence, phone_number, instrument, request, preference_for_lesson_type)
-VALUES ('Robbert', 'robbery@gmail.com', 'Rotterdam', '0655751563', 'gitaar', 'Ik wil graag gitaar leren spelen', 'Videolessen'),
-       ('Bas', 'bas@gmail.com', 'Rotterdam', '0673649120', 'gitaar', 'Ik wil graag gitaar leren spelen', 'Videolessen'),
-       ('Thijs', 'thijs@gmail.com', 'Breda', '0612345678', 'gitaar', 'Ik wil graag gitaar leren spelen', 'Les aan huis'),
-       ('Anna', 'anna@gmail.com', 'Rotterdam', '0634848422', 'zang', 'Ik wil graag nog beter zingen', 'Videolessen'),
-       ('Jeroen', 'jerony@gmail.com', 'Capelle aan den IJssel', '0657592833', 'keyboard', 'Ik wil graag keyboard leren spelen', 'Les aan huis'),
-       ('Cor', 'cor@gmail.com', 'Nieuwerkerk aan den IJssel', '0654654773', 'piano', 'Ik wil graag klassieke muziek spelen', 'Videolessen');
+INSERT INTO students (name, email, age, residence, phone_number, instrument, request, preference_for_lesson_type)
+VALUES ('Robbert', 'robbery@gmail.com', '28', 'Rotterdam', '0655751563', 'gitaar', 'Ik wil graag gitaar leren spelen', 'Videolessen'),
+       ('Bas', 'bas@gmail.com', '16', 'Rotterdam', '0673649120', 'gitaar', 'Ik wil graag gitaar leren spelen', 'Videolessen'),
+       ('Thijs', 'thijs@gmail.com', '23', 'Breda', '0612345678', 'gitaar', 'Ik wil graag gitaar leren spelen', 'Les aan huis'),
+       ('Anna', 'anna@gmail.com', '23', 'Rotterdam', '0634848422', 'zang', 'Ik wil graag nog beter zingen', 'Videolessen'),
+       ('Jeroen', 'jerony@gmail.com', '32', 'Capelle aan den IJssel', '0657592833', 'keyboard', 'Ik wil graag keyboard leren spelen', 'Les aan huis'),
+       ('Cor', 'cor@gmail.com', '48', 'Nieuwerkerk aan den IJssel', '0654654773', 'piano', 'Ik wil graag klassieke muziek spelen', 'Videolessen');
 
-INSERT INTO lessons (teacher_id, student_id, homework)
-VALUES (1, 1, 'Voor vandaag heb je nog geen huiswerk. Goed gedaan vanmiddag!'),
-       (1, 2, 'We moeten nog veel doen de volgende keer, daar gaan we de volgende keer op verder!'),
-       (2, 3, 'Voor vandaag heb je nog geen huiswerk. Goed gedaan vanmiddag!');
+INSERT INTO lessons (teacher_id, student_id, active, homework)
+VALUES (1, 1, TRUE, 'Voor vandaag heb je nog geen huiswerk. Goed gedaan vanmiddag!'),
+       (1, 2, FALSE, ''),
+       (2, 3, TRUE, 'Voor vandaag heb je nog geen huiswerk. Goed gedaan vanmiddag!');
 

@@ -43,9 +43,6 @@ public class UserService {
         return userRepository.findById(username);
     }
 
-//    public boolean userExists(String username) {
-//        return userRepository.existsById(username);
-//    }
 
     public String createUser(UserPostRequestDto userPostRequest) {
         try {
@@ -54,7 +51,6 @@ public class UserService {
             User user = new User();
             user.setUsername(userPostRequest.getUsername());
             user.setPassword(encryptedPassword);
-            user.setEmail(userPostRequest.getEmail());
             user.setEnabled(true);
             for (String s : userPostRequest.getAuthorities()) {
                 if (!s.startsWith("ROLE_")) {
@@ -69,7 +65,7 @@ public class UserService {
             User newUser = userRepository.save(user);
             return newUser.getUsername();
         }
-        catch (Exception ex) {
+        catch (Exception e) {
             throw new BadRequestException("Cannot create user.");
         }
 
