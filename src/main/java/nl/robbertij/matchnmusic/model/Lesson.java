@@ -20,7 +20,7 @@ public class Lesson {
     @JsonIgnore
     private Teacher teacher;
 
-    @OneToOne
+    @ManyToOne
     @MapsId("studentId")
     @JoinColumn(name = "student_id")
     @JsonIgnore

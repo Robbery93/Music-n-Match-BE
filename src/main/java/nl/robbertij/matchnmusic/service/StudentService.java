@@ -128,12 +128,12 @@ public class StudentService {
     }
 
 
-    public Lesson getLesson(Long id) {
+    public List<Lesson> getLessons(Long id) {
         Optional<Student> optionalStudent = studentRepository.findById(id);
 
         if (optionalStudent.isPresent()) {
             Student student = optionalStudent.get();
-            return student.getLesson();
+            return student.getLessons();
         }
         else {
             throw new RecordNotFoundException("ID does not exist");

@@ -75,7 +75,7 @@ public class StudentController {
 
     @GetMapping(path = "/{id}/lesson")
     public ResponseEntity<Object> getLesson(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(studentService.getLesson(id));
+        return ResponseEntity.ok(studentService.getLessons(id));
     }
 
     @DeleteMapping(path = "/{student_id}/unsubscribe/{teacher_id}")
@@ -85,9 +85,6 @@ public class StudentController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(path = "/lessons")
-    public ResponseEntity<Object> getAllLessons() {
-        return ResponseEntity.ok(lessonService.getAllLessons());
-    }
+    // Probeersel
 
 }

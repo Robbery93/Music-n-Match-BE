@@ -30,8 +30,8 @@ public class TeacherController {
     // Endpoints for teachers
 
     @GetMapping
-    public ResponseEntity<Object> getTeachers(@RequestParam(name = "instrument", defaultValue = "")String instrument,
-                                              @RequestParam(name = "pref", defaultValue = "") String preference) {
+    public ResponseEntity<Object> getTeachers(@RequestParam(name = "instrument", required = false)String instrument,
+                                              @RequestParam(name = "pref", required = false) String preference) {
         return ResponseEntity.ok(teacherService.getTeachers(instrument, preference));
     }
 
@@ -60,13 +60,15 @@ public class TeacherController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<Object> updateTeacher(@PathVariable Long id, @RequestBody Teacher teacher) {
+    public ResponseEntity<Object> updateTeacher(@PathVariable Long id,
+                                                @RequestBody Teacher teacher) {
         teacherService.updateTeacher(id, teacher);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping(path = "/{id}")
-    public ResponseEntity<Object> partialUpdateTeacher(@PathVariable Long id, @RequestBody Teacher teacher) {
+    public ResponseEntity<Object> partialUpdateTeacher(@PathVariable Long id,
+                                                       @RequestBody Teacher teacher) {
         teacherService.partialUpdateTeacher(id, teacher);
         return ResponseEntity.noContent().build();
     }
@@ -84,11 +86,20 @@ public class TeacherController {
         return ResponseEntity.ok(lessonService.getLessonById(teacherId, studentId));
     }
 
+    @GetMapping(path = "/{id}/lessons/active")
+    public ResponseEntity<Object> getActiveLessons(@PathVariable(name = "id") long teacherId) {
+        return ResponseEntity.ok(lessonService.getActiveLessons(teacherId));
+    }
+
+    @GetMapping(path = "/{id}/lessons/applications")
+    public ResponseEntity<Object> getApplications(@PathVariable(name = "id") long teacherId) {
+        return ResponseEntity.ok(lessonService.getApplications(teacherId));
+    }
+
     @PostMapping(path = "/{teacher_id}/lessons/{student_id}")
     public ResponseEntity<Object> createLesson(@PathVariable(name = "teacher_id") long teacherId,
-                                            @PathVariable(name = "student_id") long studentId,
-                                            @RequestBody Lesson lesson) {
-        StudentTeacherKey newId = lessonService.createLesson(teacherId, studentId, lesson);
+                                               @PathVariable(name = "student_id") long studentId) {
+        StudentTeacherKey newId = lessonService.createLesson(teacherId, studentId);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -99,12 +110,23 @@ public class TeacherController {
         return ResponseEntity.created(location).build();
     }
 
-    @PatchMapping(path = "{teacher_id}/lessons/{student_id}")
+    @DeleteMapping(path = "/{teacher_id}/lesson/{student_id}/unsubscribe")
+    public ResponseEntity<Object> unsubscribeLesson(@PathVariable("teacher_id") Long teacherId,
+                                                    @PathVariable("student_id") Long studentId) {
+        lessonService.deleteLesson(teacherId, studentId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping(path = "{teacher_id}/update_lesson/{student_id}")
     public ResponseEntity<Object> updateHomework(@PathVariable(name = "teacher_id") long teacherId,
                                                  @PathVariable(name = "student_id") long studentId,
                                                  @RequestBody Lesson lesson) {
         lessonService.updateHomework(teacherId, studentId, lesson);
         return ResponseEntity.noContent().build();
     }
+
+    // Probeersels
+
+
 
 }

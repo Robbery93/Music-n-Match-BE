@@ -1,6 +1,7 @@
 package nl.robbertij.matchnmusic.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "students")
@@ -27,8 +28,8 @@ public class Student {
     @Column(name = "preference_for_lesson_type")
     private String preferenceForLessonType;
 
-    @OneToOne(mappedBy = "student", fetch = FetchType.LAZY)
-    private Lesson lesson;
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+    private List<Lesson> lessons;
 
     public Student() {};
 
@@ -41,7 +42,7 @@ public class Student {
                    String instrument,
                    String request,
                    String preferenceForLessonType,
-                   Lesson lesson) {
+                   List<Lesson> lessons) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -51,7 +52,7 @@ public class Student {
         this.instrument = instrument;
         this.request = request;
         this.preferenceForLessonType = preferenceForLessonType;
-        this.lesson = lesson;
+        this.lessons = lessons;
     }
 
     public Student(String name,
@@ -62,7 +63,7 @@ public class Student {
                    String instrument,
                    String request,
                    String preferenceForLessonType,
-                   Lesson lesson) {
+                   List<Lesson> lessons) {
         this.name = name;
         this.email = email;
         this.age = age;
@@ -71,7 +72,7 @@ public class Student {
         this.instrument = instrument;
         this.request = request;
         this.preferenceForLessonType = preferenceForLessonType;
-        this.lesson = lesson;
+        this.lessons = lessons;
     }
 
     public Long getId() {
@@ -144,12 +145,12 @@ public class Student {
         this.preferenceForLessonType = preferenceForLessonType;
     }
 
-    public Lesson getLesson() {
-        return lesson;
+    public List<Lesson> getLessons() {
+        return lessons;
     }
 
-    public void setLesson(Lesson lesson) {
-        this.lesson = lesson;
+    public void setLesson(List<Lesson> lessons) {
+        this.lessons = lessons;
     }
 
     @Override
@@ -164,7 +165,7 @@ public class Student {
                 ", instrument='" + instrument + '\'' +
                 ", request='" + request + '\'' +
                 ", preferenceForLessonType='" + preferenceForLessonType + '\'' +
-                ", lesson=" + lesson +
+                ", lesson=" + lessons +
                 '}';
     }
 }
