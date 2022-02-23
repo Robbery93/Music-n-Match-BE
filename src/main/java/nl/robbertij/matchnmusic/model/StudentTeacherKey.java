@@ -9,19 +9,18 @@ import java.util.Objects;
 public class StudentTeacherKey implements Serializable {
 
     // attributes
+    @Column(name = "student_id")
+    private Long studentId;
 
     @Column(name = "teacher_id")
     private Long teacherId;
 
-    @Column(name = "student_id")
-    private Long studentId;
-
     public StudentTeacherKey() {
     }
 
-    public StudentTeacherKey(Long teacherId, Long studentId) {
-        this.teacherId = teacherId;
+    public StudentTeacherKey(Long studentId, Long teacherId) {
         this.studentId = studentId;
+        this.teacherId = teacherId;
     }
 
     // getters & setters

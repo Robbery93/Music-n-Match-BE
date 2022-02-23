@@ -96,24 +96,10 @@ public class TeacherController {
         return ResponseEntity.ok(lessonService.getApplications(teacherId));
     }
 
-    @PostMapping(path = "/{teacher_id}/lessons/{student_id}")
-    public ResponseEntity<Object> createLesson(@PathVariable(name = "teacher_id") long teacherId,
-                                               @PathVariable(name = "student_id") long studentId) {
-        StudentTeacherKey newId = lessonService.createLesson(teacherId, studentId);
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(newId)
-                .toUri();
-
-        return ResponseEntity.created(location).build();
-    }
-
-    @DeleteMapping(path = "/{teacher_id}/lesson/{student_id}/unsubscribe")
-    public ResponseEntity<Object> unsubscribeLesson(@PathVariable("teacher_id") Long teacherId,
-                                                    @PathVariable("student_id") Long studentId) {
-        lessonService.deleteLesson(teacherId, studentId);
+    @DeleteMapping(path = "/lesson/unsubscribe")
+    public ResponseEntity<Object> unsubscribeLesson(@RequestParam("student_id") Long studentId,
+                                                    @RequestParam("teacher_id") Long teacherId) {
+        lessonService.deleteLesson(studentId, teacherId);
         return ResponseEntity.noContent().build();
     }
 
@@ -126,7 +112,5 @@ public class TeacherController {
     }
 
     // Probeersels
-
-
 
 }

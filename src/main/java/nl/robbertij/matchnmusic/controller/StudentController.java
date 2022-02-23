@@ -2,6 +2,7 @@ package nl.robbertij.matchnmusic.controller;
 
 import nl.robbertij.matchnmusic.dto.request.StudentRequestDto;
 import nl.robbertij.matchnmusic.model.Student;
+import nl.robbertij.matchnmusic.model.StudentTeacherKey;
 import nl.robbertij.matchnmusic.service.LessonService;
 import nl.robbertij.matchnmusic.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,13 +79,27 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getLessons(id));
     }
 
-    @DeleteMapping(path = "/{student_id}/unsubscribe/{teacher_id}")
-    public ResponseEntity<Object> unsubscribe(@PathVariable("student_id") Long studentId,
-                                              @PathVariable("teacher_id") Long teacherId) {
-        lessonService.deleteLesson(teacherId, studentId);
+    @DeleteMapping(path = "/lesson/unsubscribe")
+    public ResponseEntity<Object> unsubscribe(@RequestParam("student_id") Long studentId,
+                                              @RequestParam("teacher_id") Long teacherId) {
+        lessonService.deleteLesson(studentId, teacherId);
         return ResponseEntity.noContent().build();
     }
 
-    // Probeersel
+    // Probeersels
+
+    @PostMapping(path = "/lesson/apply")
+    public ResponseEntity<Object> applyForLesson(@RequestParam(name = "student_id") Long studentId,
+                                                 @RequestParam(name = "teacher_id") Long teacherId) {
+        StudentTeacherKey newId = lessonService.createLesson(studentId, teacherId);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(newId)
+                .toUri();
+
+        return ResponseEntity.created(location).build();
+    }
 
 }

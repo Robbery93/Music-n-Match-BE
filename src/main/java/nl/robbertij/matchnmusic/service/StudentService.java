@@ -127,7 +127,6 @@ public class StudentService {
         }
     }
 
-
     public List<Lesson> getLessons(Long id) {
         Optional<Student> optionalStudent = studentRepository.findById(id);
 

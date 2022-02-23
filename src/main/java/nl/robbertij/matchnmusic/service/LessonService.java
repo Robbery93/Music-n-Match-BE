@@ -37,7 +37,7 @@ public class LessonService {
     }
 
     public Lesson getLessonById(long teacherId, long studentId) {
-        return lessonRepository.findById(new StudentTeacherKey(teacherId, studentId)).orElse(null);
+        return lessonRepository.findById(new StudentTeacherKey(studentId, teacherId)).orElse(null);
     }
 
     public Collection<Lesson> getApplications(Long id) {
@@ -73,8 +73,8 @@ public class LessonService {
         return activeLessons;
     }
 
-    public void deleteLesson(long teacherId, long studentId) {
-        StudentTeacherKey id = new StudentTeacherKey(teacherId, studentId);
+    public void deleteLesson(long studentId, long teacherId) {
+        StudentTeacherKey id = new StudentTeacherKey(studentId, teacherId);
         if (lessonRepository.existsById(id)) {
             lessonRepository.deleteById(id);
         } else {
@@ -83,31 +83,31 @@ public class LessonService {
     }
 
 
-    public StudentTeacherKey createLesson(long teacherId, long studentId){
-        if (!teacherRepository.existsById(teacherId)) {
-            throw new RecordNotFoundException("ID does not exist");
-        }
-        Teacher teacher = teacherRepository.findById(teacherId).orElse(null);
-
+    public StudentTeacherKey createLesson(long studentId, long teacherId){
         if (!studentRepository.existsById(studentId)) {
             throw new RecordNotFoundException("ID does not exist");
         }
         Student student = studentRepository.findById(studentId).orElse(null);
 
+        if (!teacherRepository.existsById(teacherId)) {
+            throw new RecordNotFoundException("ID does not exist");
+        }
+        Teacher teacher = teacherRepository.findById(teacherId).orElse(null);
+
         Lesson newLesson = new Lesson();
 
-        newLesson.setTeacher(teacher);
         newLesson.setStudent(student);
+        newLesson.setTeacher(teacher);
 
-        StudentTeacherKey id = new StudentTeacherKey(teacherId, studentId);
+        StudentTeacherKey id = new StudentTeacherKey(studentId, teacherId);
         newLesson.setId(id);
         lessonRepository.save(newLesson);
         return id;
     }
 
 
-    public void updateHomework(long teacherId, long studentId, Lesson lesson) {
-        StudentTeacherKey id = new StudentTeacherKey(teacherId, studentId);
+    public void updateHomework(long studentId, long teacherId, Lesson lesson) {
+        StudentTeacherKey id = new StudentTeacherKey(studentId, teacherId);
         if(!lessonRepository.existsById(id)) {
             throw new RecordNotFoundException("ID does not exist");
         }

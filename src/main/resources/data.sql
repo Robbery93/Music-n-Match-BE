@@ -29,6 +29,8 @@ VALUES ('Robbert', 'robbery@gmail.com', '28', 'Rotterdam', '0655751563', 'gitaar
 
 INSERT INTO lessons (teacher_id, student_id, active, homework)
 VALUES (1, 1, TRUE, 'Voor vandaag heb je nog geen huiswerk. Goed gedaan vanmiddag!'),
+       (1, 4, TRUE, 'Lekker bezig vandaag!'),
        (1, 2, FALSE, null),
+       (1, 5, FALSE, null),
        (2, 3, TRUE, 'Voor vandaag heb je nog geen huiswerk. Goed gedaan vanmiddag!');
 

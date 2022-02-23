@@ -31,6 +31,9 @@ public class Student {
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     private List<Lesson> lessons;
 
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+    private List<Lesson> applications;
+
     public Student() {};
 
     public Student(Long id,
@@ -42,7 +45,8 @@ public class Student {
                    String instrument,
                    String request,
                    String preferenceForLessonType,
-                   List<Lesson> lessons) {
+                   List<Lesson> lessons,
+                   List<Lesson> applications) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -53,6 +57,7 @@ public class Student {
         this.request = request;
         this.preferenceForLessonType = preferenceForLessonType;
         this.lessons = lessons;
+        this.applications = applications;
     }
 
     public Student(String name,
