@@ -1,7 +1,6 @@
 package nl.robbertij.matchnmusic.model;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "students")
@@ -28,8 +27,8 @@ public class Student {
     @Column(name = "preference_for_lesson_type")
     private String preferenceForLessonType;
 
-    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
-    private List<Lesson> lesson;
+    @OneToOne(mappedBy = "student", fetch = FetchType.LAZY)
+    private Lesson lesson;
 
     public Student() {};
 
@@ -42,7 +41,7 @@ public class Student {
                    String instrument,
                    String request,
                    String preferenceForLessonType,
-                   List<Lesson> lesson) {
+                   Lesson lesson) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -63,7 +62,7 @@ public class Student {
                    String instrument,
                    String request,
                    String preferenceForLessonType,
-                   List<Lesson> lesson) {
+                   Lesson lesson) {
         this.name = name;
         this.email = email;
         this.age = age;
@@ -145,8 +144,12 @@ public class Student {
         this.preferenceForLessonType = preferenceForLessonType;
     }
 
-    public List<Lesson> getLesson() {
+    public Lesson getLesson() {
         return lesson;
+    }
+
+    public void setLesson(Lesson lesson) {
+        this.lesson = lesson;
     }
 
     @Override

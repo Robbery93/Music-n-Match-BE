@@ -34,8 +34,34 @@ public class UserController {
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<Object> createUser(@RequestBody UserPostRequestDto user) {
-        String newUsername = userService.createUser(user);
+    public ResponseEntity<Object> createUser(@RequestBody UserPostRequestDto userPostRequestDto) {
+        String newUsername = userService.createUser(userPostRequestDto);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{username}")
+                .buildAndExpand(newUsername)
+                .toUri();
+
+        return ResponseEntity.created(location).build();
+    }
+
+    @PostMapping(value = "/student")
+    public ResponseEntity<Object> createStudent(@RequestBody UserPostRequestDto userPostRequestDto) {
+        String newUsername = userService.createStudent(userPostRequestDto);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{username}")
+                .buildAndExpand(newUsername)
+                .toUri();
+
+        return ResponseEntity.created(location).build();
+    }
+
+    @PostMapping(value = "/teacher")
+    public ResponseEntity<Object> createTeacher(@RequestBody UserPostRequestDto userPostRequestDto) {
+        String newUsername = userService.createTeacher(userPostRequestDto);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()

@@ -43,32 +43,66 @@ public class UserService {
         return userRepository.findById(username);
     }
 
-
-    public String createUser(UserPostRequestDto userPostRequest) {
+    public String createUser(UserPostRequestDto userPostRequestDto) {
         try {
-            String encryptedPassword = passwordEncoder.encode(userPostRequest.getPassword());
+            String encryptedPassword = passwordEncoder.encode(userPostRequestDto.getPassword());
 
             User user = new User();
-            user.setUsername(userPostRequest.getUsername());
             user.setPassword(encryptedPassword);
             user.setEnabled(true);
-            for (String s : userPostRequest.getAuthorities()) {
+            user.addAuthority("ROLE_USER");
+            for (String s : userPostRequestDto.getAuthorities()) {
                 if (!s.startsWith("ROLE_")) {
                     s = "ROLE_" + s;
                 }
                 s = s.toUpperCase();
-                if (!s.equals("ROLE_STUDENT")) {
+                if (!s.equals("ROLE_USER")) {
                     user.addAuthority(s);
                 }
             }
 
             User newUser = userRepository.save(user);
             return newUser.getUsername();
+        } catch (Exception ex) {
+            throw new BadRequestException("Cannot create user.");
+        }
+    }
+
+    public String createStudent(UserPostRequestDto userPostRequest) {
+        try {
+            String encryptedPassword = passwordEncoder.encode(userPostRequest.getPassword());
+
+            User student = new User();
+            student.setUsername(userPostRequest.getUsername());
+            student.setPassword(encryptedPassword);
+            student.setEnabled(true);
+            student.addAuthority("ROLE_STUDENT");
+
+            User newUser = userRepository.save(student);
+            return newUser.getUsername();
         }
         catch (Exception e) {
             throw new BadRequestException("Cannot create user.");
         }
 
+    }
+
+    public String createTeacher(UserPostRequestDto userPostRequest) {
+        try {
+            String encryptedPassword = passwordEncoder.encode(userPostRequest.getPassword());
+
+            User teacher = new User();
+            teacher.setUsername(userPostRequest.getUsername());
+            teacher.setPassword(encryptedPassword);
+            teacher.setEnabled(true);
+            teacher.addAuthority("ROLE_TEACHER");
+
+            User newUser = userRepository.save(teacher);
+            return newUser.getUsername();
+        }
+        catch (Exception e) {
+            throw new BadRequestException("Cannot create user.");
+        }
     }
 
     public void deleteUser(String username) {
@@ -88,7 +122,6 @@ public class UserService {
         else {
             User user = userOptional.get();
             user.setPassword(passwordEncoder.encode(newUser.getPassword()));
-            user.setEmail(newUser.getEmail());
             user.setEnabled(newUser.isEnabled());
             userRepository.save(user);
         }

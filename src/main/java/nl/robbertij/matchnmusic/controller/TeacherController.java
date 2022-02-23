@@ -17,12 +17,15 @@ import java.net.URI;
 @RestController
 @RequestMapping(path = "/teachers")
 public class TeacherController {
+    private final TeacherService teacherService;
+    private final LessonService lessonService;
 
     @Autowired
-    private TeacherService teacherService;
-
-    @Autowired
-    private LessonService lessonService;
+    public TeacherController(TeacherService teacherService,
+                             LessonService lessonService) {
+        this.teacherService = teacherService;
+        this.lessonService = lessonService;
+    }
 
     // Endpoints for teachers
 
@@ -70,8 +73,8 @@ public class TeacherController {
 
     // Endpoints for lessons
 
-    @GetMapping(path = "/{id}/lessons")
-    public ResponseEntity<Object> getLessons(@PathVariable("id") Long id) {
+    @GetMapping(path = "/{teacher_id}/lessons")
+    public ResponseEntity<Object> getLessons(@PathVariable("teacher_id") Long id) {
         return ResponseEntity.ok(teacherService.getLessons(id));
     }
 
@@ -82,7 +85,7 @@ public class TeacherController {
     }
 
     @PostMapping(path = "/{teacher_id}/lessons/{student_id}")
-    public ResponseEntity<Object> addLesson(@PathVariable(name = "teacher_id") long teacherId,
+    public ResponseEntity<Object> createLesson(@PathVariable(name = "teacher_id") long teacherId,
                                             @PathVariable(name = "student_id") long studentId,
                                             @RequestBody Lesson lesson) {
         StudentTeacherKey newId = lessonService.createLesson(teacherId, studentId, lesson);

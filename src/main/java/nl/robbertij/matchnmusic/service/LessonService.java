@@ -14,28 +14,38 @@ import org.springframework.stereotype.Service;
 @Service
 public class LessonService {
 
-    @Autowired
-    private LessonRepository lessonRepository;
+    private final LessonRepository lessonRepository;
+    private final StudentRepository studentRepository;
+    private final TeacherRepository teacherRepository;
 
     @Autowired
-    private StudentRepository studentRepository;
-
-    @Autowired
-    private TeacherRepository teacherRepository;
+    public LessonService(LessonRepository lessonRepository,
+                         StudentRepository studentRepository,
+                         TeacherRepository teacherRepository) {
+        this.lessonRepository = lessonRepository;
+        this.studentRepository = studentRepository;
+        this.teacherRepository = teacherRepository;
+    }
 
     public Iterable<Lesson> getAllLessons() {
         return lessonRepository.findAll();
-    }
-
-    public Iterable<Lesson> getLessonsByTeacher(long teacherId) {
-        return lessonRepository.findAllByTeacherId(teacherId);
     }
 
     public Lesson getLessonById(long teacherId, long studentId) {
         return lessonRepository.findById(new StudentTeacherKey(teacherId, studentId)).orElse(null);
     }
 
-    public StudentTeacherKey createLesson(long teacherId, long studentId, Lesson lesson){
+    public void deleteLesson(long teacherId, long studentId) {
+        StudentTeacherKey id = new StudentTeacherKey(teacherId, studentId);
+        if (lessonRepository.existsById(id)) {
+            lessonRepository.deleteById(id);
+        } else {
+            throw new RecordNotFoundException("ID does not exist");
+        }
+    }
+
+
+    public StudentTeacherKey createLesson(long teacherId, long studentId){
         if (!teacherRepository.existsById(teacherId)) {
             throw new RecordNotFoundException("ID does not exist");
         }
@@ -50,15 +60,12 @@ public class LessonService {
 
         newLesson.setTeacher(teacher);
         newLesson.setStudent(student);
-        newLesson.setHomework(lesson.getHomework());
 
         StudentTeacherKey id = new StudentTeacherKey(teacherId, studentId);
         newLesson.setId(id);
         lessonRepository.save(newLesson);
         return id;
     }
-
-
 
 
     public void updateHomework(long teacherId, long studentId, Lesson lesson) {

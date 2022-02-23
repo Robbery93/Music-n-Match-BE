@@ -1,8 +1,11 @@
-INSERT INTO users (username, password, enabled, email)
-VALUES ('robbert', '$2a$10$3Ir/NL1.eapVLyq3NCCLfOyIsq.9y7ZziVJWs9hD4ChDlLNTV08mu', TRUE, 'robbert@gmail.com'),
-       ('anna', '$2a$10$C/gQ5s2z3Uu2qfnl99KnsuFpNbUCTpafb0seJMuJC052k5wan2eam', TRUE, 'anna@gmail.com'),
-       ('cor', '$2a$10$QU/ld5fuW0VspXD8wSbWV.WwIVzko4sVQiZKwqmw6Inj2pr4XrwyO', TRUE, 'cor@gmail.com'),
-       ('admin', '$2a$10$Nr3hVx0Y2nf0aQykOA1UuuDPLp9rU.dRVEK0FMw2W5rS6AsxjOwKy', TRUE, 'admin@gmail.com');
+/* password is de username beginnend met een hoofdletter, met 123! eraan vast e.g.: username: robbert, password: Robbert123! */
+INSERT INTO users (username, password, enabled)
+VALUES ('robbert', '$2a$10$3Ir/NL1.eapVLyq3NCCLfOyIsq.9y7ZziVJWs9hD4ChDlLNTV08mu', TRUE),
+       ('anna', '$2a$10$C/gQ5s2z3Uu2qfnl99KnsuFpNbUand CTpafb0seJMuJC052k5wan2eam', TRUE),
+       ('cor', '$2a$10$QU/ld5fuW0VspXD8wSbWV.WwIVzko4sVQiZKwqmw6Inj2pr4XrwyO', TRUE),
+       ('dirk', '$2a$10$EfOSvkOuW7bvg2fMHeosHO.1RU6vkuC4jBkDfgfH26zK6KxmdNuZq', TRUE),
+       ('rosalie', '$2a$10$TCrY0AuuhxIfqN4e2Oxv5u2pQAH129PsvEXJFty4Ag/lxmZzZE8h6', TRUE),
+       ('admin', '$2a$10$Nr3hVx0Y2nf0aQykOA1UuuDPLp9rU.dRVEK0FMw2W5rS6AsxjOwKy', TRUE);
 
 INSERT INTO authorities (username, authority)
 VALUES ('robbert', 'ROLE_STUDENT'),
@@ -26,6 +29,6 @@ VALUES ('Robbert', 'robbery@gmail.com', '28', 'Rotterdam', '0655751563', 'gitaar
 
 INSERT INTO lessons (teacher_id, student_id, active, homework)
 VALUES (1, 1, TRUE, 'Voor vandaag heb je nog geen huiswerk. Goed gedaan vanmiddag!'),
-       (1, 2, FALSE, ''),
+       (1, 2, FALSE, null),
        (2, 3, TRUE, 'Voor vandaag heb je nog geen huiswerk. Goed gedaan vanmiddag!');
 

@@ -2,6 +2,7 @@ package nl.robbertij.matchnmusic.controller;
 
 import nl.robbertij.matchnmusic.dto.request.StudentRequestDto;
 import nl.robbertij.matchnmusic.model.Student;
+import nl.robbertij.matchnmusic.service.LessonService;
 import nl.robbertij.matchnmusic.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +15,14 @@ import java.net.URI;
 @RestController
 @RequestMapping(path = "/students")
 public class StudentController {
+    private final StudentService studentService;
+    private final LessonService lessonService;
 
-    @Autowired
-    private StudentService studentService;
+    public StudentController(StudentService studentService,
+                             LessonService lessonService) {
+        this.studentService = studentService;
+        this.lessonService = lessonService;
+    }
 
     // Endpoints for students
 
@@ -65,10 +71,23 @@ public class StudentController {
         return ResponseEntity.noContent().build();
     }
 
-    // Endpoint for lesson
+    // Endpoints for lesson
 
-    @GetMapping(path = "{id}/lesson")
+    @GetMapping(path = "/{id}/lesson")
     public ResponseEntity<Object> getLesson(@PathVariable("id") Long id) {
         return ResponseEntity.ok(studentService.getLesson(id));
     }
+
+    @DeleteMapping(path = "/{student_id}/unsubscribe/{teacher_id}")
+    public ResponseEntity<Object> unsubscribe(@PathVariable("student_id") Long studentId,
+                                              @PathVariable("teacher_id") Long teacherId) {
+        lessonService.deleteLesson(teacherId, studentId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(path = "/lessons")
+    public ResponseEntity<Object> getAllLessons() {
+        return ResponseEntity.ok(lessonService.getAllLessons());
+    }
+
 }

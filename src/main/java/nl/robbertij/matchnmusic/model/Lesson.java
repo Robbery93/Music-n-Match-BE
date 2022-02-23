@@ -20,7 +20,7 @@ public class Lesson {
     @JsonIgnore
     private Teacher teacher;
 
-    @ManyToOne
+    @OneToOne
     @MapsId("studentId")
     @JoinColumn(name = "student_id")
     @JsonIgnore
@@ -93,7 +93,7 @@ public class Lesson {
                 ", teacher=" + teacher +
                 ", student=" + student +
                 ", active=" + active +
-                ", homework='" + homework + '\'' +
+                ", homework=" + homework + '\'' +
                 '}';
     }
 }
