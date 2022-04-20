@@ -5,6 +5,7 @@ import nl.robbertij.matchnmusic.exception.BadRequestException;
 import nl.robbertij.matchnmusic.exception.RecordNotFoundException;
 import nl.robbertij.matchnmusic.model.Lesson;
 import nl.robbertij.matchnmusic.model.Teacher;
+import nl.robbertij.matchnmusic.repository.LessonRepository;
 import nl.robbertij.matchnmusic.repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,11 +19,14 @@ public class TeacherService {
     @Autowired
     private TeacherRepository teacherRepository;
 
+    @Autowired
+    private LessonRepository lessonRepository;
+
     public Iterable<Teacher> getTeachers(String instrument, String preference){
-        if(!instrument.isEmpty()){
+        if(instrument != null){
             return teacherRepository.findAllByInstrumentsContainingIgnoreCase(instrument);
         }
-        if(!preference.isEmpty()){
+        if(preference != null){
             return teacherRepository.findAllByPreferenceForLessonType(preference);
         }
         return teacherRepository.findAll();
@@ -41,6 +45,10 @@ public class TeacherService {
 
     public void deleteTeacher(Long id) {
         if(teacherRepository.existsById(id)) {
+
+            List<Lesson> allLessonsOfTeacher = lessonRepository.findAllByTeacherId(id);
+            lessonRepository.deleteAll(allLessonsOfTeacher);
+
             teacherRepository.deleteById(id);
         }
         else {

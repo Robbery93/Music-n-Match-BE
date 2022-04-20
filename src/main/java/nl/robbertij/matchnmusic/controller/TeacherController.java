@@ -2,7 +2,6 @@ package nl.robbertij.matchnmusic.controller;
 
 import nl.robbertij.matchnmusic.dto.request.TeacherRequestDto;
 import nl.robbertij.matchnmusic.model.Lesson;
-import nl.robbertij.matchnmusic.model.StudentTeacherKey;
 import nl.robbertij.matchnmusic.model.Teacher;
 import nl.robbertij.matchnmusic.service.LessonService;
 import nl.robbertij.matchnmusic.service.TeacherService;
@@ -88,12 +87,12 @@ public class TeacherController {
 
     @GetMapping(path = "/{id}/lessons/active")
     public ResponseEntity<Object> getActiveLessons(@PathVariable(name = "id") long teacherId) {
-        return ResponseEntity.ok(lessonService.getActiveLessons(teacherId));
+        return ResponseEntity.ok(lessonService.getActiveLessonsOfTeacher(teacherId));
     }
 
     @GetMapping(path = "/{id}/lessons/applications")
     public ResponseEntity<Object> getApplications(@PathVariable(name = "id") long teacherId) {
-        return ResponseEntity.ok(lessonService.getApplications(teacherId));
+        return ResponseEntity.ok(lessonService.getApplicationsOfTeacher(teacherId));
     }
 
     @DeleteMapping(path = "/lesson/unsubscribe")
@@ -103,14 +102,12 @@ public class TeacherController {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping(path = "{teacher_id}/update_lesson/{student_id}")
+    @PatchMapping(path = "{teacher_id}/update_homework/{student_id}")
     public ResponseEntity<Object> updateHomework(@PathVariable(name = "teacher_id") long teacherId,
                                                  @PathVariable(name = "student_id") long studentId,
                                                  @RequestBody Lesson lesson) {
         lessonService.updateHomework(teacherId, studentId, lesson);
         return ResponseEntity.noContent().build();
     }
-
-    // Probeersels
 
 }

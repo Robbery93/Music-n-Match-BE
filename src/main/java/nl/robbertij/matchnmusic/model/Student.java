@@ -68,7 +68,8 @@ public class Student {
                    String instrument,
                    String request,
                    String preferenceForLessonType,
-                   List<Lesson> lessons) {
+                   List<Lesson> lessons,
+                   List<Lesson> applications) {
         this.name = name;
         this.email = email;
         this.age = age;
@@ -78,6 +79,7 @@ public class Student {
         this.request = request;
         this.preferenceForLessonType = preferenceForLessonType;
         this.lessons = lessons;
+        this.applications = applications;
     }
 
     public Long getId() {
@@ -158,6 +160,14 @@ public class Student {
         this.lessons = lessons;
     }
 
+    public List<Lesson> getApplications() {
+        return applications;
+    }
+
+    public void setApplications(List<Lesson> applications) {
+        this.applications = applications;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -170,7 +180,8 @@ public class Student {
                 ", instrument='" + instrument + '\'' +
                 ", request='" + request + '\'' +
                 ", preferenceForLessonType='" + preferenceForLessonType + '\'' +
-                ", lesson=" + lessons +
+                ", lesson=" + lessons + '\'' +
+                ", applications=" + applications +
                 '}';
     }
 }

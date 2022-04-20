@@ -36,6 +36,9 @@ public class Teacher {
     @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
     private List<Lesson> lessons;
 
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
+    private List<Lesson> applications;
+
     public Teacher() {};
 
     public Teacher(Long id,
@@ -48,7 +51,8 @@ public class Teacher {
                    String description,
                    String experience,
                    String preferenceForLessonType,
-                   List<Lesson> lessons) {
+                   List<Lesson> lessons,
+                   List<Lesson> applications) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -60,6 +64,7 @@ public class Teacher {
         this.experience = experience;
         this.preferenceForLessonType = preferenceForLessonType;
         this.lessons = lessons;
+        this.applications = applications;
     }
 
     public Teacher(String name,
@@ -71,7 +76,8 @@ public class Teacher {
                    String description,
                    String experience,
                    String preferenceForLessonType,
-                   List<Lesson> lessons) {
+                   List<Lesson> lessons,
+                   List<Lesson> applications) {
         this.name = name;
         this.email = email;
         this.age = age;
@@ -82,6 +88,7 @@ public class Teacher {
         this.experience = experience;
         this.preferenceForLessonType = preferenceForLessonType;
         this.lessons = lessons;
+        this.applications = applications;
     }
 
     public Long getId() {
@@ -187,6 +194,14 @@ public class Teacher {
 
     public void removeLesson(Lesson homework) {
         this.lessons.remove(homework);
+    }
+
+    public List<Lesson> getApplications() {
+        return applications;
+    }
+
+    public void setApplications(List<Lesson> applications) {
+        this.applications = applications;
     }
 
     @Override

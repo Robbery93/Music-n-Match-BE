@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface LessonRepository extends CrudRepository<Lesson, StudentTeacherKey> {
 
-    Iterable<Lesson> findAllByTeacherId(long teacherId);
-    Iterable<Lesson> findAllByStudentId(long studentId);
+    List<Lesson> findAllByTeacherId(long teacherId);
+    List<Lesson> findAllByStudentId(long studentId);
     List<Lesson> findAllByActive(boolean active);
 }

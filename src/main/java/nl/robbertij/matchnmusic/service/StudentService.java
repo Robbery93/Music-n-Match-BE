@@ -5,6 +5,8 @@ import nl.robbertij.matchnmusic.exception.BadRequestException;
 import nl.robbertij.matchnmusic.exception.RecordNotFoundException;
 import nl.robbertij.matchnmusic.model.Lesson;
 import nl.robbertij.matchnmusic.model.Student;
+import nl.robbertij.matchnmusic.model.StudentTeacherKey;
+import nl.robbertij.matchnmusic.repository.LessonRepository;
 import nl.robbertij.matchnmusic.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,9 @@ public class StudentService {
 
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    private LessonRepository lessonRepository;
 
 
     public Iterable<Student> getStudents(String instrument, String name, String preference){
@@ -35,7 +40,7 @@ public class StudentService {
         }
     }
 
-    public Student getStudent(Long id){
+    public Student getStudentById(Long id){
         Optional<Student> optionalStudent = studentRepository.findById(id);
 
         if (optionalStudent.isPresent()){
@@ -46,8 +51,12 @@ public class StudentService {
         }
     }
 
-    public void deleteStudent(Long id){
-        if (studentRepository.existsById(id)){
+    public void deleteStudentById(Long id){
+        if (studentRepository.existsById(id)) {
+
+            List<Lesson> allLessonsOfStudent = lessonRepository.findAllByStudentId(id);
+            lessonRepository.deleteAll(allLessonsOfStudent);
+
             studentRepository.deleteById(id);
         }
         else {
@@ -57,7 +66,7 @@ public class StudentService {
 
     public Long addStudent(StudentRequestDto studentRequestDto){
         String email = studentRequestDto.getEmail();
-        List<Student> students = (List<Student>)studentRepository.findAllByEmail(email);
+        List<Student> students = studentRepository.findAllByEmail(email);
         if(students.size() > 0) {
             throw new BadRequestException("Email is already taken");
         }
@@ -128,6 +137,18 @@ public class StudentService {
     }
 
     public List<Lesson> getLessons(Long id) {
+        Optional<Student> optionalStudent = studentRepository.findById(id);
+
+        if (optionalStudent.isPresent()) {
+            Student student = optionalStudent.get();
+            return student.getLessons();
+        }
+        else {
+            throw new RecordNotFoundException("ID does not exist");
+        }
+    }
+
+    public List<Lesson> getApplications(Long id) {
         Optional<Student> optionalStudent = studentRepository.findById(id);
 
         if (optionalStudent.isPresent()) {

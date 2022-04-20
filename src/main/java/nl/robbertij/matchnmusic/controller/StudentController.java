@@ -5,7 +5,6 @@ import nl.robbertij.matchnmusic.model.Student;
 import nl.robbertij.matchnmusic.model.StudentTeacherKey;
 import nl.robbertij.matchnmusic.service.LessonService;
 import nl.robbertij.matchnmusic.service.StudentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -36,12 +35,12 @@ public class StudentController {
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Object> getStudent(@PathVariable Long id) {
-        return ResponseEntity.ok(studentService.getStudent(id));
+        return ResponseEntity.ok(studentService.getStudentById(id));
     }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Object> deleteStudent(@PathVariable Long id) {
-        studentService.deleteStudent(id);
+        studentService.deleteStudentById(id);
         return ResponseEntity.noContent().build();
     }
 
@@ -79,8 +78,8 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getLessons(id));
     }
 
-    @DeleteMapping(path = "/lesson/unsubscribe")
-    public ResponseEntity<Object> unsubscribe(@RequestParam("student_id") Long studentId,
+    @DeleteMapping(path = "/{id}/unsubscribe")
+    public ResponseEntity<Object> unsubscribe(@PathVariable("id") Long studentId,
                                               @RequestParam("teacher_id") Long teacherId) {
         lessonService.deleteLesson(studentId, teacherId);
         return ResponseEntity.noContent().build();
@@ -88,8 +87,8 @@ public class StudentController {
 
     // Probeersels
 
-    @PostMapping(path = "/lesson/apply")
-    public ResponseEntity<Object> applyForLesson(@RequestParam(name = "student_id") Long studentId,
+    @PostMapping(path = "/{id}/apply")
+    public ResponseEntity<Object> applyForLesson(@PathVariable(name = "id") Long studentId,
                                                  @RequestParam(name = "teacher_id") Long teacherId) {
         StudentTeacherKey newId = lessonService.createLesson(studentId, teacherId);
 
