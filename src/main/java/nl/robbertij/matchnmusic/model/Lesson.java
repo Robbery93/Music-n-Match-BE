@@ -31,10 +31,9 @@ public class Lesson {
     @Column(length = 4000)
     private String homework;
 
+    // constructor
     public Lesson() {
     }
-
-    // constructor
 
     public Lesson(StudentTeacherKey id, Teacher teacher, Student student, String homework) {
         this.id = id;

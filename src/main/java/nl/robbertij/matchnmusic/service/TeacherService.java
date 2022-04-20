@@ -143,4 +143,16 @@ public class TeacherService {
             throw new RecordNotFoundException("ID does not exist!");
         }
     }
+
+    public List<Lesson> getApplications(Long id) {
+        Optional<Teacher> optionalTeacher = teacherRepository.findById(id);
+
+        if (optionalTeacher.isPresent()) {
+            Teacher teacher = optionalTeacher.get();
+            return teacher.getApplications();
+        }
+        else {
+            throw new RecordNotFoundException("ID does not exist");
+        }
+    }
 }

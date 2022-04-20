@@ -12,9 +12,7 @@ import nl.robbertij.matchnmusic.repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class LessonService {
@@ -32,78 +30,14 @@ public class LessonService {
         this.teacherRepository = teacherRepository;
     }
 
-    public Iterable<Lesson> getAllLessons() {
-        return lessonRepository.findAll();
-    }
-
     public Lesson getLessonById(long teacherId, long studentId) {
-        return lessonRepository.findById(new StudentTeacherKey(studentId, teacherId)).orElse(null);
-    }
-
-    public Collection<Lesson> getApplicationsOfTeacher(Long id) {
-        Optional<Teacher> optionalTeacher = teacherRepository.findById(id);
-
-        if (optionalTeacher.isEmpty()) {
+        StudentTeacherKey id = new StudentTeacherKey(studentId, teacherId);
+        if (lessonRepository.existsById(id)) {
+            return lessonRepository.findById(id).orElse(null);
+        }
+        else {
             throw new RecordNotFoundException("ID does not exist");
         }
-
-        Collection<Lesson> applications = new HashSet<>();
-        Collection<Lesson> allLessons = optionalTeacher.get().getLessons();
-        for (Lesson lesson : allLessons) {
-            if (!lesson.isActive()) {
-                applications.add(lesson);
-            }
-        }
-        return applications;
-    }
-
-    public Collection<Lesson> getActiveLessonsOfTeacher(Long id) {
-        Optional<Teacher> optionalTeacher = teacherRepository.findById(id);
-        if (optionalTeacher.isEmpty()) {
-            throw new RecordNotFoundException("ID does not exist");
-        }
-
-        Collection<Lesson> activeLessons = new HashSet<>();
-        Collection<Lesson> allLessons = optionalTeacher.get().getLessons();
-        for (Lesson lesson : allLessons) {
-            if (lesson.isActive()) {
-                activeLessons.add(lesson);
-            }
-        }
-        return activeLessons;
-    }
-
-    public Collection<Lesson> getApplicationsOfStudent(Long id) {
-        Optional<Student> optionalStudent = studentRepository.findById(id);
-
-        if (optionalStudent.isEmpty()) {
-            throw new RecordNotFoundException("ID does not exist");
-        }
-
-        Collection<Lesson> applications = new HashSet<>();
-        Collection<Lesson> allLessons = optionalStudent.get().getLessons();
-        for (Lesson lesson : allLessons) {
-            if (!lesson.isActive()) {
-                applications.add(lesson);
-            }
-        }
-        return applications;
-    }
-
-    public Collection<Lesson> getActiveLessonsOfStudent(Long id) {
-        Optional<Student> optionalStudent = studentRepository.findById(id);
-        if (optionalStudent.isEmpty()) {
-            throw new RecordNotFoundException("ID does not exist");
-        }
-
-        Collection<Lesson> activeLessons = new HashSet<>();
-        Collection<Lesson> allLessons = optionalStudent.get().getLessons();
-        for (Lesson lesson : allLessons) {
-            if (lesson.isActive()) {
-                activeLessons.add(lesson);
-            }
-        }
-        return activeLessons;
     }
 
     public void deleteLesson(long studentId, long teacherId) {
@@ -116,7 +50,7 @@ public class LessonService {
     }
 
 
-    public StudentTeacherKey createLesson(long studentId, long teacherId){
+    public StudentTeacherKey applyForLesson(long studentId, long teacherId){
         StudentTeacherKey id = new StudentTeacherKey(studentId, teacherId);
 
         if (lessonRepository.existsById(id)) {
@@ -157,6 +91,13 @@ public class LessonService {
                 existingLesson.setActive(true);
             }
             existingLesson.setHomework(lesson.getHomework());
+        }
+
+        List<Lesson> applicationsOfStudent = lessonRepository.findAllByStudentId(studentId);
+        for (Lesson application : applicationsOfStudent) {
+            if (!application.isActive()) {
+                lessonRepository.delete(application);
+            }
         }
 
         lessonRepository.save(existingLesson);

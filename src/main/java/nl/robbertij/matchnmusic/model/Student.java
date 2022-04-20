@@ -1,6 +1,7 @@
 package nl.robbertij.matchnmusic.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -153,7 +154,13 @@ public class Student {
     }
 
     public List<Lesson> getLessons() {
-        return lessons;
+        List<Lesson> activeLesson = new ArrayList<>();
+        for (Lesson lesson : lessons) {
+            if(lesson.isActive()) {
+                activeLesson.add(lesson);
+            }
+        }
+        return activeLesson;
     }
 
     public void setLesson(List<Lesson> lessons) {
@@ -161,7 +168,13 @@ public class Student {
     }
 
     public List<Lesson> getApplications() {
-        return applications;
+        List<Lesson> allApplications = new ArrayList<>();
+        for (Lesson lesson : applications) {
+            if(!lesson.isActive()) {
+                allApplications.add(lesson);
+            }
+        }
+        return allApplications;
     }
 
     public void setApplications(List<Lesson> applications) {

@@ -1,6 +1,7 @@
 package nl.robbertij.matchnmusic.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -172,32 +173,23 @@ public class Teacher {
     }
 
     public List<Lesson> getLessons() {
-        return lessons;
-    }
-
-    public Lesson getLesson(StudentTeacherKey id, List<Lesson> lessons) {
+        List<Lesson> activeLessons = new ArrayList<>();
         for (Lesson lesson : lessons) {
-            if (lesson.getId().equals(id)){
-                return lesson;
+            if (lesson.isActive()) {
+                activeLessons.add(lesson);
             }
         }
-        return null;
-    }
-
-    public void setLessons(List<Lesson> lessons) {
-        this.lessons = lessons;
-    }
-
-    public void addLesson(Lesson homework) {
-        this.lessons.add(homework);
-    }
-
-    public void removeLesson(Lesson homework) {
-        this.lessons.remove(homework);
+        return activeLessons;
     }
 
     public List<Lesson> getApplications() {
-        return applications;
+        List<Lesson> allApplications = new ArrayList<>();
+        for (Lesson lesson : applications) {
+            if (!lesson.isActive()) {
+                allApplications.add(lesson);
+            }
+        }
+        return allApplications;
     }
 
     public void setApplications(List<Lesson> applications) {

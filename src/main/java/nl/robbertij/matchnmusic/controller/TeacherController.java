@@ -74,39 +74,34 @@ public class TeacherController {
 
     // Endpoints for lessons
 
-    @GetMapping(path = "/{teacher_id}/lessons")
-    public ResponseEntity<Object> getLessons(@PathVariable("teacher_id") Long id) {
-        return ResponseEntity.ok(teacherService.getLessons(id));
-    }
-
-    @GetMapping(path = "/{teacher_id}/lessons/{student_id}")
-    public ResponseEntity<Object> getLessonByStudent(@PathVariable(name = "teacher_id") long teacherId,
-                                                     @PathVariable(name = "student_id") long studentId) {
+    @GetMapping(path = "/{id}/lesson")
+    public ResponseEntity<Object> getLessonByStudent(@PathVariable(name = "id") long teacherId,
+                                                     @RequestParam(name = "student_id") long studentId) {
         return ResponseEntity.ok(lessonService.getLessonById(teacherId, studentId));
     }
 
-    @GetMapping(path = "/{id}/lessons/active")
+    @GetMapping(path = "/{id}/lessons")
     public ResponseEntity<Object> getActiveLessons(@PathVariable(name = "id") long teacherId) {
-        return ResponseEntity.ok(lessonService.getActiveLessonsOfTeacher(teacherId));
+        return ResponseEntity.ok(teacherService.getLessons(teacherId));
     }
 
     @GetMapping(path = "/{id}/lessons/applications")
     public ResponseEntity<Object> getApplications(@PathVariable(name = "id") long teacherId) {
-        return ResponseEntity.ok(lessonService.getApplicationsOfTeacher(teacherId));
+        return ResponseEntity.ok(teacherService.getApplications(teacherId));
     }
 
-    @DeleteMapping(path = "/lesson/unsubscribe")
-    public ResponseEntity<Object> unsubscribeLesson(@RequestParam("student_id") Long studentId,
-                                                    @RequestParam("teacher_id") Long teacherId) {
+    @DeleteMapping(path = "/{id}/unsubscribe")
+    public ResponseEntity<Object> unsubscribeLesson(@PathVariable("id") Long teacherId,
+                                                    @RequestParam("student_id") Long studentId) {
         lessonService.deleteLesson(studentId, teacherId);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping(path = "{teacher_id}/update_homework/{student_id}")
-    public ResponseEntity<Object> updateHomework(@PathVariable(name = "teacher_id") long teacherId,
-                                                 @PathVariable(name = "student_id") long studentId,
+    @PatchMapping(path = "{id}/update_homework")
+    public ResponseEntity<Object> updateHomework(@PathVariable(name = "id") long teacherId,
+                                                 @RequestParam(name = "student_id") long studentId,
                                                  @RequestBody Lesson lesson) {
-        lessonService.updateHomework(teacherId, studentId, lesson);
+        lessonService.updateHomework(studentId, teacherId, lesson);
         return ResponseEntity.noContent().build();
     }
 

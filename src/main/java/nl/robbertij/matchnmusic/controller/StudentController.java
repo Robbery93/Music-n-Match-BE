@@ -75,7 +75,12 @@ public class StudentController {
 
     @GetMapping(path = "/{id}/lesson")
     public ResponseEntity<Object> getLesson(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(studentService.getLessons(id));
+        return ResponseEntity.ok(studentService.getLesson(id));
+    }
+
+    @GetMapping(path = "{id}/applications")
+    public ResponseEntity<Object> getApplications(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(studentService.getApplications(id));
     }
 
     @DeleteMapping(path = "/{id}/unsubscribe")
@@ -85,12 +90,11 @@ public class StudentController {
         return ResponseEntity.noContent().build();
     }
 
-    // Probeersels
 
     @PostMapping(path = "/{id}/apply")
     public ResponseEntity<Object> applyForLesson(@PathVariable(name = "id") Long studentId,
                                                  @RequestParam(name = "teacher_id") Long teacherId) {
-        StudentTeacherKey newId = lessonService.createLesson(studentId, teacherId);
+        StudentTeacherKey newId = lessonService.applyForLesson(studentId, teacherId);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()

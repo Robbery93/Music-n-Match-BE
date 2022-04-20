@@ -33,4 +33,3 @@ VALUES (1, 1, TRUE, 'Voor vandaag heb je nog geen huiswerk. Goed gedaan vanmidda
        (1, 2, FALSE, null),
        (1, 5, FALSE, null),
        (2, 3, TRUE, 'Voor vandaag heb je nog geen huiswerk. Goed gedaan vanmiddag!');
-
