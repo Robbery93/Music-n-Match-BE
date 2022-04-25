@@ -54,7 +54,9 @@ public class StudentService {
         if (studentRepository.existsById(id)) {
 
             List<Lesson> allLessonsOfStudent = lessonRepository.findAllByStudentId(id);
-            lessonRepository.deleteAll(allLessonsOfStudent);
+            if (allLessonsOfStudent.size() > 0) {
+                lessonRepository.deleteAll(allLessonsOfStudent);
+            }
 
             studentRepository.deleteById(id);
         }

@@ -32,6 +32,9 @@ public class StudentRequestDto {
     @NotBlank
     private String preferenceForLessonType;
 
+    // For testing
+    public StudentRequestDto() {}
+
     // getters & setters
     public String getName() {
         return name;

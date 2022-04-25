@@ -39,6 +39,10 @@ public class TeacherRequestDto {
     @NotBlank
     private String preferenceForLessonType;
 
+    //for testing
+    public TeacherRequestDto() {
+    }
+
     // getters & setters
 
 
