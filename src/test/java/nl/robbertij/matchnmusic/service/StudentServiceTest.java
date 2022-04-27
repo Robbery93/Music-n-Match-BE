@@ -7,21 +7,23 @@ import nl.robbertij.matchnmusic.model.Lesson;
 import nl.robbertij.matchnmusic.model.Student;
 import nl.robbertij.matchnmusic.model.StudentTeacherKey;
 import nl.robbertij.matchnmusic.model.Teacher;
+import nl.robbertij.matchnmusic.repository.LessonRepository;
 import nl.robbertij.matchnmusic.repository.StudentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -35,6 +37,9 @@ class StudentServiceTest {
 
     @MockBean
     private StudentRepository studentRepository;
+
+    @MockBean
+    private LessonRepository lessonRepository;
 
     @Mock
     Student student;
@@ -67,24 +72,14 @@ class StudentServiceTest {
                 null
         );
 
-        teacher = new Teacher (
-                1L,
-                "Dirk",
-                "dirk@gmail.com",
-                "35",
-                "0698765432",
-                "Den Haag",
-                "piano",
-                "Hallooo",
-                "Super veel",
-                "live lessen",
-                null,
-                null
-        );
+        teacher = new Teacher();
+        teacher.setId(1L);
 
         key = new StudentTeacherKey(1L, 1L);
 
-        lesson = new Lesson(key, teacher, student, "Voor nu nog niks");
+
+        lesson = new Lesson(key, teacher, student);
+        lesson.setActive(true);
 
         studentRequestDto.setName("Hendrik");
         studentRequestDto.setEmail("hendrik@gmail.com");
@@ -98,7 +93,7 @@ class StudentServiceTest {
 
     @DisplayName("Test get Student by id")
     @Test
-    void testGetStudentById() {
+    void getStudentByIdTest() {
         long id = student.getId();
 
         when(studentRepository.findById(id))
@@ -120,6 +115,7 @@ class StudentServiceTest {
 
         studentService.deleteStudentById(id);
 
+        verify(studentRepository, times(1)).existsById(id);
         verify(studentRepository, times(1)).deleteById(id);
     }
 
@@ -155,18 +151,82 @@ class StudentServiceTest {
        assertEquals(expected, actual);
     }
 
+    @DisplayName("Update a Student")
     @Test
     void updateStudent() {
+        student.setName("Pietertje");
 
+        when(studentRepository.findById(1L)).thenReturn(Optional.ofNullable(student));
+        assertThat(student.getName()).isEqualTo("Pietertje");
+        assertThat(student.getEmail()).isEqualTo("robbertijpelaar93@gmail.com");
+
+        studentService.updateStudent(1L, student);
+
+        verify(studentRepository, times(1)).save(student);
+
+        when(studentRepository.findById(1L)).thenReturn(Optional.ofNullable(student));
+
+        Student found = studentService.getStudentById(1L);
+
+        assertEquals("Piertertje", found.getName());
     }
 
+    @DisplayName("Partially update Student")
     @Test
     void partialUpdateStudent() {
+        student.setName("Pietertje");
+        student.setEmail("pietertje@gmail.com");
+        student.setPreferenceForLessonType("Videolessen");
+
+        when(studentRepository.findById(1L)).thenReturn(Optional.ofNullable(student));
+
+        studentService.partialUpdateStudent(1L, student);
+
+        verify(studentRepository, times(1)).save(student);
+
+        when(studentRepository.findById(1L)).thenReturn(Optional.ofNullable(student));
+
+        Student found = studentService.getStudentById(1L);
+
+        assertEquals("Pietertje", found.getName());
+        assertEquals("pietertje@gmail.com", found.getEmail());
+        assertEquals("Videolessen", found.getPreferenceForLessonType());
     }
 
+    @DisplayName("Should return active lesson")
     @Test
     void getLessons() {
+        long id = student.getId();
+        List<Lesson> lessons = new ArrayList<>();
+        lessons.add(lesson);
 
+        when(studentRepository.findById(id)).thenReturn(Optional.ofNullable(student));
+        when(lessonRepository.findAllByStudentId(id)).thenReturn(lessons);
+
+        student.setLesson(lessons);
+
+        List<Lesson> foundLesson = studentService.getLesson(id);
+
+        assertEquals(foundLesson, lessons);
+    }
+
+    @DisplayName("Should return no applications")
+    @Test
+    void getApplications() {
+        long id = student.getId();
+        List<Lesson> applications = new ArrayList<>();
+        applications.add(lesson);
+        when(studentRepository.findById(id)).thenReturn(Optional.ofNullable(student));
+        when(lessonRepository.findAllByStudentId(id)).thenReturn(applications);
+
+        student.setApplications(applications);
+
+        List<Lesson> foundApplications = studentService.getApplications(id);
+
+        int expectedNumberOfApplications = 0;
+        int actualNumberOfApplications = foundApplications.size();
+
+        assertEquals(expectedNumberOfApplications, actualNumberOfApplications);
     }
 
     @Test

@@ -45,10 +45,8 @@ public class TeacherService {
 
     public void deleteTeacher(Long id) {
         if(teacherRepository.existsById(id)) {
-
             List<Lesson> allLessonsOfTeacher = lessonRepository.findAllByTeacherId(id);
             lessonRepository.deleteAll(allLessonsOfTeacher);
-
             teacherRepository.deleteById(id);
         }
         else {

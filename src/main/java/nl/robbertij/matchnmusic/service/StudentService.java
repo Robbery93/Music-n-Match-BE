@@ -23,7 +23,7 @@ public class StudentService {
     private LessonRepository lessonRepository;
 
 
-    public Iterable<Student> getStudents(String instrument, String name, String preference){
+    public List<Student> getStudents(String instrument, String name, String preference){
 
         if (!instrument.isEmpty()) {
             return studentRepository.findAllByInstrument(instrument);
@@ -54,9 +54,7 @@ public class StudentService {
         if (studentRepository.existsById(id)) {
 
             List<Lesson> allLessonsOfStudent = lessonRepository.findAllByStudentId(id);
-            if (allLessonsOfStudent.size() > 0) {
                 lessonRepository.deleteAll(allLessonsOfStudent);
-            }
 
             studentRepository.deleteById(id);
         }

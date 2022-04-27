@@ -29,17 +29,16 @@ public class Lesson {
     private boolean active = false;
 
     @Column(length = 4000)
-    private String homework;
+    private String homework = "";
 
     // constructor
     public Lesson() {
     }
 
-    public Lesson(StudentTeacherKey id, Teacher teacher, Student student, String homework) {
+    public Lesson(StudentTeacherKey id, Teacher teacher, Student student) {
         this.id = id;
         this.teacher = teacher;
         this.student = student;
-        this.homework = homework;
     }
 
     // getters and setters

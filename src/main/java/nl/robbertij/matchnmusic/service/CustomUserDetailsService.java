@@ -5,6 +5,7 @@ import nl.robbertij.matchnmusic.exception.UserNotFoundException;
 import nl.robbertij.matchnmusic.model.Authority;
 import nl.robbertij.matchnmusic.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

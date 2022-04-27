@@ -182,6 +182,10 @@ public class Teacher {
         return activeLessons;
     }
 
+    public void setLessons(List<Lesson> lessons) {
+        this.lessons = lessons;
+    }
+
     public List<Lesson> getApplications() {
         List<Lesson> allApplications = new ArrayList<>();
         for (Lesson lesson : applications) {
