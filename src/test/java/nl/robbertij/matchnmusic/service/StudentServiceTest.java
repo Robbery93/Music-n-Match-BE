@@ -21,6 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -43,6 +44,13 @@ class StudentServiceTest {
 
     @Mock
     Student student;
+    @Mock
+    Student student2;
+    @Mock
+    Student student3;
+    @Mock
+    Student student4;
+
 
     @Mock
     Teacher teacher;
@@ -71,6 +79,20 @@ class StudentServiceTest {
                 null,
                 null
         );
+        student2 = new Student();
+        student2.setName("Chris");
+        student2.setInstrument("guitar");
+        student2.setPreferenceForLessonType("Live lessen");
+
+        student3 = new Student();
+        student3.setName("Paultje");
+        student3.setInstrument("piano");
+        student3.setPreferenceForLessonType("Online");
+
+        student4 = new Student();
+        student3.setName("Arie");
+        student3.setInstrument("keyboard");
+        student3.setPreferenceForLessonType("Online");
 
         teacher = new Teacher();
         teacher.setId(1L);
@@ -91,9 +113,95 @@ class StudentServiceTest {
         studentRequestDto.setPreferenceForLessonType("Live lessen");
     }
 
+    @DisplayName("Test get all Students given no parameters")
+    @Test
+    void getStudents() {
+        List<Student> students = new ArrayList<>();
+        students.add(student);
+        students.add(student2);
+        students.add(student3);
+        students.add(student4);
+
+        when(studentRepository.findAll()).thenReturn(students);
+
+        List<Student> found = studentService.getStudents("", "", "");
+
+        int expected = 4;
+        int actual = found.size();
+
+        assertEquals(expected, actual);
+    }
+
+    @DisplayName("Test get all Students given instrument parameter")
+    @Test
+    void givenInstrument_thenReturnStudentsOfGivenInstrument() {
+        List<Student> students = new ArrayList<>();
+        students.add(student);
+        students.add(student2);
+        students.add(student3);
+        students.add(student4);
+
+        students.removeIf(student -> !Objects.equals(student.getInstrument(), "guitar"));
+
+        when(studentRepository.findAllByInstrument("guitar")).thenReturn(students);
+
+        List<Student> found = studentService.getStudents("guitar", "", "");
+
+        int expected = 2;
+        int actual = found.size();
+
+        assertEquals(expected, actual);
+    }
+
+    @DisplayName("Test get all Students given name parameter")
+    @Test
+    void givenName_thenReturnStudentsOfGivenName() {
+        List<Student> students = new ArrayList<>();
+        students.add(student);
+        students.add(student2);
+        students.add(student3);
+        students.add(student4);
+
+        students.removeIf(student -> !Objects.equals(student.getName(), "Arie"));
+
+        when(studentRepository.findAllByNameIgnoreCase("aRie")).thenReturn(students);
+
+        List<Student> found = studentService.getStudents("", "aRie", "");
+
+        int expectedSize = 1;
+        int actualSize = found.size();
+
+        String expectedName = "Arie";
+        String actualName = found.get(0).getName();
+
+        assertEquals(expectedSize, actualSize);
+        assertEquals(expectedName, actualName);
+    }
+
+    @DisplayName("Test get all Students given preference parameter")
+    @Test
+    void givenPreference_thenReturnStudentsOfGivenPreference() {
+        List<Student> students = new ArrayList<>();
+        students.add(student);
+        students.add(student2);
+        students.add(student3);
+        students.add(student4);
+
+        students.removeIf(student -> !Objects.equals(student.getPreferenceForLessonType(), "Live lessen"));
+
+        when(studentRepository.findAllByPreferenceForLessonType("Live lessen")).thenReturn(students);
+
+        List<Student> found = studentService.getStudents("", "", "Live lessen");
+
+        int expectedSize = 2;
+        int actualSize = found.size();
+
+        assertEquals(expectedSize, actualSize);
+    }
+
     @DisplayName("Test get Student by id")
     @Test
-    void getStudentByIdTest() {
+    void getStudentById() {
         long id = student.getId();
 
         when(studentRepository.findById(id))
@@ -108,7 +216,7 @@ class StudentServiceTest {
 
     @DisplayName("Delete Student by id")
     @Test
-    void deleteStudentTest() {
+    void deleteStudent() {
         long id = student.getId();
 
         when(studentRepository.existsById(id)).thenReturn(true);
@@ -168,7 +276,7 @@ class StudentServiceTest {
 
         Student found = studentService.getStudentById(1L);
 
-        assertEquals("Piertertje", found.getName());
+        assertEquals("Pietertje", found.getName());
     }
 
     @DisplayName("Partially update Student")
