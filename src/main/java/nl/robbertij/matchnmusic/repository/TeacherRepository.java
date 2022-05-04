@@ -8,6 +8,6 @@ import java.util.List;
 public interface TeacherRepository extends JpaRepository<Teacher, Long> {
 
     List<Teacher> findAllByEmail(String email);
-    List<Teacher> findAllByInstrumentsContainingIgnoreCase(String instrument);
+    List<Teacher> findAllByInstrumentsEqualsIgnoreCase(String instrument);
     List<Teacher> findAllByPreferenceForLessonType(String preference);
 }

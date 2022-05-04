@@ -1,10 +1,7 @@
 package nl.robbertij.matchnmusic.service;
 
 import nl.robbertij.matchnmusic.dto.request.UserPostRequestDto;
-import nl.robbertij.matchnmusic.exception.BadRequestException;
-import nl.robbertij.matchnmusic.exception.InvalidPasswordException;
-import nl.robbertij.matchnmusic.exception.NotAuthorizedException;
-import nl.robbertij.matchnmusic.exception.UserNotFoundException;
+import nl.robbertij.matchnmusic.exception.*;
 import nl.robbertij.matchnmusic.model.Authority;
 import nl.robbertij.matchnmusic.model.User;
 import nl.robbertij.matchnmusic.repository.UserRepository;
@@ -39,45 +36,24 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<User> getUser(String username) {
-        return userRepository.findById(username);
-    }
-
-    public String createUser(UserPostRequestDto userPostRequestDto) {
-        try {
-            String encryptedPassword = passwordEncoder.encode(userPostRequestDto.getPassword());
-
-            User user = new User();
-            user.setPassword(encryptedPassword);
-            user.setEnabled(true);
-            user.addAuthority("ROLE_USER");
-            for (String s : userPostRequestDto.getAuthorities()) {
-                if (!s.startsWith("ROLE_")) {
-                    s = "ROLE_" + s;
-                }
-                s = s.toUpperCase();
-                if (!s.equals("ROLE_USER")) {
-                    user.addAuthority(s);
-                }
-            }
-
-            User newUser = userRepository.save(user);
-            return newUser.getUsername();
-        } catch (Exception ex) {
-            throw new BadRequestException("Cannot create user.");
+    public User getUser(String username) {
+        Optional<User> user = userRepository.findById(username);
+        if(user.isPresent()) {
+            return user.get();
+        }
+        else {
+            throw new UserNotFoundException("User does not exist");
         }
     }
 
     public String createStudent(UserPostRequestDto userPostRequest) {
         try {
             String encryptedPassword = passwordEncoder.encode(userPostRequest.getPassword());
-
             User student = new User();
             student.setUsername(userPostRequest.getUsername());
             student.setPassword(encryptedPassword);
             student.setEnabled(true);
             student.addAuthority("ROLE_STUDENT");
-
             User newUser = userRepository.save(student);
             return newUser.getUsername();
         }
@@ -139,12 +115,12 @@ public class UserService {
     }
 
     public void addAuthority(String username, String authorityString) {
-        Optional<User> userOptional = userRepository.findById(username);
-        if (userOptional.isEmpty()) {
+        Optional<User> optionalUser = userRepository.findById(username);
+        if (optionalUser.isEmpty()) {
             throw new UserNotFoundException(username);
         }
         else {
-            User user = userOptional.get();
+            User user = optionalUser.get();
             user.addAuthority("ROLE_" + authorityString.toUpperCase());
             userRepository.save(user);
         }

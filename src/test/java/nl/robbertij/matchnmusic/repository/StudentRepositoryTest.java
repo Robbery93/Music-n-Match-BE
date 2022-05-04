@@ -30,7 +30,6 @@ public class StudentRepositoryTest {
         String actual = found.get(0).getName();
 
         assertEquals(expected, actual);
-
     }
 
     @DisplayName("Find by email address")
@@ -42,6 +41,7 @@ public class StudentRepositoryTest {
         String actual = found.get(0).getEmail();
 
         assertEquals(expected, actual);
+        assertEquals(1, found.size());
     }
 
     @DisplayName("Find all by instrument")

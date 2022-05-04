@@ -1,8 +1,6 @@
 //package nl.robbertij.matchnmusic.controller;
 //
-//import nl.robbertij.matchnmusic.MatchNMusicApplication;
 //import nl.robbertij.matchnmusic.model.Student;
-//import nl.robbertij.matchnmusic.service.CustomUserDetailsService;
 //import nl.robbertij.matchnmusic.service.StudentService;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.DisplayName;
@@ -11,15 +9,15 @@
 //import org.mockito.Mock;
 //import org.mockito.Mockito;
 //import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.context.properties.EnableConfigurationProperties;
+//import org.springframework.boot.jdbc.DataSourceBuilder;
 //import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-//import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.boot.test.mock.mockito.MockBean;
+//import org.springframework.context.annotation.Bean;
 //import org.springframework.http.MediaType;
-//import org.springframework.test.context.ContextConfiguration;
 //import org.springframework.test.context.junit.jupiter.SpringExtension;
 //import org.springframework.test.web.servlet.MockMvc;
 //
+//import javax.sql.DataSource;
 //import java.util.ArrayList;
 //import java.util.List;
 //
@@ -37,9 +35,6 @@
 //
 //    @MockBean
 //    private StudentService mockService;
-//
-//    @MockBean
-//    private CustomUserDetailsService customUserDetailsService;
 //
 //    @Mock
 //    List<Student> allStudents = new ArrayList<>();
@@ -91,6 +86,15 @@
 //        allStudents.add(student1);
 //        allStudents.add(student2);
 //    }
+//
+//    @Bean // Moest toegevoegd worden om de controller te testen, data uit applicitation.properties pakt de testomgeving niet
+//     public DataSource getDataSource() {  DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
+//     dataSourceBuilder.url("jdbc:postgresql://localhost:5432/MatchNMusic");
+//     dataSourceBuilder.username("springboot");
+//     dataSourceBuilder.password("springboot");
+//     dataSourceBuilder.driverClassName("org.postgresql.Driver");
+//     return dataSourceBuilder.build();
+//     }
 //
 //    @DisplayName("Should return all Students")
 //    @Test

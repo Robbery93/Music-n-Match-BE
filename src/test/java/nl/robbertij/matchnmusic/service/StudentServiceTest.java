@@ -90,9 +90,9 @@ class StudentServiceTest {
         student3.setPreferenceForLessonType("Online");
 
         student4 = new Student();
-        student3.setName("Arie");
-        student3.setInstrument("keyboard");
-        student3.setPreferenceForLessonType("Online");
+        student4.setName("Arie");
+        student4.setInstrument("keyboard");
+        student4.setPreferenceForLessonType("Online");
 
         teacher = new Teacher();
         teacher.setId(1L);
@@ -151,6 +151,8 @@ class StudentServiceTest {
         int actual = found.size();
 
         assertEquals(expected, actual);
+        assertTrue(found.contains(student));
+        assertFalse(found.contains(student4));
     }
 
     @DisplayName("Test get all Students given name parameter")

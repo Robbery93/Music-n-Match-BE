@@ -21,6 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -43,6 +44,12 @@ class TeacherServiceTest {
 
     @Mock
     Teacher teacher;
+    @Mock
+    Teacher teacher2;
+    @Mock
+    Teacher teacher3;
+    @Mock
+    Teacher teacher4;
 
     @Mock
     Student student1;
@@ -94,10 +101,22 @@ class TeacherServiceTest {
                 "piano",
                 "Hallooo",
                 "Super veel",
-                "live lessen",
+                "Live lessen",
                 null,
                 null
         );
+
+        teacher2 = new Teacher();
+        teacher2.setInstruments("piano");
+        teacher2.setPreferenceForLessonType("Videolessen");
+
+        teacher3 = new Teacher();
+        teacher3.setInstruments("guitar");
+        teacher3.setPreferenceForLessonType("Videolessen");
+
+        teacher4 = new Teacher();
+        teacher4.setInstruments("keyboard");
+        teacher4.setPreferenceForLessonType("Live lessen");
 
         student1.setId(1L);
         student2.setId(2L);
@@ -136,6 +155,62 @@ class TeacherServiceTest {
         teacherRequestDto.setDescription("Hallo, ik ben Rosa");
         teacherRequestDto.setExperience("Ik kan heel goed piano spelen");
         teacherRequestDto.setPreferenceForLessonType("Live lessen");
+    }
+
+    @DisplayName("Get all Teachers given no parameters")
+    @Test
+    void getTeachers() {
+        List<Teacher> teachers = new ArrayList<>();
+        teachers.add(teacher);
+        teachers.add(teacher2);
+        teachers.add(teacher3);
+        teachers.add(teacher4);
+
+        when(teacherRepository.findAll()).thenReturn(teachers);
+
+        List<Teacher> found = teacherService.getTeachers("", "");
+
+        assertEquals(4, found.size());
+    }
+
+    @DisplayName("Get all teachers given instrument parameter")
+    @Test
+    void givenInstrument_thenReturnTeachersOfGivenInstrument() {
+        List<Teacher> teachers = new ArrayList<>();
+        teachers.add(teacher);
+        teachers.add(teacher2);
+        teachers.add(teacher3);
+        teachers.add(teacher4);
+
+        teachers.removeIf(teacher -> !Objects.equals(teacher.getInstruments(), "piano"));
+
+        when(teacherRepository.findAllByInstrumentsEqualsIgnoreCase("piano")).thenReturn(teachers);
+
+        List<Teacher> found = teacherService.getTeachers("piano", "");
+
+        assertEquals(2, found.size());
+        assertTrue(found.contains(teacher));
+        assertFalse(found.contains(teacher4));
+    }
+
+    @DisplayName("Get all Teachers given preference parameter")
+    @Test
+    void givenPreference_thenReturnTeachersOfGivenPreference() {
+        List<Teacher> teachers = new ArrayList<>();
+        teachers.add(teacher);
+        teachers.add(teacher2);
+        teachers.add(teacher3);
+        teachers.add(teacher4);
+
+        teachers.removeIf(teacher -> !Objects.equals(teacher.getPreferenceForLessonType(), "Videolessen"));
+
+        when(teacherRepository.findAllByPreferenceForLessonType("Videolessen")).thenReturn(teachers);
+
+        List<Teacher> found = teacherService.getTeachers("", "Videolessen");
+
+        assertEquals(2, found.size());
+        assertTrue(found.contains(teacher2));
+        assertFalse(found.contains(teacher));
     }
 
     @DisplayName("Get Teacher by id")

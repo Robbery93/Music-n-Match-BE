@@ -18,6 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,27 +35,28 @@ class LessonServiceTest {
 
     @MockBean
     private LessonRepository lessonRepository;
-
     @MockBean
     private StudentRepository studentRepository;
-
     @MockBean
     private TeacherRepository teacherRepository;
 
     @Mock
-    Student student;
+    private Student student;
+    @Mock
+    private Student student2;
 
     @Mock
-    Student student2;
+    private Teacher teacher;
 
     @Mock
-    Teacher teacher;
+    private StudentTeacherKey key;
+    @Mock
+    private StudentTeacherKey key2;
 
     @Mock
-    StudentTeacherKey key;
-
+    private Lesson lesson;
     @Mock
-    Lesson lesson;
+    private Lesson lesson2;
 
     @BeforeEach
     void setup() {
@@ -69,13 +72,25 @@ class LessonServiceTest {
         key.setStudentId(student.getId());
         key.setTeacherId(teacher.getId());
 
+        key2 = new StudentTeacherKey();
+        key2.setStudentId(student2.getId());
+        key2.setTeacherId(teacher.getId());
+
+        // active Lesson
         lesson = new Lesson();
         lesson.setId(key);
         lesson.setStudent(student);
         lesson.setTeacher(teacher);
         lesson.setHomework("Er is nog veel werk aan de winkel.");
+
+//        // application
+        lesson2 = new Lesson();
+        lesson2.setId(key2);
+        lesson2.setStudent(student2);
+        lesson2.setTeacher(teacher);
     }
 
+    @DisplayName("Get Lesson by Id")
     @Test
     void getLessonById() {
         StudentTeacherKey id = lesson.getId();
@@ -112,7 +127,7 @@ class LessonServiceTest {
 
     @DisplayName("Create a new Lesson (as an application)")
     @Test
-    void createLesson() {
+    void applyForLesson() {
         long teacherId = teacher.getId();
         long studentId = student2.getId();
 
@@ -135,11 +150,29 @@ class LessonServiceTest {
         assertEquals(teacher, found.getTeacher());
     }
 
+    @DisplayName("Update homework of existing Lesson, or activate Lesson by adding homework")
     @Test
     void updateHomework() {
-        StudentTeacherKey id = lesson.getId();
+        Long studentId = student.getId();
+        Long teacherId = teacher.getId();
+        StudentTeacherKey lessonId = lesson.getId();
 
-        when(lessonRepository.existsById(id)).thenReturn(true);
-        when(lessonRepository.findById(id)).thenReturn(Optional.ofNullable(lesson));
+        List<Lesson> allLessons = new ArrayList<>();
+        allLessons.add(lesson);
+        allLessons.add(lesson2);
+
+        when(lessonRepository.existsById(lessonId)).thenReturn(true);
+        when(lessonRepository.findById(lessonId)).thenReturn(Optional.ofNullable(lesson));
+        when(lessonRepository.findAllByStudentId(studentId)).thenReturn(allLessons);
+
+        assertEquals("Er is nog veel werk aan de winkel.", lesson.getHomework());
+
+        lesson.setHomework("Dit is weer een nieuwe les");
+        lessonService.updateHomework(studentId, teacherId, lesson);
+
+        verify(lessonRepository, times(1)).delete(lesson2);
+        verify(lessonRepository, times(1)).save(lesson);
+
+        assertEquals("Dit is weer een nieuwe les", lesson.getHomework());
     }
 }

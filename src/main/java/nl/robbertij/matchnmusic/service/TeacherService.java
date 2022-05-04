@@ -22,14 +22,16 @@ public class TeacherService {
     @Autowired
     private LessonRepository lessonRepository;
 
-    public Iterable<Teacher> getTeachers(String instrument, String preference){
-        if(instrument != null){
-            return teacherRepository.findAllByInstrumentsContainingIgnoreCase(instrument);
+    public List<Teacher> getTeachers(String instrument, String preference){
+        if(!instrument.isEmpty()){
+            return teacherRepository.findAllByInstrumentsEqualsIgnoreCase(instrument);
         }
-        if(preference != null){
+        if(!preference.isEmpty()){
             return teacherRepository.findAllByPreferenceForLessonType(preference);
         }
-        return teacherRepository.findAll();
+        else {
+            return teacherRepository.findAll();
+        }
     }
 
     public Teacher getTeacher(Long id) {

@@ -1,11 +1,9 @@
 package nl.robbertij.matchnmusic.service;
 
-
 import nl.robbertij.matchnmusic.exception.UserNotFoundException;
 import nl.robbertij.matchnmusic.model.Authority;
 import nl.robbertij.matchnmusic.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        Optional<User> user = userService.getUser(username);
+        Optional<User> user = Optional.ofNullable(userService.getUser(username));
 
         if (user == null) {
             throw new UserNotFoundException(username);

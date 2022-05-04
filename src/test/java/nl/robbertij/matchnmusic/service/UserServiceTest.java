@@ -1,52 +1,110 @@
 package nl.robbertij.matchnmusic.service;
 
+import nl.robbertij.matchnmusic.MatchNMusicApplication;
+import nl.robbertij.matchnmusic.model.Authority;
+import nl.robbertij.matchnmusic.model.User;
+import nl.robbertij.matchnmusic.repository.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ContextConfiguration;
 
+import java.util.*;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
+@SpringBootTest
+@ContextConfiguration(classes = {MatchNMusicApplication.class})
+@EnableConfigurationProperties
 class UserServiceTest {
 
-    @Test
-    void getUsers() {
+    @Autowired
+    private UserService userService;
+
+    @MockBean
+    private UserRepository userRepository;
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
+    @Mock
+    private User user;
+    @Mock
+    private Authority authority;
+    @Mock
+    private Set<Authority> authorities;
+
+    @BeforeEach
+    void setup() {
+
+        authority = new Authority("Robbery93", "ROLE_USER");
+        authorities = new HashSet<>();
+        authorities.add(authority);
+        String encryptedPassword = passwordEncoder.encode("password");
+
+        user = new User();
+        user.setUsername("Robbery93");
+        user.setPassword(encryptedPassword);
+        user.setEnabled(true);
+        user.setAuthorities(authorities);
     }
 
+    @DisplayName("Get User by username")
     @Test
     void getUser() {
+        when(userRepository.findById(user.getUsername())).thenReturn(Optional.ofNullable(user));
+
+        User found = userService.getUser("Robbery93");
+
+        assertEquals(user.getUsername(), found.getUsername());
     }
 
-    @Test
-    void createUser() {
-    }
-
-    @Test
-    void createStudent() {
-    }
-
-    @Test
-    void createTeacher() {
-    }
-
+    @DisplayName("Delete user by Id")
     @Test
     void deleteUser() {
+        String username = user.getUsername();
+
+        when(userRepository.existsById(username)).thenReturn(true);
+
+        userService.deleteUser(username);
+
+        verify(userRepository, times(1)).deleteById(username);
     }
 
-    @Test
-    void updateUser() {
-    }
-
+    @DisplayName("Get Authorities of User by username")
     @Test
     void getAuthorities() {
+        String username = user.getUsername();
+
+        when(userRepository.findById(username)).thenReturn(Optional.ofNullable(user));
+
+        Set<Authority> expected = user.getAuthorities();
+        Set<Authority> actual = userService.getAuthorities(username);
+
+        assertEquals(expected, actual);
     }
 
+    @DisplayName("Add Authority to authorities")
     @Test
     void addAuthority() {
+        String username = user.getUsername();
+
+        when(userRepository.findById(username)).thenReturn(Optional.ofNullable(user));
+        when(userRepository.save(any(User.class))).thenReturn(user);
+
+        userService.addAuthority(username, "random");
+
+        Set<Authority> foundAuthorities = user.getAuthorities();
+
+        assertEquals(2, foundAuthorities.size());
     }
 
-    @Test
-    void removeAuthority() {
-    }
 
-    @Test
-    void setPassword() {
-    }
 }

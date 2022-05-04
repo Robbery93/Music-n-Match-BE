@@ -33,18 +33,18 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUser(username));
     }
 
-    @PostMapping(value = "")
-    public ResponseEntity<Object> createUser(@RequestBody UserPostRequestDto userPostRequestDto) {
-        String newUsername = userService.createUser(userPostRequestDto);
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{username}")
-                .buildAndExpand(newUsername)
-                .toUri();
-
-        return ResponseEntity.created(location).build();
-    }
+//    @PostMapping(value = "")
+//    public ResponseEntity<Object> createUser(@RequestBody UserPostRequestDto userPostRequestDto) {
+//        String newUsername = userService.createUser(userPostRequestDto);
+//
+//        URI location = ServletUriComponentsBuilder
+//                .fromCurrentRequest()
+//                .path("/{username}")
+//                .buildAndExpand(newUsername)
+//                .toUri();
+//
+//        return ResponseEntity.created(location).build();
+//    }
 
     @PostMapping(value = "/student")
     public ResponseEntity<Object> createStudent(@RequestBody UserPostRequestDto userPostRequestDto) {
