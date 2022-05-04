@@ -5,13 +5,10 @@ import nl.robbertij.matchnmusic.model.Student;
 import nl.robbertij.matchnmusic.model.StudentTeacherKey;
 import nl.robbertij.matchnmusic.service.LessonService;
 import nl.robbertij.matchnmusic.service.StudentService;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.sql.DataSource;
 import javax.validation.Valid;
 import java.net.URI;
 
@@ -29,7 +26,7 @@ public class StudentController {
 
     // Endpoints for students
 
-    @GetMapping
+    @GetMapping(path = "")
     public ResponseEntity<Object> getStudents(@RequestParam(name = "instrument", defaultValue = "") String instrument,
                                               @RequestParam(name = "name", defaultValue = "") String name,
                                               @RequestParam(name = "pref", defaultValue = "") String preference) {

@@ -1,7 +1,11 @@
 //package nl.robbertij.matchnmusic.controller;
 //
+//import nl.robbertij.matchnmusic.MatchNMusicApplication;
+//import nl.robbertij.matchnmusic.dto.request.StudentRequestDto;
 //import nl.robbertij.matchnmusic.model.Student;
+//import nl.robbertij.matchnmusic.service.CustomUserDetailsService;
 //import nl.robbertij.matchnmusic.service.StudentService;
+//import nl.robbertij.matchnmusic.utils.JwtUtil;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.DisplayName;
 //import org.junit.jupiter.api.Test;
@@ -10,6 +14,7 @@
 //import org.mockito.Mockito;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.jdbc.DataSourceBuilder;
+//import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 //import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 //import org.springframework.boot.test.mock.mockito.MockBean;
 //import org.springframework.context.annotation.Bean;
@@ -22,84 +27,61 @@
 //import java.util.List;
 //
 //import static org.hamcrest.Matchers.hasSize;
+//import static org.mockito.Mockito.when;
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 //import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 //import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 //
 //@ExtendWith(SpringExtension.class)
-//@WebMvcTest(StudentController.class)
+//@WebMvcTest(MatchNMusicApplication.class)
+//@AutoConfigureMockMvc(addFilters = false)
 //class StudentControllerTest {
 //
 //    @Autowired
-//    private MockMvc mockMvc;
+//    public MockMvc mockMvc;
 //
 //    @MockBean
-//    private StudentService mockService;
+//    public StudentService mockService;
+//
+//    @MockBean
+//    public JwtUtil jwtUtil;
+//    @MockBean
+//    public CustomUserDetailsService customUserDetailsService;
+//    @MockBean
+//    public StudentController studentController;
 //
 //    @Mock
-//    List<Student> allStudents = new ArrayList<>();
+//    public Student student;
+//    @Mock
+//    public Student student2;
+//    @Mock
+//    public Student student3;
+//    @Mock
+//    public List<Student> students;
 //
 //    @BeforeEach
 //    void setup() {
-//        Student student = new Student(
-//                1L,
-//                "Robbert",
-//                "robbertijpelaar93@gmail.com",
-//                "28",
-//                "0655751563",
-//                "Rotterdam",
-//                "guitar",
-//                "Ik wil een hoop dingen leren",
-//                "Live lessen",
-//                null,
-//                null
-//        );
-//        Student student1 = new Student(
-//                2L,
-//                "Bas",
-//                "bas@gmail.com",
-//                "16",
-//                "0673649120",
-//                "Rotterdam",
-//                "guitar",
-//                "Ik wil graag gitaar leren spelen",
-//                "Videolessen",
-//                null,
-//                null
-//        );
+//        student = new Student();
+//        student.setId(1L);
+//        student.setName("Robbert");
+//        student2 = new Student();
+//        student2.setId(2L);
+//        student2.setName("Anna");
+//        student3 = new Student();
+//        student3.setId(3L);
+//        student3.setName("Brian");
 //
-//        Student student2 = new Student(
-//                3L,
-//                "Anna",
-//                "anna@gmail.com",
-//                "24",
-//                "Den Haag",
-//                "0673649120",
-//                "singing",
-//                "Ik wil graag gitaar leren spelen",
-//                "Videolessen",
-//                null,
-//                null
-//        );
+//        students = new ArrayList<>();
 //
-//        allStudents.add(student);
-//        allStudents.add(student1);
-//        allStudents.add(student2);
+//        students.add(student);
+//        students.add(student2);
+//        students.add(student2);
 //    }
-//
-//    @Bean // Moest toegevoegd worden om de controller te testen, data uit applicitation.properties pakt de testomgeving niet
-//     public DataSource getDataSource() {  DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-//     dataSourceBuilder.url("jdbc:postgresql://localhost:5432/MatchNMusic");
-//     dataSourceBuilder.username("springboot");
-//     dataSourceBuilder.password("springboot");
-//     dataSourceBuilder.driverClassName("org.postgresql.Driver");
-//     return dataSourceBuilder.build();
-//     }
 //
 //    @DisplayName("Should return all Students")
 //    @Test
 //    void getAllStudentsTest() throws Exception {
-//        Mockito.when(mockService.getStudents(null, null, null)).thenReturn(allStudents);
+//        when(mockService.getStudents()).thenReturn(students);
 //
 //        mockMvc.perform(get("/students")
 //                .contentType(MediaType.APPLICATION_JSON))
@@ -114,7 +96,14 @@
 //    }
 //
 //    @Test
-//    void getStudent() {
+//    void getStudent() throws Exception {
+//        long id = student.getId();
+//        when(mockService.getStudentById(id)).thenReturn(student);
+//
+//        mockMvc.perform(get("/students/{id}",1)
+//                .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$", hasSize(1)));
 //    }
 //
 //    @Test

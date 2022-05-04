@@ -8,6 +8,9 @@ public class UserPostRequestDto {
     private String password;
     private Set<String> authorities;
 
+    public UserPostRequestDto() {
+    }
+
     public String getUsername() {
         return username;
     }

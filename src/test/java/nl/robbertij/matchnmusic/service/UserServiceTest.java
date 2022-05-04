@@ -1,6 +1,7 @@
 package nl.robbertij.matchnmusic.service;
 
 import nl.robbertij.matchnmusic.MatchNMusicApplication;
+import nl.robbertij.matchnmusic.dto.request.UserPostRequestDto;
 import nl.robbertij.matchnmusic.model.Authority;
 import nl.robbertij.matchnmusic.model.User;
 import nl.robbertij.matchnmusic.repository.UserRepository;
@@ -78,6 +79,45 @@ class UserServiceTest {
         verify(userRepository, times(1)).deleteById(username);
     }
 
+    @DisplayName("Create a new User with student role")
+    @Test
+    void createStudent() {
+        UserPostRequestDto requestDto = new UserPostRequestDto();
+        requestDto.setUsername("Robbert");
+        requestDto.setPassword("Wachtwoord123!");
+
+        String username = user.getUsername();
+
+        when(userRepository.findById(username)).thenReturn(Optional.of(user));
+        when(userRepository.save(any(User.class))).thenReturn(user);
+
+        String usernameOfNewUser = userService.createStudent(requestDto);
+
+        User found = userService.getUser(usernameOfNewUser);
+
+        assertThat(usernameOfNewUser).isSameAs(found.getUsername());
+    }
+
+    @DisplayName("Create a new User with student role")
+    @Test
+    void createTeacher() {
+        UserPostRequestDto requestDto = new UserPostRequestDto();
+        requestDto.setUsername("Robbert");
+        requestDto.setPassword("Wachtwoord123!");
+
+        String username = user.getUsername();
+
+        when(userRepository.findById(username)).thenReturn(Optional.of(user));
+        when(userRepository.save(any(User.class))).thenReturn(user);
+
+        String usernameOfNewUser = userService.createTeacher(requestDto);
+
+        User found = userService.getUser(usernameOfNewUser);
+
+        assertThat(usernameOfNewUser).isSameAs(found.getUsername());
+    }
+
+
     @DisplayName("Get Authorities of User by username")
     @Test
     void getAuthorities() {
@@ -106,5 +146,18 @@ class UserServiceTest {
         assertEquals(2, foundAuthorities.size());
     }
 
+    @DisplayName("Remove Authority")
+    @Test
+    void removeAuthority() {
+        String username = user.getUsername();
 
+        when(userRepository.findById(username)).thenReturn(Optional.ofNullable(user));
+        when(userRepository.save(any(User.class))).thenReturn(user);
+
+        userService.removeAuthority(username, "ROLE_USER");
+
+        Set<Authority> foundAuthorities = user.getAuthorities();
+
+        assertEquals(0, foundAuthorities.size());
+    }
 }
