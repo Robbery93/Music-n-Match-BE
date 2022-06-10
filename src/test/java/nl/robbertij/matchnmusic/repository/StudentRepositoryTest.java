@@ -58,9 +58,9 @@ public class StudentRepositoryTest {
     @DisplayName("Find all by preference")
     @Test
     void whenFindAllByPreferenceForLessonType_theReturnStudentMatchingPreference() {
-        List<Student> found = studentRepository.findAllByPreferenceForLessonType("Videolessen");
+        List<Student> found = studentRepository.findAllByInstrumentAndPreferenceForLessonType("Gitaar","Videolessen");
 
-        int expectedSize = 4;
+        int expectedSize = 2;
         int actualSize = found.size();
 
         assertEquals(expectedSize, actualSize);

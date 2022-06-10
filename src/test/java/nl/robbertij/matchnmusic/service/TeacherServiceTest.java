@@ -104,18 +104,19 @@ class TeacherServiceTest {
                 "Live lessen",
                 null,
                 null
+//                null
         );
 
         teacher2 = new Teacher();
-        teacher2.setInstruments("piano");
-        teacher2.setPreferenceForLessonType("Videolessen");
+        teacher2.setInstrument("piano");
+        teacher2.setPreferenceForLessonType("Online lessen");
 
         teacher3 = new Teacher();
-        teacher3.setInstruments("guitar");
-        teacher3.setPreferenceForLessonType("Videolessen");
+        teacher3.setInstrument("guitar");
+        teacher3.setPreferenceForLessonType("Online lessen");
 
         teacher4 = new Teacher();
-        teacher4.setInstruments("keyboard");
+        teacher4.setInstrument("keyboard");
         teacher4.setPreferenceForLessonType("Live lessen");
 
         student1.setId(1L);
@@ -151,7 +152,7 @@ class TeacherServiceTest {
         teacherRequestDto.setAge("31");
         teacherRequestDto.setPhoneNumber("0645678913");
         teacherRequestDto.setResidence("Den Haag");
-        teacherRequestDto.setInstruments("piano");
+        teacherRequestDto.setInstrument("piano");
         teacherRequestDto.setDescription("Hallo, ik ben Rosa");
         teacherRequestDto.setExperience("Ik kan heel goed piano spelen");
         teacherRequestDto.setPreferenceForLessonType("Live lessen");
@@ -182,9 +183,9 @@ class TeacherServiceTest {
         teachers.add(teacher3);
         teachers.add(teacher4);
 
-        teachers.removeIf(teacher -> !Objects.equals(teacher.getInstruments(), "piano"));
+        teachers.removeIf(teacher -> !Objects.equals(teacher.getInstrument(), "piano"));
 
-        when(teacherRepository.findAllByInstrumentsEqualsIgnoreCase("piano")).thenReturn(teachers);
+        when(teacherRepository.findAllByInstrumentEqualsIgnoreCase("piano")).thenReturn(teachers);
 
         List<Teacher> found = teacherService.getTeachers("piano", "");
 
@@ -202,11 +203,11 @@ class TeacherServiceTest {
         teachers.add(teacher3);
         teachers.add(teacher4);
 
-        teachers.removeIf(teacher -> !Objects.equals(teacher.getPreferenceForLessonType(), "Videolessen"));
+        teachers.removeIf(teacher -> !Objects.equals(teacher.getPreferenceForLessonType(), "Online lessen"));
 
-        when(teacherRepository.findAllByPreferenceForLessonType("Videolessen")).thenReturn(teachers);
+        when(teacherRepository.findAllByPreferenceForLessonType("Online lessen")).thenReturn(teachers);
 
-        List<Teacher> found = teacherService.getTeachers("", "Videolessen");
+        List<Teacher> found = teacherService.getTeachers("", "Online lessen");
 
         assertEquals(2, found.size());
         assertTrue(found.contains(teacher2));
@@ -259,6 +260,7 @@ class TeacherServiceTest {
                 "Live lessen",
                 null,
                 null
+//                null
         );
 
         when(teacherRepository.save(any(Teacher.class))).thenReturn(testTeacher);

@@ -27,6 +27,7 @@
 //import java.util.List;
 //
 //import static org.hamcrest.Matchers.hasSize;
+//import static org.hamcrest.Matchers.hasValue;
 //import static org.mockito.Mockito.when;
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 //import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -50,45 +51,45 @@
 //    @MockBean
 //    public StudentController studentController;
 //
-//    @Mock
-//    public Student student;
-//    @Mock
-//    public Student student2;
-//    @Mock
-//    public Student student3;
-//    @Mock
-//    public List<Student> students;
+////    @Mock
+////    public Student student;
+////    @Mock
+////    public Student student2;
+////    @Mock
+////    public Student student3;
+////    @Mock
+////    public List<Student> students;
 //
-//    @BeforeEach
-//    void setup() {
-//        student = new Student();
-//        student.setId(1L);
-//        student.setName("Robbert");
-//        student2 = new Student();
-//        student2.setId(2L);
-//        student2.setName("Anna");
-//        student3 = new Student();
-//        student3.setId(3L);
-//        student3.setName("Brian");
+////    @BeforeEach
+////    void setup() {
+////        student = new Student();
+////        student.setId(1L);
+////        student.setName("Robbert");
+////        student2 = new Student();
+////        student2.setId(2L);
+////        student2.setName("Anna");
+////        student3 = new Student();
+////        student3.setId(3L);
+////        student3.setName("Brian");
+////
+////        students = new ArrayList<>();
+////
+////        students.add(student);
+////        students.add(student2);
+////        students.add(student2);
+////    }
 //
-//        students = new ArrayList<>();
-//
-//        students.add(student);
-//        students.add(student2);
-//        students.add(student2);
-//    }
-//
-//    @DisplayName("Should return all Students")
-//    @Test
-//    void getAllStudentsTest() throws Exception {
-//        when(mockService.getStudents()).thenReturn(students);
-//
-//        mockMvc.perform(get("/students")
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$", hasSize(3)));
-//
-//    }
+////    @DisplayName("Should return all Students")
+////    @Test
+////    void getAllStudentsTest() throws Exception {
+////        when(mockService.getStudents(null, null, null)).thenReturn(students);
+////
+////        mockMvc.perform(get("/students")
+////                .contentType(MediaType.APPLICATION_JSON))
+////                .andExpect(status().isOk())
+////                .andExpect(jsonPath("$", hasSize(3)));
+////
+////    }
 //
 //    @DisplayName("Should return Students with specified instrument")
 //    @Test
@@ -96,14 +97,7 @@
 //    }
 //
 //    @Test
-//    void getStudent() throws Exception {
-//        long id = student.getId();
-//        when(mockService.getStudentById(id)).thenReturn(student);
-//
-//        mockMvc.perform(get("/students/{id}",1)
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$", hasSize(1)));
+//    void getStudentById() {
 //    }
 //
 //    @Test

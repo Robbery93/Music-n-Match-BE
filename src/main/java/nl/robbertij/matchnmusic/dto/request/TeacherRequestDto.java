@@ -26,7 +26,7 @@ public class TeacherRequestDto {
     private String residence;
 
     @NotBlank
-    private String instruments;
+    private String instrument;
 
     @NotBlank
     @Size(min = 0, max = 200)
@@ -86,12 +86,12 @@ public class TeacherRequestDto {
         this.residence = residence;
     }
 
-    public String getInstruments() {
-        return instruments;
+    public String getInstrument() {
+        return instrument;
     }
 
-    public void setInstruments(String instruments) {
-        this.instruments = instruments;
+    public void setInstrument(String instrument) {
+        this.instrument = instrument;
     }
 
     public String getDescription() {

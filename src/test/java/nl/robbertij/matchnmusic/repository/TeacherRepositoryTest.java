@@ -33,7 +33,7 @@ class TeacherRepositoryTest {
     @DisplayName("Find all by instrument")
     @Test
     void findAllByInstrumentsContainingIgnoreCase() {
-        List<Teacher> found = teacherRepository.findAllByInstrumentsEqualsIgnoreCase("guitar");
+        List<Teacher> found = teacherRepository.findAllByInstrumentEqualsIgnoreCase("Gitaar");
 
         assertEquals(3, found.size());
     }

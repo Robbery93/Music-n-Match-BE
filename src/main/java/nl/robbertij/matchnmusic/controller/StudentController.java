@@ -5,6 +5,7 @@ import nl.robbertij.matchnmusic.model.Student;
 import nl.robbertij.matchnmusic.model.StudentTeacherKey;
 import nl.robbertij.matchnmusic.service.LessonService;
 import nl.robbertij.matchnmusic.service.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -18,6 +19,7 @@ public class StudentController {
     private final StudentService studentService;
     private final LessonService lessonService;
 
+    @Autowired
     public StudentController(StudentService studentService,
                              LessonService lessonService) {
         this.studentService = studentService;
@@ -26,11 +28,17 @@ public class StudentController {
 
     // Endpoints for students
 
-    @GetMapping(path = "")
+    @GetMapping(path = "/all")
     public ResponseEntity<Object> getStudents(@RequestParam(name = "instrument", defaultValue = "") String instrument,
                                               @RequestParam(name = "name", defaultValue = "") String name,
                                               @RequestParam(name = "pref", defaultValue = "") String preference) {
         return ResponseEntity.ok(studentService.getStudents(instrument, name, preference));
+    }
+
+    @GetMapping(path = "")
+    public ResponseEntity<Object> getStudentsByInstrumentAndPreference(@RequestParam(name = "instrument") String instrument,
+                                                                       @RequestParam(name = "preference") String preference){
+        return ResponseEntity.ok(studentService.getStudentsByInstrumentAndPreference(instrument, preference));
     }
 
     @GetMapping(path = "/{id}")
@@ -103,6 +111,15 @@ public class StudentController {
                 .toUri();
 
         return ResponseEntity.created(location).build();
+    }
+
+    // Link to User
+
+    @PatchMapping(path="/linkuser/{username}")
+    public ResponseEntity<Object> addToUser(@PathVariable(name ="username") String username,
+                                            @RequestParam(name = "email") String email) {
+       studentService.linkToCurrentUser(username, email);
+       return ResponseEntity.noContent().build();
     }
 
 }

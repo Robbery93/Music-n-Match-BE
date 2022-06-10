@@ -16,7 +16,7 @@ import java.util.Map;
 @RequestMapping(value = "/users")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UserController(UserService userService) {
@@ -32,19 +32,6 @@ public class UserController {
     public ResponseEntity<Object> getUser(@PathVariable("username") String username) {
         return ResponseEntity.ok().body(userService.getUser(username));
     }
-
-//    @PostMapping(value = "")
-//    public ResponseEntity<Object> createUser(@RequestBody UserPostRequestDto userPostRequestDto) {
-//        String newUsername = userService.createUser(userPostRequestDto);
-//
-//        URI location = ServletUriComponentsBuilder
-//                .fromCurrentRequest()
-//                .path("/{username}")
-//                .buildAndExpand(newUsername)
-//                .toUri();
-//
-//        return ResponseEntity.created(location).build();
-//    }
 
     @PostMapping(value = "/student")
     public ResponseEntity<Object> createStudent(@RequestBody UserPostRequestDto userPostRequestDto) {

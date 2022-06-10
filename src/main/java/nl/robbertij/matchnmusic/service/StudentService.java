@@ -5,8 +5,10 @@ import nl.robbertij.matchnmusic.exception.BadRequestException;
 import nl.robbertij.matchnmusic.exception.RecordNotFoundException;
 import nl.robbertij.matchnmusic.model.Lesson;
 import nl.robbertij.matchnmusic.model.Student;
+import nl.robbertij.matchnmusic.model.User;
 import nl.robbertij.matchnmusic.repository.LessonRepository;
 import nl.robbertij.matchnmusic.repository.StudentRepository;
+import nl.robbertij.matchnmusic.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,28 +17,40 @@ import java.util.Optional;
 
 @Service
 public class StudentService {
+    private final StudentRepository studentRepository;
+    private final LessonRepository lessonRepository;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    private StudentRepository studentRepository;
-
-    @Autowired
-    private LessonRepository lessonRepository;
-
+    public StudentService(StudentRepository studentRepository,
+                          LessonRepository lessonRepository,
+                          UserRepository userRepository,
+                          UserService userService) {
+        this.studentRepository = studentRepository;
+        this.lessonRepository = lessonRepository;
+        this.userRepository = userRepository;
+        this.userService = userService;
+    }
 
     public List<Student> getStudents(String instrument, String name, String preference){
 
+        if (!preference.isEmpty()) {
+            return studentRepository.findAllByPreferenceForLessonType(preference);
+        }
         if (!instrument.isEmpty()) {
             return studentRepository.findAllByInstrument(instrument);
         }
         if (!name.isEmpty()) {
             return studentRepository.findAllByNameIgnoreCase(name);
         }
-        if (!preference.isEmpty()) {
-            return studentRepository.findAllByPreferenceForLessonType(preference);
-        }
         else {
             return studentRepository.findAll();
         }
+    }
+
+    public List<Student> getStudentsByInstrumentAndPreference(String instrument, String preference){
+        return studentRepository.findAllByInstrumentAndPreferenceForLessonType(instrument, preference);
     }
 
     public Student getStudentById(Long id){
@@ -156,6 +170,19 @@ public class StudentService {
         }
         else {
             throw new RecordNotFoundException("ID does not exist");
+        }
+    }
+
+    public void linkToCurrentUser(String username, String email) {
+        User currentUser = userService.getUser(username);
+
+        Optional<Student> optionalStudent = studentRepository.findByEmail(email);
+        if (optionalStudent.isPresent()) {
+            Student student = optionalStudent.get();
+            currentUser.setStudent(student);
+            userRepository.save(currentUser);
+        } else {
+            throw new RecordNotFoundException("student niet gevonden");
         }
     }
 }

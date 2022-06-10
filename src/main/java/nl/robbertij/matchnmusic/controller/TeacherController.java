@@ -28,10 +28,16 @@ public class TeacherController {
 
     // Endpoints for teachers
 
-    @GetMapping
-    public ResponseEntity<Object> getTeachers(@RequestParam(name = "instrument", required = false)String instrument,
-                                              @RequestParam(name = "pref", required = false) String preference) {
+    @GetMapping(path = "/all")
+    public ResponseEntity<Object> getTeachers(@RequestParam(name = "instrument", defaultValue = "")String instrument,
+                                              @RequestParam(name = "pref", defaultValue = "") String preference) {
         return ResponseEntity.ok(teacherService.getTeachers(instrument, preference));
+    }
+
+    @GetMapping(path = "")
+    public ResponseEntity<Object> getStudentsByInstrumentAndPreference(@RequestParam(name = "instrument") String instrument,
+                                                                       @RequestParam(name = "preference") String preference){
+        return ResponseEntity.ok(teacherService.getTeachersByInstrumentAndPreference(instrument, preference));
     }
 
     @GetMapping(path = "/{id}")
@@ -102,6 +108,15 @@ public class TeacherController {
                                                  @RequestParam(name = "student_id") long studentId,
                                                  @RequestBody Lesson lesson) {
         lessonService.updateHomework(studentId, teacherId, lesson);
+        return ResponseEntity.noContent().build();
+    }
+
+    // Link to User
+
+    @PatchMapping(path="/linkuser/{username}")
+    public ResponseEntity<Object> addToUser(@PathVariable(name ="username") String username,
+                                            @RequestParam(name = "email") String email) {
+        teacherService.linkToCurrentUser(username, email);
         return ResponseEntity.noContent().build();
     }
 

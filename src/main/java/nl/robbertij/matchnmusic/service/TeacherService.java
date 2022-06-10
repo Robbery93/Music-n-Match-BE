@@ -4,9 +4,12 @@ import nl.robbertij.matchnmusic.dto.request.TeacherRequestDto;
 import nl.robbertij.matchnmusic.exception.BadRequestException;
 import nl.robbertij.matchnmusic.exception.RecordNotFoundException;
 import nl.robbertij.matchnmusic.model.Lesson;
+import nl.robbertij.matchnmusic.model.Student;
 import nl.robbertij.matchnmusic.model.Teacher;
+import nl.robbertij.matchnmusic.model.User;
 import nl.robbertij.matchnmusic.repository.LessonRepository;
 import nl.robbertij.matchnmusic.repository.TeacherRepository;
+import nl.robbertij.matchnmusic.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +18,22 @@ import java.util.Optional;
 
 @Service
 public class TeacherService {
+    private final TeacherRepository teacherRepository;
+    private final LessonRepository lessonRepository;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    private TeacherRepository teacherRepository;
-
-    @Autowired
-    private LessonRepository lessonRepository;
+    public TeacherService(TeacherRepository teacherRepository, LessonRepository lessonRepository, UserRepository userRepository, UserService userService) {
+        this.teacherRepository = teacherRepository;
+        this.lessonRepository = lessonRepository;
+        this.userRepository = userRepository;
+        this.userService = userService;
+    }
 
     public List<Teacher> getTeachers(String instrument, String preference){
         if(!instrument.isEmpty()){
-            return teacherRepository.findAllByInstrumentsEqualsIgnoreCase(instrument);
+            return teacherRepository.findAllByInstrumentEqualsIgnoreCase(instrument);
         }
         if(!preference.isEmpty()){
             return teacherRepository.findAllByPreferenceForLessonType(preference);
@@ -32,6 +41,10 @@ public class TeacherService {
         else {
             return teacherRepository.findAll();
         }
+    }
+
+    public List<Teacher> getTeachersByInstrumentAndPreference(String instrument, String preference){
+        return teacherRepository.findAllByInstrumentAndPreferenceForLessonType(instrument, preference);
     }
 
     public Teacher getTeacher(Long id) {
@@ -58,7 +71,7 @@ public class TeacherService {
 
     public Long addTeacher(TeacherRequestDto teacherRequestDto) {
         String email = teacherRequestDto.getEmail();
-        List<Teacher> teachers = (List<Teacher>)teacherRepository.findAllByEmail(email);
+        List<Teacher> teachers = teacherRepository.findAllByEmail(email);
         if(teachers.size() > 0) {
             throw new BadRequestException("Email is already taken");
         }
@@ -69,7 +82,7 @@ public class TeacherService {
         teacher.setAge(teacherRequestDto.getAge());
         teacher.setPhoneNumber(teacherRequestDto.getPhoneNumber());
         teacher.setResidence(teacherRequestDto.getResidence());
-        teacher.setInstruments(teacherRequestDto.getInstruments());
+        teacher.setInstrument(teacherRequestDto.getInstrument());
         teacher.setDescription(teacherRequestDto.getDescription());
         teacher.setExperience(teacherRequestDto.getExperience());
         teacher.setPreferenceForLessonType(teacherRequestDto.getPreferenceForLessonType());
@@ -99,32 +112,42 @@ public class TeacherService {
             Teacher storedTeacher = teacherRepository.findById(id).orElse(null);
 
             if (teacher.getName() != null && !teacher.getName().isEmpty()) {
+                assert storedTeacher != null;
                 storedTeacher.setName(teacher.getName());
             }
             if (teacher.getEmail() != null && !teacher.getEmail().isEmpty()) {
+                assert storedTeacher != null;
                 storedTeacher.setEmail(teacher.getEmail());
             }
             if (teacher.getAge() != null && !teacher.getAge().isEmpty()) {
+                assert storedTeacher != null;
                 storedTeacher.setAge(teacher.getAge());
             }
             if (teacher.getResidence() != null && !teacher.getResidence().isEmpty()) {
+                assert storedTeacher != null;
                 storedTeacher.setResidence(teacher.getResidence());
             }
             if (teacher.getPhoneNumber() != null && !teacher.getPhoneNumber().isEmpty()) {
+                assert storedTeacher != null;
                 storedTeacher.setPhoneNumber(teacher.getPhoneNumber());
             }
-            if (teacher.getInstruments() != null && !teacher.getInstruments().isEmpty()) {
-                storedTeacher.setInstruments(teacher.getInstruments());
+            if (teacher.getInstrument() != null && !teacher.getInstrument().isEmpty()) {
+                assert storedTeacher != null;
+                storedTeacher.setInstrument(teacher.getInstrument());
             }
             if (teacher.getDescription() != null && teacher.getDescription().isEmpty()) {
+                assert storedTeacher != null;
                 storedTeacher.setDescription(teacher.getDescription());
             }
             if (teacher.getExperience() != null && !teacher.getExperience().isEmpty()) {
+                assert storedTeacher != null;
                 storedTeacher.setExperience(teacher.getExperience());
             }
             if (teacher.getPreferenceForLessonType() != null && !teacher.getPreferenceForLessonType().isEmpty()) {
+                assert storedTeacher != null;
                 storedTeacher.setPreferenceForLessonType(teacher.getPreferenceForLessonType());
             }
+            assert storedTeacher != null;
             teacherRepository.save(storedTeacher);
         }
         else {
@@ -153,6 +176,19 @@ public class TeacherService {
         }
         else {
             throw new RecordNotFoundException("ID does not exist");
+        }
+    }
+
+    public void linkToCurrentUser(String username, String email) {
+        User currentUser = userService.getUser(username);
+
+        Optional<Teacher> optionalTeacher = teacherRepository.findByEmail(email);
+        if (optionalTeacher.isPresent()) {
+            Teacher teacher = optionalTeacher.get();
+            currentUser.setTeacher(teacher);
+            userRepository.save(currentUser);
+        } else {
+            throw new RecordNotFoundException("student niet gevonden");
         }
     }
 }

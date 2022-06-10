@@ -47,7 +47,8 @@ public class Student {
                    String request,
                    String preferenceForLessonType,
                    List<Lesson> lessons,
-                   List<Lesson> applications) {
+                   List<Lesson> applications
+    ) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -61,27 +62,28 @@ public class Student {
         this.applications = applications;
     }
 
-    public Student(String name,
-                   String email,
-                   String age,
-                   String phoneNumber,
-                   String residence,
-                   String instrument,
-                   String request,
-                   String preferenceForLessonType,
-                   List<Lesson> lessons,
-                   List<Lesson> applications) {
-        this.name = name;
-        this.email = email;
-        this.age = age;
-        this.phoneNumber = phoneNumber;
-        this.residence = residence;
-        this.instrument = instrument;
-        this.request = request;
-        this.preferenceForLessonType = preferenceForLessonType;
-        this.lessons = lessons;
-        this.applications = applications;
-    }
+//    public Student(String name,
+//                   String email,
+//                   String age,
+//                   String phoneNumber,
+//                   String residence,
+//                   String instrument,
+//                   String request,
+//                   String preferenceForLessonType,
+//                   List<Lesson> lessons,
+//                   List<Lesson> applications
+//    ) {
+//        this.name = name;
+//        this.email = email;
+//        this.age = age;
+//        this.phoneNumber = phoneNumber;
+//        this.residence = residence;
+//        this.instrument = instrument;
+//        this.request = request;
+//        this.preferenceForLessonType = preferenceForLessonType;
+//        this.lessons = lessons;
+//        this.applications = applications;
+//    }
 
     public Long getId() {
         return id;
@@ -187,13 +189,13 @@ public class Student {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", age=" + age + '\'' +
+                ", age='" + age + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", residence='" + residence + '\'' +
                 ", instrument='" + instrument + '\'' +
                 ", request='" + request + '\'' +
                 ", preferenceForLessonType='" + preferenceForLessonType + '\'' +
-                ", lesson=" + lessons + '\'' +
+                ", lessons=" + lessons +
                 ", applications=" + applications +
                 '}';
     }

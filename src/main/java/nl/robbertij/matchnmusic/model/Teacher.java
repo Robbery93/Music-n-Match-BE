@@ -21,14 +21,14 @@ public class Teacher {
     private String phoneNumber;
 
     private String residence;
-    private String instruments;
+    private String instrument;
 
     // to store a large String
-    @Column(length = 3000)
+    @Column(length = 2000)
     private String description;
 
     // to store a large String
-    @Column(length = 3000)
+    @Column(length = 4000)
     private String experience;
 
     @Column(name = "preference_for_lesson_type")
@@ -48,49 +48,54 @@ public class Teacher {
                    String age,
                    String phoneNumber,
                    String residence,
-                   String instruments,
+                   String instrument,
                    String description,
                    String experience,
                    String preferenceForLessonType,
                    List<Lesson> lessons,
-                   List<Lesson> applications) {
+                   List<Lesson> applications
+    ) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.age = age;
         this.phoneNumber = phoneNumber;
         this.residence = residence;
-        this.instruments = instruments;
+        this.instrument = instrument;
         this.description = description;
         this.experience = experience;
         this.preferenceForLessonType = preferenceForLessonType;
         this.lessons = lessons;
         this.applications = applications;
+//        this.user = user;
     }
 
-    public Teacher(String name,
-                   String email,
-                   String age,
-                   String phoneNumber,
-                   String residence,
-                   String instruments,
-                   String description,
-                   String experience,
-                   String preferenceForLessonType,
-                   List<Lesson> lessons,
-                   List<Lesson> applications) {
-        this.name = name;
-        this.email = email;
-        this.age = age;
-        this.phoneNumber = phoneNumber;
-        this.residence = residence;
-        this.instruments = instruments;
-        this.description = description;
-        this.experience = experience;
-        this.preferenceForLessonType = preferenceForLessonType;
-        this.lessons = lessons;
-        this.applications = applications;
-    }
+//    public Teacher(String name,
+//                   String email,
+//                   String age,
+//                   String phoneNumber,
+//                   String residence,
+//                   String instrument,
+//                   String description,
+//                   String experience,
+//                   String preferenceForLessonType,
+//                   List<Lesson> lessons,
+//                   List<Lesson> applications
+////                   User user
+//    ) {
+//        this.name = name;
+//        this.email = email;
+//        this.age = age;
+//        this.phoneNumber = phoneNumber;
+//        this.residence = residence;
+//        this.instrument = instrument;
+//        this.description = description;
+//        this.experience = experience;
+//        this.preferenceForLessonType = preferenceForLessonType;
+//        this.lessons = lessons;
+//        this.applications = applications;
+////        this.user = user;
+//    }
 
     public Long getId() {
         return id;
@@ -140,12 +145,12 @@ public class Teacher {
         this.residence = residence;
     }
 
-    public String getInstruments() {
-        return instruments;
+    public String getInstrument() {
+        return instrument;
     }
 
-    public void setInstruments(String instruments) {
-        this.instruments = instruments;
+    public void setInstrument(String instrument) {
+        this.instrument = instrument;
     }
 
     public String getDescription() {
@@ -206,14 +211,15 @@ public class Teacher {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", residence='" + residence + '\'' +
                 ", age='" + age + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", instruments='" + instruments + '\'' +
+                ", residence='" + residence + '\'' +
+                ", instrument='" + instrument + '\'' +
                 ", description='" + description + '\'' +
                 ", experience='" + experience + '\'' +
                 ", preferenceForLessonType='" + preferenceForLessonType + '\'' +
                 ", lessons=" + lessons +
+                ", applications=" + applications +
                 '}';
     }
 }

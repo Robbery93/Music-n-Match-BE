@@ -87,12 +87,12 @@ class StudentServiceTest {
         student3 = new Student();
         student3.setName("Paultje");
         student3.setInstrument("piano");
-        student3.setPreferenceForLessonType("Online");
+        student3.setPreferenceForLessonType("Online lessen ");
 
         student4 = new Student();
         student4.setName("Arie");
         student4.setInstrument("keyboard");
-        student4.setPreferenceForLessonType("Online");
+        student4.setPreferenceForLessonType("Online lessen");
 
         teacher = new Teacher();
         teacher.setId(1L);
@@ -189,11 +189,11 @@ class StudentServiceTest {
         students.add(student3);
         students.add(student4);
 
-        students.removeIf(student -> !Objects.equals(student.getPreferenceForLessonType(), "Live lessen"));
+        students.removeIf(student -> !Objects.equals(student.getPreferenceForLessonType(), "Online lessen"));
 
         when(studentRepository.findAllByPreferenceForLessonType("Live lessen")).thenReturn(students);
 
-        List<Student> found = studentService.getStudents("", "", "Live lessen");
+        List<Student> found = studentService.getStudents("", "", "Online lessen");
 
         int expectedSize = 2;
         int actualSize = found.size();
@@ -286,7 +286,7 @@ class StudentServiceTest {
     void partialUpdateStudent() {
         student.setName("Pietertje");
         student.setEmail("pietertje@gmail.com");
-        student.setPreferenceForLessonType("Videolessen");
+        student.setPreferenceForLessonType("Online lessen");
 
         when(studentRepository.findById(1L)).thenReturn(Optional.ofNullable(student));
 
@@ -300,7 +300,7 @@ class StudentServiceTest {
 
         assertEquals("Pietertje", found.getName());
         assertEquals("pietertje@gmail.com", found.getEmail());
-        assertEquals("Videolessen", found.getPreferenceForLessonType());
+        assertEquals("Online lessen", found.getPreferenceForLessonType());
     }
 
     @DisplayName("Should return active lesson")

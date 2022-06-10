@@ -3,7 +3,9 @@ package nl.robbertij.matchnmusic.service;
 import nl.robbertij.matchnmusic.dto.request.UserPostRequestDto;
 import nl.robbertij.matchnmusic.exception.*;
 import nl.robbertij.matchnmusic.model.Authority;
+import nl.robbertij.matchnmusic.model.Student;
 import nl.robbertij.matchnmusic.model.User;
+import nl.robbertij.matchnmusic.repository.StudentRepository;
 import nl.robbertij.matchnmusic.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -17,13 +19,16 @@ import java.util.Set;
 
 @Service
 public class UserService {
-
     private final UserRepository userRepository;
+    private final StudentRepository studentRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository,
+                       StudentRepository studentRepository,
+                       PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.studentRepository = studentRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -49,30 +54,29 @@ public class UserService {
     public String createStudent(UserPostRequestDto userPostRequest) {
         try {
             String encryptedPassword = passwordEncoder.encode(userPostRequest.getPassword());
-            User student = new User();
-            student.setUsername(userPostRequest.getUsername());
-            student.setPassword(encryptedPassword);
-            student.addAuthority("ROLE_STUDENT");
-            User newUser = userRepository.save(student);
+            User newStudent = new User();
+            newStudent.setUsername(userPostRequest.getUsername());
+            newStudent.setPassword(encryptedPassword);
+            newStudent.addAuthority("ROLE_STUDENT");
+            User newUser = userRepository.save(newStudent);
             return newUser.getUsername();
         }
         catch (Exception e) {
             throw new BadRequestException("Cannot create user.");
         }
-
     }
 
     public String createTeacher(UserPostRequestDto userPostRequest) {
         try {
             String encryptedPassword = passwordEncoder.encode(userPostRequest.getPassword());
 
-            User teacher = new User();
-            teacher.setUsername(userPostRequest.getUsername());
-            teacher.setPassword(encryptedPassword);
-            teacher.setEnabled(true);
-            teacher.addAuthority("ROLE_TEACHER");
+            User newTeacher = new User();
+            newTeacher.setUsername(userPostRequest.getUsername());
+            newTeacher.setPassword(encryptedPassword);
+            newTeacher.setEnabled(true);
+            newTeacher.addAuthority("ROLE_TEACHER");
 
-            User newUser = userRepository.save(teacher);
+            User newUser = userRepository.save(newTeacher);
             return newUser.getUsername();
         }
         catch (Exception e) {
@@ -81,7 +85,9 @@ public class UserService {
     }
 
     public void deleteUser(String username) {
-        if (userRepository.existsById(username)) {
+        Optional<User> optionalUser = userRepository.findById(username);
+
+        if (optionalUser.isPresent()) {
             userRepository.deleteById(username);
         }
         else {
@@ -181,5 +187,4 @@ public class UserService {
             throw new NotAuthorizedException();
         }
     }
-
 }
