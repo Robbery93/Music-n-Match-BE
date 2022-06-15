@@ -47,7 +47,7 @@ public class StudentRepositoryTest {
     @DisplayName("Find all by instrument")
     @Test
     void whenFindAllByInstrument_thenReturnStudentsMatchingInstrument() {
-        List<Student> found = studentRepository.findAllByInstrument("singing");
+        List<Student> found = studentRepository.findAllByInstrument("Zang");
 
         int expectedSize = 1;
         int actualSize = found.size();
@@ -58,7 +58,7 @@ public class StudentRepositoryTest {
     @DisplayName("Find all by preference")
     @Test
     void whenFindAllByPreferenceForLessonType_theReturnStudentMatchingPreference() {
-        List<Student> found = studentRepository.findAllByInstrumentAndPreferenceForLessonType("Gitaar","Videolessen");
+        List<Student> found = studentRepository.findAllByInstrumentAndPreferenceForLessonType("Gitaar","Live lessen");
 
         int expectedSize = 2;
         int actualSize = found.size();

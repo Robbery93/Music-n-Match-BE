@@ -29,13 +29,11 @@ public class StudentController {
     // Endpoints for students
 
     @GetMapping(path = "/all")
-    public ResponseEntity<Object> getStudents(@RequestParam(name = "instrument", defaultValue = "") String instrument,
-                                              @RequestParam(name = "name", defaultValue = "") String name,
-                                              @RequestParam(name = "pref", defaultValue = "") String preference) {
-        return ResponseEntity.ok(studentService.getStudents(instrument, name, preference));
+    public ResponseEntity<Object> getStudents() {
+        return ResponseEntity.ok(studentService.getStudents());
     }
 
-    @GetMapping(path = "")
+    @GetMapping(path = "/")
     public ResponseEntity<Object> getStudentsByInstrumentAndPreference(@RequestParam(name = "instrument") String instrument,
                                                                        @RequestParam(name = "preference") String preference){
         return ResponseEntity.ok(studentService.getStudentsByInstrumentAndPreference(instrument, preference));

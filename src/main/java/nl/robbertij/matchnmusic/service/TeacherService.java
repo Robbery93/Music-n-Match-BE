@@ -13,8 +13,7 @@ import nl.robbertij.matchnmusic.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class TeacherService {
@@ -44,7 +43,21 @@ public class TeacherService {
     }
 
     public List<Teacher> getTeachersByInstrumentAndPreference(String instrument, String preference){
-        return teacherRepository.findAllByInstrumentAndPreferenceForLessonType(instrument, preference);
+        if(Objects.equals(preference, "Geen voorkeur")) {
+            List<Teacher> availableTeachers = new ArrayList<>();
+            List<Teacher> liveTeachers = teacherRepository.findAllByInstrumentAndPreferenceForLessonType(instrument, "Live lessen");
+            List<Teacher> onlineTeachers = teacherRepository.findAllByInstrumentAndPreferenceForLessonType(instrument,"Online lessen");
+
+            availableTeachers.addAll(liveTeachers);
+            availableTeachers.addAll(onlineTeachers);
+
+            Collections.shuffle(availableTeachers);
+
+            return availableTeachers;
+        }
+        else {
+            return teacherRepository.findAllByInstrumentAndPreferenceForLessonType(instrument, preference);
+        }
     }
 
     public Teacher getTeacher(Long id) {

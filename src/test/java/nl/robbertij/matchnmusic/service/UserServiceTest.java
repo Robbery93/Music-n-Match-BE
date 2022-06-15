@@ -48,7 +48,7 @@ class UserServiceTest {
         authority = new Authority("Robbery93", "ROLE_USER");
         authorities = new HashSet<>();
         authorities.add(authority);
-        String encryptedPassword = passwordEncoder.encode("password");
+        String encryptedPassword = passwordEncoder.encode("Robbery123!");
 
         user = new User();
         user.setUsername("Robbery93");
@@ -72,7 +72,7 @@ class UserServiceTest {
     void deleteUser() {
         String username = user.getUsername();
 
-        when(userRepository.existsById(username)).thenReturn(true);
+        when(userRepository.findById(username)).thenReturn(Optional.ofNullable(user));
 
         userService.deleteUser(username);
 

@@ -124,81 +124,12 @@ class StudentServiceTest {
 
         when(studentRepository.findAll()).thenReturn(students);
 
-        List<Student> found = studentService.getStudents("", "", "");
+        List<Student> found = studentService.getStudents();
 
         int expected = 4;
         int actual = found.size();
 
         assertEquals(expected, actual);
-    }
-
-    @DisplayName("Test get all Students given instrument parameter")
-    @Test
-    void givenInstrument_thenReturnStudentsOfGivenInstrument() {
-        List<Student> students = new ArrayList<>();
-        students.add(student);
-        students.add(student2);
-        students.add(student3);
-        students.add(student4);
-
-        students.removeIf(student -> !Objects.equals(student.getInstrument(), "guitar"));
-
-        when(studentRepository.findAllByInstrument("guitar")).thenReturn(students);
-
-        List<Student> found = studentService.getStudents("guitar", "", "");
-
-        int expected = 2;
-        int actual = found.size();
-
-        assertEquals(expected, actual);
-        assertTrue(found.contains(student));
-        assertFalse(found.contains(student4));
-    }
-
-    @DisplayName("Test get all Students given name parameter")
-    @Test
-    void givenName_thenReturnStudentsOfGivenName() {
-        List<Student> students = new ArrayList<>();
-        students.add(student);
-        students.add(student2);
-        students.add(student3);
-        students.add(student4);
-
-        students.removeIf(student -> !Objects.equals(student.getName(), "Arie"));
-
-        when(studentRepository.findAllByNameIgnoreCase("aRie")).thenReturn(students);
-
-        List<Student> found = studentService.getStudents("", "aRie", "");
-
-        int expectedSize = 1;
-        int actualSize = found.size();
-
-        String expectedName = "Arie";
-        String actualName = found.get(0).getName();
-
-        assertEquals(expectedSize, actualSize);
-        assertEquals(expectedName, actualName);
-    }
-
-    @DisplayName("Test get all Students given preference parameter")
-    @Test
-    void givenPreference_thenReturnStudentsOfGivenPreference() {
-        List<Student> students = new ArrayList<>();
-        students.add(student);
-        students.add(student2);
-        students.add(student3);
-        students.add(student4);
-
-        students.removeIf(student -> !Objects.equals(student.getPreferenceForLessonType(), "Online lessen"));
-
-        when(studentRepository.findAllByPreferenceForLessonType("Live lessen")).thenReturn(students);
-
-        List<Student> found = studentService.getStudents("", "", "Online lessen");
-
-        int expectedSize = 2;
-        int actualSize = found.size();
-
-        assertEquals(expectedSize, actualSize);
     }
 
     @DisplayName("Test get Student by id")

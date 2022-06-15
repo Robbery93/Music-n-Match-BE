@@ -3,7 +3,6 @@ package nl.robbertij.matchnmusic.service;
 import nl.robbertij.matchnmusic.dto.request.UserPostRequestDto;
 import nl.robbertij.matchnmusic.exception.*;
 import nl.robbertij.matchnmusic.model.Authority;
-import nl.robbertij.matchnmusic.model.Student;
 import nl.robbertij.matchnmusic.model.User;
 import nl.robbertij.matchnmusic.repository.StudentRepository;
 import nl.robbertij.matchnmusic.repository.UserRepository;
@@ -53,13 +52,15 @@ public class UserService {
 
     public String createStudent(UserPostRequestDto userPostRequest) {
         try {
-            String encryptedPassword = passwordEncoder.encode(userPostRequest.getPassword());
-            User newStudent = new User();
-            newStudent.setUsername(userPostRequest.getUsername());
-            newStudent.setPassword(encryptedPassword);
-            newStudent.addAuthority("ROLE_STUDENT");
-            User newUser = userRepository.save(newStudent);
-            return newUser.getUsername();
+            if (isValidPassword(userPostRequest.getPassword())) {
+                String encryptedPassword = passwordEncoder.encode(userPostRequest.getPassword());
+                User newStudent = new User();
+                newStudent.setUsername(userPostRequest.getUsername());
+                newStudent.setPassword(encryptedPassword);
+                newStudent.addAuthority("ROLE_STUDENT");
+                User newUser = userRepository.save(newStudent);
+                return newUser.getUsername();
+            } else throw new InvalidPasswordException("Wachtwoord moet minimaal 8 karakters hebben, en moet in ieder geval 1 kleine letter, 1 hoofdletter, 1 cijfer en 1 speciaal teken bevatten");
         }
         catch (Exception e) {
             throw new BadRequestException("Cannot create user.");
@@ -68,16 +69,16 @@ public class UserService {
 
     public String createTeacher(UserPostRequestDto userPostRequest) {
         try {
-            String encryptedPassword = passwordEncoder.encode(userPostRequest.getPassword());
-
-            User newTeacher = new User();
-            newTeacher.setUsername(userPostRequest.getUsername());
-            newTeacher.setPassword(encryptedPassword);
-            newTeacher.setEnabled(true);
-            newTeacher.addAuthority("ROLE_TEACHER");
-
-            User newUser = userRepository.save(newTeacher);
-            return newUser.getUsername();
+            if (isValidPassword(userPostRequest.getPassword())) {
+                String encryptedPassword = passwordEncoder.encode(userPostRequest.getPassword());
+                User newTeacher = new User();
+                newTeacher.setUsername(userPostRequest.getUsername());
+                newTeacher.setPassword(encryptedPassword);
+                newTeacher.setEnabled(true);
+                newTeacher.addAuthority("ROLE_TEACHER");
+                User newUser = userRepository.save(newTeacher);
+                return newUser.getUsername();
+            } else throw new InvalidPasswordException("Wachtwoord moet minimaal 8 karakters hebben, en moet in ieder geval 1 kleine letter, 1 hoofdletter, 1 cijfer en 1 speciaal teken bevatten");
         }
         catch (Exception e) {
             throw new BadRequestException("Cannot create user.");
@@ -101,11 +102,14 @@ public class UserService {
             throw new UserNotFoundException(username);
         }
         else {
-            User user = userOptional.get();
-            user.setPassword(passwordEncoder.encode(newUser.getPassword()));
-            user.setEnabled(newUser.isEnabled());
-            userRepository.save(user);
-        }
+            if (isValidPassword(newUser.getPassword())) {
+                User user = userOptional.get();
+                user.setPassword(passwordEncoder.encode(newUser.getPassword()));
+                user.setEnabled(newUser.isEnabled());
+                userRepository.save(user);
+            } else throw new InvalidPasswordException("Wachtwoord moet minimaal 8 karakters hebben, en moet in ieder geval 1 kleine letter, 1 hoofdletter, 1 cijfer en 1 speciaal teken bevatten");
+
+    }
     }
 
     public Set<Authority> getAuthorities(String username) {

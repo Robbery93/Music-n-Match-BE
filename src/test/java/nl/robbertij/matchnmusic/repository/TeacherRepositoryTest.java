@@ -41,7 +41,7 @@ class TeacherRepositoryTest {
     @DisplayName("Find all by preference")
     @Test
     void findAllByPreferenceForLessonType() {
-        List<Teacher> found = teacherRepository.findAllByPreferenceForLessonType("Videolessen");
+        List<Teacher> found = teacherRepository.findAllByPreferenceForLessonType("Online lessen");
 
         assertEquals(6, found.size());
     }

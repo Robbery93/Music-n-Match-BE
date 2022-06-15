@@ -33,20 +33,8 @@ public class StudentService {
         this.userService = userService;
     }
 
-    public List<Student> getStudents(String instrument, String name, String preference){
-
-        if (!preference.isEmpty()) {
-            return studentRepository.findAllByPreferenceForLessonType(preference);
-        }
-        if (!instrument.isEmpty()) {
-            return studentRepository.findAllByInstrument(instrument);
-        }
-        if (!name.isEmpty()) {
-            return studentRepository.findAllByNameIgnoreCase(name);
-        }
-        else {
+    public List<Student> getStudents(){
             return studentRepository.findAll();
-        }
     }
 
     public List<Student> getStudentsByInstrumentAndPreference(String instrument, String preference){
