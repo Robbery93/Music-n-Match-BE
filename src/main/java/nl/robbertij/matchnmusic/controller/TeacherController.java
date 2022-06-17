@@ -91,7 +91,7 @@ public class TeacherController {
         return ResponseEntity.ok(teacherService.getLessons(teacherId));
     }
 
-    @GetMapping(path = "/{id}/lessons/applications")
+    @GetMapping(path = "/{id}/applications")
     public ResponseEntity<Object> getApplications(@PathVariable(name = "id") long teacherId) {
         return ResponseEntity.ok(teacherService.getApplications(teacherId));
     }

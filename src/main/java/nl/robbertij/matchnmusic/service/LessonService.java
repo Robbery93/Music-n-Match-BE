@@ -91,6 +91,11 @@ public class LessonService {
                 existingLesson.setActive(true);
             }
             existingLesson.setHomework(lesson.getHomework());
+        } else {
+            if (!existingLesson.isActive()) {
+                existingLesson.setActive(true);
+            }
+            existingLesson.setHomework("De docent heeft nog geen huiswerk opgegeven.");
         }
 
         List<Lesson> applicationsOfStudent = lessonRepository.findAllByStudentId(studentId);
