@@ -14,6 +14,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
+@CrossOrigin
 @RequestMapping(path = "/students")
 public class StudentController {
     private final StudentService studentService;
