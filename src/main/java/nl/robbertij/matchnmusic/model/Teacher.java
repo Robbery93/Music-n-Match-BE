@@ -8,7 +8,6 @@ import java.util.List;
 @Table(name = "teachers")
 public class Teacher {
 
-    //attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,11 +22,9 @@ public class Teacher {
     private String residence;
     private String instrument;
 
-    // to store a large String
     @Column(length = 2000)
     private String description;
 
-    // to store a large String
     @Column(length = 4000)
     private String experience;
 
@@ -67,35 +64,7 @@ public class Teacher {
         this.preferenceForLessonType = preferenceForLessonType;
         this.lessons = lessons;
         this.applications = applications;
-//        this.user = user;
     }
-
-//    public Teacher(String name,
-//                   String email,
-//                   String age,
-//                   String phoneNumber,
-//                   String residence,
-//                   String instrument,
-//                   String description,
-//                   String experience,
-//                   String preferenceForLessonType,
-//                   List<Lesson> lessons,
-//                   List<Lesson> applications
-////                   User user
-//    ) {
-//        this.name = name;
-//        this.email = email;
-//        this.age = age;
-//        this.phoneNumber = phoneNumber;
-//        this.residence = residence;
-//        this.instrument = instrument;
-//        this.description = description;
-//        this.experience = experience;
-//        this.preferenceForLessonType = preferenceForLessonType;
-//        this.lessons = lessons;
-//        this.applications = applications;
-////        this.user = user;
-//    }
 
     public Long getId() {
         return id;

@@ -51,6 +51,7 @@ public class TeacherService {
             availableTeachers.addAll(liveTeachers);
             availableTeachers.addAll(onlineTeachers);
 
+
             Collections.shuffle(availableTeachers);
 
             return availableTeachers;

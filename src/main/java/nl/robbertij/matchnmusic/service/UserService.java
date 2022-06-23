@@ -51,20 +51,25 @@ public class UserService {
     }
 
     public String createStudent(UserPostRequestDto userPostRequest) {
-        try {
-            if (isValidPassword(userPostRequest.getPassword())) {
-                String encryptedPassword = passwordEncoder.encode(userPostRequest.getPassword());
-                User newStudent = new User();
-                newStudent.setUsername(userPostRequest.getUsername());
-                newStudent.setPassword(encryptedPassword);
-                newStudent.addAuthority("ROLE_STUDENT");
-                User newUser = userRepository.save(newStudent);
-                return newUser.getUsername();
-            } else throw new InvalidPasswordException("Wachtwoord moet minimaal 8 karakters hebben, en moet in ieder geval 1 kleine letter, 1 hoofdletter, 1 cijfer en 1 speciaal teken bevatten");
+        Optional<User> optionalUser = userRepository.findById(userPostRequest.getUsername());
+
+        if (!optionalUser.isPresent()) {
+            try {
+                if (isValidPassword(userPostRequest.getPassword())) {
+                    String encryptedPassword = passwordEncoder.encode(userPostRequest.getPassword());
+                    User newStudent = new User();
+                    newStudent.setUsername(userPostRequest.getUsername());
+                    newStudent.setPassword(encryptedPassword);
+                    newStudent.addAuthority("ROLE_STUDENT");
+                    User newUser = userRepository.save(newStudent);
+                    return newUser.getUsername();
+                } else
+                    throw new InvalidPasswordException("Wachtwoord moet minimaal 8 karakters hebben, en moet in ieder geval 1 kleine letter, 1 hoofdletter, 1 cijfer en 1 speciaal teken bevatten");
+            } catch (Exception e) {
+                throw new BadRequestException("Cannot create user.");
+            }
         }
-        catch (Exception e) {
-            throw new BadRequestException("Cannot create user.");
-        }
+        else throw new BadRequestException("Username already exists");
     }
 
     public String createTeacher(UserPostRequestDto userPostRequest) {

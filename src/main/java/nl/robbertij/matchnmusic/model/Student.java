@@ -8,7 +8,6 @@ import java.util.List;
 @Table(name = "students")
 public class Student {
 
-    //attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,14 +22,14 @@ public class Student {
     private String residence;
     private String instrument;
 
-    @Column(length = 3000)
+    @Column(length = 4000)
     private String request;
 
     @Column(name = "preference_for_lesson_type")
     private String preferenceForLessonType;
 
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
-    private List<Lesson> lessons;
+    private List<Lesson> lesson;
 
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     private List<Lesson> applications;
@@ -46,7 +45,7 @@ public class Student {
                    String instrument,
                    String request,
                    String preferenceForLessonType,
-                   List<Lesson> lessons,
+                   List<Lesson> lesson,
                    List<Lesson> applications
     ) {
         this.id = id;
@@ -58,32 +57,9 @@ public class Student {
         this.instrument = instrument;
         this.request = request;
         this.preferenceForLessonType = preferenceForLessonType;
-        this.lessons = lessons;
+        this.lesson = lesson;
         this.applications = applications;
     }
-
-//    public Student(String name,
-//                   String email,
-//                   String age,
-//                   String phoneNumber,
-//                   String residence,
-//                   String instrument,
-//                   String request,
-//                   String preferenceForLessonType,
-//                   List<Lesson> lessons,
-//                   List<Lesson> applications
-//    ) {
-//        this.name = name;
-//        this.email = email;
-//        this.age = age;
-//        this.phoneNumber = phoneNumber;
-//        this.residence = residence;
-//        this.instrument = instrument;
-//        this.request = request;
-//        this.preferenceForLessonType = preferenceForLessonType;
-//        this.lessons = lessons;
-//        this.applications = applications;
-//    }
 
     public Long getId() {
         return id;
@@ -155,9 +131,9 @@ public class Student {
         this.preferenceForLessonType = preferenceForLessonType;
     }
 
-    public List<Lesson> getLessons() {
+    public List<Lesson> getLesson() {
         List<Lesson> activeLesson = new ArrayList<>();
-        for (Lesson lesson : lessons) {
+        for (Lesson lesson : lesson) {
             if(lesson.isActive()) {
                 activeLesson.add(lesson);
             }
@@ -166,7 +142,7 @@ public class Student {
     }
 
     public void setLesson(List<Lesson> lessons) {
-        this.lessons = lessons;
+        this.lesson = lessons;
     }
 
     public List<Lesson> getApplications() {
@@ -195,7 +171,7 @@ public class Student {
                 ", instrument='" + instrument + '\'' +
                 ", request='" + request + '\'' +
                 ", preferenceForLessonType='" + preferenceForLessonType + '\'' +
-                ", lessons=" + lessons +
+                ", lessons=" + lesson +
                 ", applications=" + applications +
                 '}';
     }

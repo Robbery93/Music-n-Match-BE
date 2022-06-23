@@ -12,7 +12,9 @@ import nl.robbertij.matchnmusic.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -37,19 +39,37 @@ public class StudentService {
             return studentRepository.findAll();
     }
 
-    public List<Student> getStudentsByInstrumentAndPreference(String instrument, String preference){
-        return studentRepository.findAllByInstrumentAndPreferenceForLessonType(instrument, preference);
+    public List<Student> getStudentsByInstrumentAndPreference(String instrument, String preference) {
+        if(Objects.equals(preference, "Geen voorkeur")) {
+            List<Student> allStudents = new ArrayList<>();
+            List<Student> liveStudents = studentRepository.findAllByInstrumentAndPreferenceForLessonType(instrument, "Live lessen");
+            List<Student> onlineStudents = studentRepository.findAllByInstrumentAndPreferenceForLessonType(instrument, "Online lessen");
+
+            allStudents.addAll(liveStudents);
+            allStudents.addAll(onlineStudents);
+
+            return allStudents;
+        }
+        else {
+            return studentRepository.findAllByInstrumentAndPreferenceForLessonType(instrument, preference);
+        }
     }
 
-    public Student getStudentById(Long id){
+    public Student getStudentById(Long id) {
         Optional<Student> optionalStudent = studentRepository.findById(id);
 
         if (optionalStudent.isPresent()){
             return optionalStudent.get();
         }
-        else {
-            throw new RecordNotFoundException("ID does not exist");
+        else throw new RecordNotFoundException("ID does not exist");
+    }
+
+    public Student getStudentByEmail(String email) {
+        Optional<Student> optionalStudent = studentRepository.findByEmail(email);
+        if (optionalStudent.isPresent()) {
+            return optionalStudent.get();
         }
+        else throw new RecordNotFoundException("Email does not exist");
     }
 
     public void deleteStudentById(Long id){
@@ -60,15 +80,13 @@ public class StudentService {
 
             studentRepository.deleteById(id);
         }
-        else {
-            throw new RecordNotFoundException("ID does not exist");
-        }
+        else throw new RecordNotFoundException("ID does not exist");
     }
 
     public Long addStudent(StudentRequestDto studentRequestDto){
         String email = studentRequestDto.getEmail();
         List<Student> students = studentRepository.findAllByEmail(email);
-        if(students.size() > 0) {
+        if (students.size() > 0) {
             throw new BadRequestException("Email is already taken");
         }
 
@@ -95,9 +113,7 @@ public class StudentService {
             student.setId(storedStudent.getId());
             studentRepository.save(student);
         }
-        else {
-            throw new RecordNotFoundException("ID does not exist");
-        }
+        else throw new RecordNotFoundException("ID does not exist");
     }
 
     public void partialUpdateStudent(Long id, Student student) {
@@ -132,9 +148,7 @@ public class StudentService {
             }
             studentRepository.save(storedStudent);
         }
-        else {
-            throw new RecordNotFoundException("ID does not exist");
-        }
+        else throw new RecordNotFoundException("ID does not exist");
     }
 
     public List<Lesson> getLesson(Long id) {
@@ -142,11 +156,9 @@ public class StudentService {
 
         if (optionalStudent.isPresent()) {
             Student student = optionalStudent.get();
-            return student.getLessons();
+            return student.getLesson();
         }
-        else {
-            throw new RecordNotFoundException("ID does not exist");
-        }
+        else throw new RecordNotFoundException("ID does not exist");
     }
 
     public List<Lesson> getApplications(Long id) {
@@ -156,9 +168,8 @@ public class StudentService {
             Student student = optionalStudent.get();
             return student.getApplications();
         }
-        else {
-            throw new RecordNotFoundException("ID does not exist");
-        }
+        else throw new RecordNotFoundException("ID does not exist");
+
     }
 
     public void linkToCurrentUser(String username, String email) {
@@ -169,8 +180,7 @@ public class StudentService {
             Student student = optionalStudent.get();
             currentUser.setStudent(student);
             userRepository.save(currentUser);
-        } else {
-            throw new RecordNotFoundException("student niet gevonden");
-        }
+        } else throw new RecordNotFoundException("Student niet gevonden");
     }
+
 }

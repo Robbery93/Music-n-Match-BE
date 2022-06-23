@@ -138,11 +138,26 @@ class StudentServiceTest {
         long id = student.getId();
 
         when(studentRepository.findById(id))
-                .thenReturn(java.util.Optional.ofNullable(student));
+                .thenReturn(Optional.ofNullable(student));
 
         String expected = "Robbert";
 
         Student found = studentService.getStudentById(id);
+
+        assertEquals(expected, found.getName());
+    }
+
+    @DisplayName("Test get Student by email")
+    @Test
+    void getStudentByEmail() {
+        String email = student.getEmail();
+
+        when(studentRepository.findByEmail(email))
+                .thenReturn(Optional.ofNullable(student));
+
+        String expected = "Robbert";
+
+        Student found = studentService.getStudentByEmail(email);
 
         assertEquals(expected, found.getName());
     }

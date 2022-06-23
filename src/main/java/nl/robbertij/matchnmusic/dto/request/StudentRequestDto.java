@@ -16,8 +16,8 @@ public class StudentRequestDto {
     private String age;
 
     @NotBlank
-    @Digits(integer = 10, fraction = 0)
-    // accepts 06******** & +31* ********)
+    @Digits(integer = 12, fraction = 0)
+    // accepts 06******** & +316 ********)
     private String phoneNumber;
 
     @NotBlank

@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/authenticate").permitAll()
                     .antMatchers(PATCH,"/users/{^[\\w]$}/password").authenticated()
-                    .antMatchers(HttpMethod.POST,"/students/**").hasRole("STUDENT")
+                    .antMatchers(HttpMethod.POST,"/students/**").hasAnyRole("STUDENT", "ADMIN")
                     .antMatchers(HttpMethod.GET,"/students/**").hasAnyRole("STUDENT", "TEACHER", "ADMIN")
                     .antMatchers(HttpMethod.POST, "/teachers/**").hasAnyRole("TEACHER", "ADMIN")
                     .antMatchers(HttpMethod.GET,"/teachers/**").hasAnyRole("TEACHER", "STUDENT", "ADMIN")
