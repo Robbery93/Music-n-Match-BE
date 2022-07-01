@@ -28,7 +28,7 @@ public class Lesson {
 
     private boolean active = false;
 
-    @Column(length = 4000)
+    @Column(length = 10000)
     private String homework = "";
 
     // constructor
