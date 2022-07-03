@@ -169,49 +169,9 @@ class TeacherServiceTest {
 
         when(teacherRepository.findAll()).thenReturn(teachers);
 
-        List<Teacher> found = teacherService.getTeachers("", "");
+        List<Teacher> found = teacherService.getTeachers();
 
         assertEquals(4, found.size());
-    }
-
-    @DisplayName("Get all teachers given instrument parameter")
-    @Test
-    void givenInstrument_thenReturnTeachersOfGivenInstrument() {
-        List<Teacher> teachers = new ArrayList<>();
-        teachers.add(teacher);
-        teachers.add(teacher2);
-        teachers.add(teacher3);
-        teachers.add(teacher4);
-
-        teachers.removeIf(teacher -> !Objects.equals(teacher.getInstrument(), "piano"));
-
-        when(teacherRepository.findAllByInstrumentEqualsIgnoreCase("piano")).thenReturn(teachers);
-
-        List<Teacher> found = teacherService.getTeachers("piano", "");
-
-        assertEquals(2, found.size());
-        assertTrue(found.contains(teacher));
-        assertFalse(found.contains(teacher4));
-    }
-
-    @DisplayName("Get all Teachers given preference parameter")
-    @Test
-    void givenPreference_thenReturnTeachersOfGivenPreference() {
-        List<Teacher> teachers = new ArrayList<>();
-        teachers.add(teacher);
-        teachers.add(teacher2);
-        teachers.add(teacher3);
-        teachers.add(teacher4);
-
-        teachers.removeIf(teacher -> !Objects.equals(teacher.getPreferenceForLessonType(), "Online lessen"));
-
-        when(teacherRepository.findAllByPreferenceForLessonType("Online lessen")).thenReturn(teachers);
-
-        List<Teacher> found = teacherService.getTeachers("", "Online lessen");
-
-        assertEquals(2, found.size());
-        assertTrue(found.contains(teacher2));
-        assertFalse(found.contains(teacher));
     }
 
     @DisplayName("Get Teacher by id")

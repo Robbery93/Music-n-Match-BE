@@ -30,16 +30,8 @@ public class TeacherService {
         this.userService = userService;
     }
 
-    public List<Teacher> getTeachers(String instrument, String preference){
-        if(!instrument.isEmpty()){
-            return teacherRepository.findAllByInstrumentEqualsIgnoreCase(instrument);
-        }
-        if(!preference.isEmpty()){
-            return teacherRepository.findAllByPreferenceForLessonType(preference);
-        }
-        else {
-            return teacherRepository.findAll();
-        }
+    public List<Teacher> getTeachers(){
+        return teacherRepository.findAll();
     }
 
     public List<Teacher> getTeachersByInstrumentAndPreference(String instrument, String preference){
@@ -70,6 +62,15 @@ public class TeacherService {
         else {
             throw new RecordNotFoundException("ID does not exist");
         }
+    }
+
+    public Teacher getTeacherByEmail(String email) {
+        Optional<Teacher> optionalTeacher = teacherRepository.findByEmail(email);
+
+        if (optionalTeacher.isPresent()) {
+            return optionalTeacher.get();
+        }
+         else throw new RecordNotFoundException("Email does not exist");
     }
 
     public void deleteTeacher(Long id) {

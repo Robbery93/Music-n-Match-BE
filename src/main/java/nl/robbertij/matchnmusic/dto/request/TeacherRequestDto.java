@@ -29,11 +29,11 @@ public class TeacherRequestDto {
     private String instrument;
 
     @NotBlank
-    @Size(min = 0, max = 200)
+    @Size(min = 20, max = 200)
     private String description;
 
     @NotBlank
-    @Size(min = 0, max = 200)
+    @Size(min = 20, max = 200)
     private String experience;
 
     @NotBlank

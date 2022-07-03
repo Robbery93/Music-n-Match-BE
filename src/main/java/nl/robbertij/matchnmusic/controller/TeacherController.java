@@ -29,9 +29,8 @@ public class TeacherController {
     // Endpoints for teachers
 
     @GetMapping(path = "/all")
-    public ResponseEntity<Object> getTeachers(@RequestParam(name = "instrument", defaultValue = "")String instrument,
-                                              @RequestParam(name = "pref", defaultValue = "") String preference) {
-        return ResponseEntity.ok(teacherService.getTeachers(instrument, preference));
+    public ResponseEntity<Object> getTeachers() {
+        return ResponseEntity.ok(teacherService.getTeachers());
     }
 
     @GetMapping(path = "")
@@ -43,6 +42,11 @@ public class TeacherController {
     @GetMapping(path = "/{id}")
     public ResponseEntity<Object> getTeacher(@PathVariable Long id) {
         return ResponseEntity.ok(teacherService.getTeacher(id));
+    }
+
+    @GetMapping(path = "/email={email}")
+    public ResponseEntity<Object> getTeacherByEmail(@PathVariable String email) {
+        return ResponseEntity.ok(teacherService.getTeacherByEmail(email));
     }
 
     @DeleteMapping(path = "/{id}")
